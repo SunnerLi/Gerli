@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import edu.sunner.parserdevelop.parser.Parser;
+import edu.sunner.parserdevelop.parser.Record;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,7 +19,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        /*
+            The usage of the parser
+         */
         Parser parser = new Parser();
-        Log.d("-----", String.valueOf(parser.parse("drink 食 ㄦ+100")));
+        try {
+            Record record = parser.parse("慢思 飲料 -100");
+            record.dump();
+
+            record = parser.parse("慢思 飲料 =100");
+            record.dump();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 }

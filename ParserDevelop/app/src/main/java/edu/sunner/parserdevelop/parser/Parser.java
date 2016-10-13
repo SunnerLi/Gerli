@@ -23,6 +23,8 @@ import android.util.Log;
  * @since 12/10/2016
  */
 public class Parser {
+    // Log tag
+    public static final String TAG = "--> Parsing Fail";
     // The status constant to tell if successfully progress
     // Yes
     public static final int SUCCESS = 1;
@@ -35,24 +37,73 @@ public class Parser {
     }
 
     // Work function
-    public int parse(String _string) {
+    public Record parse(String _string) throws NullPointerException{
         // Store the each conponent of the string
         String[] list = _string.split(" ");
 
         // Judge if the string is invalid
-        if (list.length != 3 ) {
-            return FAIL;
+        if (list.length != 3) {
+            Log.d(TAG, "Reason: the number of element < 3");
+            return null;
         }
-        if (list[2].charAt(1) != '+' && list[2].charAt(1) != '-') {
-            return FAIL;
+        if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {
+            Log.d(TAG, "Reason: lose the +- symbol");
+            return null;
         } else {
             String _num = list[2].substring(1, list[2].length());
-            if (!_num.matches("-?\\d+(\\.\\d+)?")) {
-                return FAIL;
+            if (!isNumeric((_num))) {
+                Log.d(TAG, "Reason: the value is invalid");
+                return null;
             }
         }
 
+        return _parse(list);
+    }
 
-        return SUCCESS;
+    // Parsing
+    private Record _parse(String[] list) {
+        Record record = new Record();
+
+        // Judge the language
+        if (isStringAlpha(list[0].substring(1, 2)) == true) {
+            record.set_language(Record.ENGLISH);
+        } else {
+            record.set_language(Record.CHINESE);
+        }
+
+        // Store the item
+        record.set_name(list[0]);
+        record.set_class(list[1]);
+        record.set_value(list[2]);
+        return record;
+    }
+
+    // Judge if the string is alpha
+    public boolean isStringAlpha(String aString) {
+        int charCount = 0;
+        String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        if (aString.length() == 0) return false;//zero length string ain't alpha
+        for (int i = 0; i < aString.length(); i++) {
+            for (int j = 0; j < alphabet.length(); j++) {
+                if (aString.substring(i, i + 1).equals(alphabet.substring(j, j + 1))
+                    || aString.substring(i, i + 1).equals(alphabet.substring(j, j + 1).toLowerCase()))
+                    charCount++;
+            }
+            if (charCount != (i + 1)) {
+                System.out.println("\n**Invalid input! Enter alpha values**\n");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Judge if the string is numberic
+    public static boolean isNumeric(String str) {
+        try {
+            double d = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 }
