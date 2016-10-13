@@ -1,29 +1,18 @@
 package edu.sunner.parserdevelop.parser;
 
 import java.net.PortUnreachableException;
+import java.util.Date;
 
 /**
  * Created by sunner on 10/12/16.
  */
 public class Record {
     /*
-        The status related
-     */
-    // The static constants (save money)
-    public static final int IN = 0;
-
-    // The static constants (spend money)
-    public static final int OUT = 1;
-
-    // The default status constant
-    public static final int UND = -1;
-
-    // The type of the record
-    public int status = UND;
-
-    /*
         The language related
      */
+    // The default constant
+    public static final int UND = -1;
+
     // The static constant of chinese name
     public static final int CHINESE = 2;
 
@@ -31,54 +20,66 @@ public class Record {
     public static final int ENGLISH = 3;
 
     // The language variable
-    public int language = UND;
-
-    // The name of the record
-    public String name;
+    private int _language = UND;
 
     // The value of the record
-    public int value;
+    private int _value;
+
+    // The name of the record
+    private String _name;
+
+    // The class of the record
+    private String _class;
+
+    // The time object of the record
+    private Date _date;
 
     // Constructor
-    public Record(int _status, String _name, int _value){
-        if (_status == IN || _status == OUT)
-            setStatus(_status);
-        setName(_name);
-        setValue(_value);
+    public Record(){
+
     }
 
     /**
      * Fundamental method
      */
-    public void setStatus(int statusNumber){
-        this.status = statusNumber;
+    public void set_language(int _lang){
+        this._language = _lang;
     }
 
-    public void setLanguage(int _lang){
-        this.language = _lang;
+    public void set_value(int _value){
+        this._value = _value;
     }
 
-    public void setName(String name){
-        this.name = name;
+    public void set_name(String name){
+        this._name = name;
     }
 
-    public void setValue(int _value){
-        this.value = _value;
+    public void set_class(String _class){
+        this._class = _class;
     }
 
-    public int getStatus(){
-        return this.status;
+    public void set_date(Date _date){
+        this._date = _date;
     }
 
-    public int getLanguage(){
-        return this.language;
+    public int get_language(){
+        return this._language;
     }
 
-    public String getName(){
-        return this.name;
+    public int get_value(){
+        return this._value;
     }
 
-    public int getValue(){
-        return this.value;
+    public String get_name(){
+        return this._name;
     }
+
+    public String get_class(){
+        return this._class;
+    }
+
+    public Date get_date(){
+        return this._date;
+    }
+
 }
