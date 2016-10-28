@@ -64,17 +64,10 @@ public class Parser {
     private Record _parse(String[] list) {
         Record record = new Record();
 
-        // Judge the language
-        if (isStringAlpha(list[0].substring(1, 2)) == true) {
-            record.set_language(Record.ENGLISH);
-        } else {
-            record.set_language(Record.CHINESE);
-        }
-
         // Store the item
-        record.set_name(list[0]);
-        record.set_class(list[1]);
-        record.set_value(list[2]);
+        record.__setName(list[0]);
+        record.__setType(list[1]);
+        record.__setMoney(list[2]);
         return record;
     }
 

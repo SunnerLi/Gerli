@@ -2,105 +2,86 @@ package edu.sunner.parserdevelop.parser;
 
 import android.util.Log;
 
-import java.net.PortUnreachableException;
-import java.util.Date;
-
 /**
- * Created by sunner on 10/12/16.
+ * Created by sunner on 10/28/16.
  */
 public class Record {
-    /*
-        The language related
-     */
-    // The default constant
-    public static final int UND = -1;
+    private static int id = -1;
+    private static String name = null;
+    private static int money = -1;
+    private static int type = -1;
+    private static String time = null;
+    private static String description = null;
 
-    // The static constant of chinese name
-    public static final int CHINESE = 2;
-
-    // The static constant of english name
-    public static final int ENGLISH = 3;
-
-    // The language variable
-    private int _language = UND;
-
-    // The value of the record
-    private String _value;
-
-    // The name of the record
-    private String _name;
-
-    // The class of the record
-    private String _class;
-
-    // The time object of the record
-    private Date _date;
-
-    // Constructor
-    public Record() {
+    public Record(){
 
     }
 
-    /**
-     * Fundamental method
-     */
-    public void set_language(int _lang) {
-        this._language = _lang;
+    public Record(String name, int money){
+        __setName(name);
+        __setMoney(money);
     }
 
-    public void set_value(String _value) {
-        this._value = _value;
+    public void __setId(int id){
+        this.id = id;
     }
 
-    public void set_name(String name) {
-        this._name = name;
+    public void __setName(String name){
+        this.name = name;
     }
 
-    public void set_class(String _class) {
-        this._class = _class;
+    public void __setMoney(int money){
+        this.money = money;
     }
 
-    public void set_date(Date _date) {
-        this._date = _date;
+    public void __setMoney(String money){
+        this.money = Integer.valueOf(money);
     }
 
-    public int get_language() {
-        return this._language;
+    public void __setType(int type){
+        this.type = type;
     }
 
-    public String get_value() {
-        return this._value;
+    public void __setType(String type){
+        this.type = Integer.valueOf(type);
     }
 
-    public String get_name() {
-        return this._name;
+    public void __setTime(String time){
+        this.time = time;
     }
 
-    public String get_class() {
-        return this._class;
+    public void __setDescription(String description){
+        this.description = description;
     }
 
-    public Date get_date() {
-        return this._date;
+    public int __getId(){
+        return this.id;
+    }
+
+    public String __getName(){
+        return this.name;
+    }
+
+    public int __getMoney(){
+        return this.money;
+    }
+
+    public int __getType(){
+        return this.type;
+    }
+
+    public String __getTime(){
+        return this.time;
+    }
+
+    public String __getDescription(){
+        return this.description;
     }
 
     // Show the record value
     public void dump() {
-        Log.v("--> Record Log", "Language: " + languageCodeToString(this._language)
-            + "\nValue: " + this._value
-            + "\nName:  " + this._name
-            + "\nClass: " + this._class);
-    }
-
-    // Return language Code express
-    private String languageCodeToString(int code){
-        switch (code){
-            case CHINESE:
-                return "Chinese";
-            case ENGLISH:
-                return "English";
-            default:
-                return "None";
-        }
+        Log.v("--> Record_prev Log", "\nMoney: " + this.__getMoney()
+            + "\nName:  " + this.__getName()
+            + "\nType: " + this.__getType());
     }
 }
