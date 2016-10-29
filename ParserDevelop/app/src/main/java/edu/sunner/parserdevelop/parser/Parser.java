@@ -65,9 +65,9 @@ public class Parser {
         Record record = new Record();
 
         // Store the item
-        record.__setName(list[0]);
-        record.__setType(list[1]);
-        record.__setMoney(list[2]);
+        record.setName(list[0]);
+        record.setType(list[1]);
+        record.setMoney(list[2]);
         return record;
     }
 

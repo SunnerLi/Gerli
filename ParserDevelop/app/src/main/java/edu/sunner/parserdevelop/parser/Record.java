@@ -2,86 +2,129 @@ package edu.sunner.parserdevelop.parser;
 
 import android.util.Log;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
- * Created by sunner on 10/28/16.
+ * The flow object that contain the transaction information
+ *
+ * @author SunnerLi
+ * @revise 10/29/2016.
  */
 public class Record {
-    private static int id = -1;
-    private static String name = null;
-    private static int money = -1;
-    private static int type = -1;
-    private static String time = null;
-    private static String description = null;
+    // The id that would used in SQLite
+    private static int __id = -1;
 
-    public Record(){
+    // The name of the transaction
+    private static String __name = null;
 
+    // The value of the spending
+    private static int __money = -1;
+
+    // The type of the transection
+    private static int __type = -1;
+
+    // The time when the deal happen
+    private static String __time = null;
+
+    // The other description
+    private static String __description = null;
+
+    /**
+     * Constructor
+     */
+    public Record() {
     }
 
-    public Record(String name, int money){
-        __setName(name);
-        __setMoney(money);
+    /**
+     * Constructor with parameters
+     * @param name the name which you want to assign
+     * @param money the value which you want to assign
+     */
+    public Record(String name, int money) {
+        setName(name);
+        setMoney(money);
     }
 
-    public void __setId(int id){
-        this.id = id;
+    /**
+     * Constructor with JSON format
+     * @param json the json string description
+     */
+    public Record(JSONObject json) {
+        try {
+            setId(json.getInt("id"));
+            setMoney(json.getInt("money"));
+            setTime(json.getString("time"));
+            setType(json.getString("type"));
+            setDescription(json.getString("description"));
+            setName(json.getString("name"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void __setName(String name){
-        this.name = name;
+    public void setId(int id) {
+        this.__id = id;
     }
 
-    public void __setMoney(int money){
-        this.money = money;
+    public void setName(String name) {
+        this.__name = name;
     }
 
-    public void __setMoney(String money){
-        this.money = Integer.valueOf(money);
+    public void setMoney(int money) {
+        this.__money = money;
     }
 
-    public void __setType(int type){
-        this.type = type;
+    public void setMoney(String money) {
+        this.__money = Integer.valueOf(money);
     }
 
-    public void __setType(String type){
-        this.type = Integer.valueOf(type);
+    public void setType(int type) {
+        this.__type = type;
     }
 
-    public void __setTime(String time){
-        this.time = time;
+    public void setType(String type) {
+        this.__type = Integer.valueOf(type);
     }
 
-    public void __setDescription(String description){
-        this.description = description;
+    public void setTime(String time) {
+        this.__time = time;
     }
 
-    public int __getId(){
-        return this.id;
+    public void setDescription(String description) {
+        this.__description = description;
     }
 
-    public String __getName(){
-        return this.name;
+    public int getId() {
+        return this.__id;
     }
 
-    public int __getMoney(){
-        return this.money;
+    public String getName() {
+        return this.__name;
     }
 
-    public int __getType(){
-        return this.type;
+    public int getMoney() {
+        return this.__money;
     }
 
-    public String __getTime(){
-        return this.time;
+    public int getType() {
+        return this.__type;
     }
 
-    public String __getDescription(){
-        return this.description;
+    public String getTime() {
+        return this.__time;
     }
 
-    // Show the record value
+    public String getDescription() {
+        return this.__description;
+    }
+
+    /**
+     * Show the record value
+     */
     public void dump() {
-        Log.v("--> Record_prev Log", "\nMoney: " + this.__getMoney()
-            + "\nName:  " + this.__getName()
-            + "\nType: " + this.__getType());
+        Log.v("--> Record Log", "\nMoney: " + this.getMoney()
+            + "\nName:  " + this.getName()
+            + "\nType: " + this.getType());
     }
 }

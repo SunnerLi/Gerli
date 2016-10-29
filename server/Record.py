@@ -1,54 +1,77 @@
 import ServerPrint as sp
 
+"""
+    The class is the basic element to deal with database
+    The whole things would implement as same as Java platform
+"""
 class Record(object):
-    id = -1
-    name = None
-    money = -1
-    _type = -1
-    time = None
-    description = None
+    __id = -1               # The id that would used in SQLite
+    __name = None           # The name of the transaction
+    __money = -1            # The value of the spending
+    __type = -1             # The type of the transection
+    __time = None           # The time when the deal happen
+    __description = None    # The other description
 
     def __init__(self, name="", money=-1):
-        self.__setName(name)
-        self.__setMoney(money)
+        self.setName(name)
+        self.setMoney(money)
 
-    def __setId(self, id):
-        self.id = id
+    def setId(self, id):
+        self.__id = id
 
-    def __setName(self, name):
-        self.name = name
+    def setName(self, name):
+        self.__name = name
 
-    def __setMoney(self, money):
-        self.money = int(money)
+    def setMoney(self, money):
+        self.__money = int(money)
 
-    def __setType(self, _type):
-        self._type = int(_type)
+    def setType(self, _type):
+        self.__type = int(_type)
 
-    def __setTime(self, time):
-        self.time = time
+    def setTime(self, time):
+        self.__time = time
 
-    def __setDescription(self, description):
-        self.description = description
+    def setDescription(self, description):
+        self.__description = description
 
-    def __getId(self):
-        return self.id
+    def getId(self):
+        return self.__id
 
-    def __getName(self):
-        return self.name
+    def getName(self):
+        return self.__name
 
-    def __getValue(self):
-        return self.money
+    def getValue(self):
+        return self.__money
 
-    def __getType(self):
-        return self._type
+    def getType(self):
+        return self.__type
 
-    def __getTime(self):
-        return self.time
+    def getTime(self):
+        return self.__time
 
-    def __getDescription(self):
-        return self.description
+    def getDescription(self):
+        return self.__description
 
     def dump(self):
-        sp.show("record dump --> Value: ", self.__getValue())
-        sp.show("record dump --> Name : ", self.__getName())
-        sp.show("record dump --> Type : ", self.__getType())
+        """
+            Dump the fundemential element of the object
+        """
+        sp.show("record dump --> Value: ", self.getValue())
+        sp.show("record dump --> Name : ", self.getName())
+        sp.show("record dump --> Type : ", self.getType())
+
+    def serialize(self):
+        """
+            Change the object from Record instance into string type
+            It should be done before transmit back to the phone
+
+            Ret:    The serialized string
+        """
+        _res = dict()
+        _res["id"] = self.getId()
+        _res["name"] = self.getName()
+        _res["money"] = self.getValue()
+        _res["type"] = self.getType()
+        _res["time"] = self.getTime()
+        _res["description"] = self.getDescription()
+        return _res
