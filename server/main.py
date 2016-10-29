@@ -1,3 +1,4 @@
+from syntaxJudge import *
 import ServerPrint as sp
 import netifaces as ni
 from POSJudge import *
@@ -37,5 +38,18 @@ while True:
             break
     if data[typeKey] == "sentence":
         print "Sentence: ", data[sentenceKey]
-        #POSTagging(data[sentenceKey])
-        POSTagging()
+
+        # Judge the length
+        if len(data[sentenceKey]) == 1:
+            resJson = dict()
+            resJson["Sentence"] = data[sentenceKey]
+            resJson["type"] = "sentence"
+        elif len(data[sentenceKey]) == 2:
+            resJson = dict()
+            resJson["Sentence"] = "Can you say more clearly?"
+            resJson["type"] = "sentence"
+        else:
+            POSTagging(string=data[sentenceKey])
+            if not verbLength() == 0:
+                syntaxTypeJudge(
+                    getSubject(), getVerb(), getObject(), getValue())

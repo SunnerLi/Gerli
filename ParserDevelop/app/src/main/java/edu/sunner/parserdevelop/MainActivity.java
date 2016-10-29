@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new RemoteParser().work("Amour.Sacrifice 2 -100",
+                        new RemoteParser().work("The two pens is 500 dollars",
                             RemoteParser.sentence);
                     }
                 }.start();
