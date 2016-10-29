@@ -1,8 +1,12 @@
 from nltk.tag.stanford import StanfordPOSTagger
 import ServerPrint as sp
 
+jar = "/home/sunner/nltk_data/models/stanford-postagger-full-2015-12-09/stanford-postagger.jar"
+model = "/home/sunner/nltk_data/models/stanford-postagger-full-2015-12-09/models/english-bidirectional-distsim.tagger"
+
 # Load the parser
-tagger = StanfordPOSTagger('english-bidirectional-distsim.tagger')
+tagger = StanfordPOSTagger(model, jar)
+#tagger = StanfordPOSTagger("english-bidirectional-distsim.tagger")
 sp.show("Finish POS tagger loading")
 
 # Variable

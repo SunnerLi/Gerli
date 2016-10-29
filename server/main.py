@@ -6,8 +6,14 @@ import socket
 import json
 
 # IP address constants
-ni.ifaddresses('enp3s0')
-UDP_IP = ip = ni.ifaddresses('enp3s0')[2][0]['addr']
+try:
+    ni.ifaddresses('enp3s0')
+except ValueError:
+    ni.ifaddresses('wlan0')
+try:
+    UDP_IP = ip = ni.ifaddresses('enp3s0')[2][0]['addr']
+except ValueError:
+    UDP_IP = ip = ni.ifaddresses('wlan0')[2][0]['addr']
 UDP_PORT = 2000
 
 # Input & output variables
