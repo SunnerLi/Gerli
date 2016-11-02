@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">GerliSQLiteDemo</string>
+    <string name="accountName">品項</string>
+    <string name="accountMoney">金額</string>
+    <string name="accountType">種類</string>
+    <string name="ButtonEnter">確定</string>
+    <string name="ButtonCancel">取消</string>
+    <string name="accnountDescription">描述</string>
+</resources>
