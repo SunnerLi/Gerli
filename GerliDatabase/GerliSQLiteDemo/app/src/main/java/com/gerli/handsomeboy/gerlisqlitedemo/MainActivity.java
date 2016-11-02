@@ -19,6 +19,8 @@ public class MainActivity extends AppCompatActivity {
     SQLiteDB myDB;
     SQLiteDatabase db;
 
+    DatabaseManger db_m;
+
     //TextView
     TextView nameTextView;
     TextView moneyTextView;
@@ -83,9 +85,7 @@ public class MainActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this, Main2Activity.class);
-                startActivity(intent);
+                MainActivity.this.finish();
             }
         });
     }
