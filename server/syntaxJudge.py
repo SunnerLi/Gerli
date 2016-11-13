@@ -82,5 +82,5 @@ def load():
 load()
 
 if __name__ == "__main__":
-    print "is, is: ", similarity('is', 'is')
-    print "is, once: ", similarity('is', 'once')
+    print "is, was: ", similarity('is', 'was')
+    print "is, get: ", similarity('is', 'get')

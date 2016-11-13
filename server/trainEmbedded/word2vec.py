@@ -43,7 +43,8 @@ import tensorflow as tf
 
 from tensorflow.models.embedding import gen_word2vec as word2vec
 import ServerPrint as sp
-
+import importantFinder
+import gerli_train_config
 
 flags = tf.app.flags
 
@@ -416,7 +417,8 @@ def _start_shell(local_ns=None):
 
 def main(_):
   mainTrain()
-  mainEval()
+  #mainTest()
+  mainDump()
   
 
 def mainOrigin():
@@ -454,7 +456,7 @@ def mainTrain():
     model.saver.save(session, os.path.join(opts.save_path, "model.ckpt"))
   return model.global_step
 
-def mainEval():
+def mainTest():
   opts = Options()
   with tf.Graph().as_default(), tf.Session() as session:
     with tf.device("/cpu:0"):
@@ -474,19 +476,28 @@ def mainEval():
 
       print("sim: ", np.dot(vec1, vec2)/(np.sqrt(np.sum(np.square(vec1))) * np.sqrt(np.sum(np.square(vec2)))))
 
+      
+
+def mainDump():
+  opts = Options()
+  with tf.Graph().as_default(), tf.Session() as session:
+    with tf.device("/cpu:0"):
+      model = Word2Vec(opts, session)
+      model.saver.restore(session, os.path.join(opts.save_path, "model.ckpt"))
+
       # Save
       index = 0
+      freqWordList = importantFinder.getFreqList()
       with open('embedded.txt', 'w') as f:
-        for key in model._word2id:
-          string = key
-          vec = model.nearby_emb.eval(feed_dict={model._nearby_word: model._word2id[key]})
+        for word in freqWordList:
+          string = word
+          vec = model.nearby_emb.eval(feed_dict={model._nearby_word: model._word2id[word]})
           for n in vec:
             string = string + ' ' + str(n) 
           string += '\n'
-          sp.show("Write index: " + str(index) + '\t Total: ', str(len(model._word2id)))
+          sp.show("Write index: " + str(index) + '\t Total: ', str(gerli_train_config.freqNumber))
           index += 1
           f.write(string)
-
 
 if __name__ == "__main__":
   tf.app.run()

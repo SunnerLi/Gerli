@@ -21,7 +21,7 @@ class Word2VecTest(tf.test.TestCase):
 
   def setUp(self):
     #FLAGS.train_data = os.path.join(self.get_temp_dir() + "test-text.txt")
-    FLAGS.train_data = "./text10"
+    FLAGS.train_data = gerli_train_config.train_data
     #FLAGS.eval_data = os.path.join(self.get_temp_dir() + "eval-text.txt")
     FLAGS.eval_data = 'questions-words.txt'
     FLAGS.save_path = self.get_temp_dir()
