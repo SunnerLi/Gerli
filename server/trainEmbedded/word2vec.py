@@ -416,9 +416,10 @@ def _start_shell(local_ns=None):
 
 
 def main(_):
-  mainTrain()
-  #mainTest()
-  mainDump()
+  """Origin main function."""
+  gerliTrain()
+  gerliTest()
+  gerliTest()
   
 
 def mainOrigin():
@@ -443,28 +444,36 @@ def mainOrigin():
       # [1]: model.nearby([b'proton', b'elephant', b'maxwell'])
       _start_shell(locals())
 
-def mainTrain():
+def gerliTrain():
+  """
+    Train the word embedded (train only)
+  """
   opts = Options()
   with tf.Graph().as_default(), tf.Session() as session:
     with tf.device("/cpu:0"):
       model = Word2Vec(opts, session)
-      model.read_analogies() # Read analogy questions
+      if os.path.isfile(os.path.join(opts.save_path, "model.ckpt")):
+        model.saver.restore(session, os.path.join(opts.save_path, "model.ckpt"))
+      model.read_analogies()
     for _ in xrange(opts.epochs_to_train):
-      model.train()  # Process one epoch
-      model.eval()  # Eval analogies.
-    # Perform a final save.
+      model.train()
+      model.eval()
     model.saver.save(session, os.path.join(opts.save_path, "model.ckpt"))
-  return model.global_step
 
-def mainTest():
+def gerliTest():
+  """
+    Test for the specific two words
+  """
   opts = Options()
   with tf.Graph().as_default(), tf.Session() as session:
     with tf.device("/cpu:0"):
       model = Word2Vec(opts, session)
       model.saver.restore(session, os.path.join(opts.save_path, "model.ckpt"))
 
+      # ----- The specific two words start -----
       word1 = 'is'
       word2 = 'is'
+      # ----- The specific two words end   -----
 
       print("The id of word1: ", model._word2id[word1])
       vec1 = model.nearby_emb.eval(feed_dict={model._nearby_word: model._word2id[word1]})
@@ -476,9 +485,10 @@ def mainTest():
 
       print("sim: ", np.dot(vec1, vec2)/(np.sqrt(np.sum(np.square(vec1))) * np.sqrt(np.sum(np.square(vec2)))))
 
-      
-
-def mainDump():
+def gerliDump():
+  """
+    Dump the word embedded to the file
+  """
   opts = Options()
   with tf.Graph().as_default(), tf.Session() as session:
     with tf.device("/cpu:0"):
@@ -495,7 +505,8 @@ def mainDump():
           for n in vec:
             string = string + ' ' + str(n) 
           string += '\n'
-          sp.show("Write index: " + str(index) + '\t Total: ', str(gerli_train_config.freqNumber))
+          if index % 10 == 0:
+            sp.show("Write index: " + str(index) + '\t Total: ', str(gerli_train_config.freqNumber))
           index += 1
           f.write(string)
 

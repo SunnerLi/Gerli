@@ -1,4 +1,5 @@
 python reduce.py
-python test.py
-mv embedded.txt ..
+python train.py
+python dump.py
+cp embedded.txt ..
 echo '<Train>     Train done'
