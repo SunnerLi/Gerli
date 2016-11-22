@@ -26,7 +26,7 @@
                 android:id="@+id/edit1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The books were 500 dollars"
+                android:text="The books cost me 500 dollars"
                 />
 
             <Button

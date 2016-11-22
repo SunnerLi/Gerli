@@ -1,8 +1,7 @@
 import ServerPrint as sp
-import netifaces as ni
-from POSJudge import *
-import POSTagger
 import dependencyParser
+import netifaces as ni
+import POSTagger
 import socket
 import json
 
@@ -58,6 +57,11 @@ while True:
         print "Sentence: ", data[sentenceKey]
 
         # Judge the length
+        # The following shows the response rules:
+        # 1. If the length is equal to 1 (for example: hi), then the server would response the same word back immediatly.
+        # 2. If the length is equal to 2 (for example: I spend), then the server regards that the user doesn't finish his sentence.
+        #    Thus it would tell the user to speak again.
+        # 3. else case, the server would parse the sentence
         resJson = dict()
         if len(data[sentenceKey]) == 1:
             resJson["Sentence"] = data[sentenceKey]
@@ -66,14 +70,6 @@ while True:
             resJson["Sentence"] = "Can you say more clearly?"
             resJson["type"] = "sentence"
         else:
-            """
-            POSTagging(string=data[sentenceKey])
-            if not verbLength() == 0:
-                record = syntaxTypeJudge(
-                    getSubject(), getVerb(), getObject(), getValue())
-                resJson["sentence"] = record.serialize()
-                resJson["type"] = "record"
-            """
             record = None
             record = POSTagger.tag(record, string=data[sentenceKey])
             record = dependencyParser.parse(record, string=data[sentenceKey])

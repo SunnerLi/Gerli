@@ -1,12 +1,14 @@
 from nltk.tag.stanford import StanfordPOSTagger
 from collections import OrderedDict
-import ServerPrint as sp
-from Record import *
 from syntaxJudge import *
+from Record import *
+from config import *
+
+import ServerPrint as sp
 import numpy as np
 
 """
-    This program would load the parser
+    This program would load the stanford POS tagger
     Moreover, it provide several function to parse the structure of the sentence
 """
 
@@ -26,39 +28,37 @@ __verb = ""
 __subject = ""
 __object = ""
 __value = ""
-
-# Constants
-assignKeyword = "is"
-activeKeyword = "spend"
-similarThreshold = 0.3
-embeddedSize = 100
-
-# Variables
-word_2_id = {"is" : 0, "spend" : 1}
 wordEmbedded = np.array([[1, 0], [0, 1]])
 
 def tag(record, string="I love you"):
     """
         Main function to do the POS tagging
+        The function would judge if the record already has result
+        If it does, skip the rest tagging process 
 
-        Arg:    The string you want to parse
+        Arg:    record - The record object
+                string - The string you want to parse
+        Ret:    The result record object or None
     """
     if record == None:
-        sp.show("record object not None, start POS tagging", Type=sp.yes)
-
-        # POS tagging
+        # Initialize the variable
         global parseString
         global word_2_pos
         global sentences
+        sp.show("record object not None, start POS tagging", Type=sp.yes)
+        __verb = ""
+        __subject = ""
+        __object = ""
+        __value = ""
+
+        # POS tagging
         word_2_pos = OrderedDict()
         sentences = string
         parseString = tagger.tag(string.split())
-        #print parseString
         for element in parseString:
             word = element[1].split('#')[0]
             pos = element[1].split('#')[1]
             word_2_pos[word] = pos
-        #print word_2_pos
 
         # Find each element
         findVerb()
@@ -66,6 +66,9 @@ def tag(record, string="I love you"):
         findObject()
         filtIndirectObject()
         findValue()
+
+        # To avoid mistake tagging, the POS tagger forbid any phrase is empty
+        # If there's any empty situation, it let more precise parser to deal with
         if __verb == "" or __subject == "" or __object == "" or __value == "":
             sp.show("Phrase empty error, end the POS tagger process", Type=sp.war)
             return None
@@ -75,12 +78,13 @@ def tag(record, string="I love you"):
             return None
         else:
             sp.show("end POS tagging successfully", Type=sp.yes)
-            sim = np.zeros(3)
+            sim = np.zeros(2)
 
             # Judge the type of the verb
             sim[0] = similarity(__verb, assignKeyword)
             sim[1] = similarity(__verb, activeKeyword)
-            print sim
+            simString = str(sim)
+            sp.show("Word vector compute, result: [is, spend] = " + simString, Type=sp.war)
         
             # Maximum likelihood estimation
             if np.max(sim) < similarThreshold:

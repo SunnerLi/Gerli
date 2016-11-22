@@ -1,52 +1,71 @@
 from nltk.parse.stanford import StanfordDependencyParser
 from nltk.parse.stanford import StanfordParser
-from syntaxJudge import *
+from Record import ValueSubjectError
 from Record import Record
+from syntaxJudge import *
+from config import *
+
+import ServerPrint as sp
 import numpy as np
 import nltk
 import os
 
-print "Load dependency parser"
+"""
+    This program is the implementation of dependency parsing.
+    The parser is the standard stanford parser
+"""
+
+# Load stanford parser
 model_path = "/home/sunner/nltk_data/stanford-english-corenlp-2016-01-10-models/edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz"
 dep_parser=StanfordParser(model_path=model_path)
-print "Load dependency parser done"
-
-similarThreshold = 0.3
-
-# Subject judgement
-subject = None
-isFindSubj = False
+sp.show("Finish stanford parser loading")
 
 # Value judgement(should be initialized)
-value = None
-valueCount = 0
-valuePhrase = None
-itemPhrase = None
-subjectSentence = None
-valueSentence = None
-itemSentence = None
+valueCount = 0                  # The counter that help the parser to count the number of NP we had walked through
+valuePhrase = None              # The variable that store the value phrase, it would help to organize the value sentence
+itemPhrase = None               # The variable that store the item phrase, it would help to organize the item sentence
+subjectSentence = None          # The subject that might be used while the subject is item, it would help to organize the subject sentence
+valueSentence = None            # The variable to store the value phrase list and store the value info
+itemSentence = None             # The variable to store the item phrase list and store the item info
 
 # Variables
-word_2_id = {"is" : 0, "spend" : 1}
 wordEmbedded = np.array([[1, 0], [0, 1]])
 
-def parseSpend_Sentence(parseTree):
+def parseSentence(parseTree):
+    """
+        Find the node which label is 'S'
+
+        Arg:    parseTree - The nltk tree object about the string want to parse
+        Ret:    The sentence node
+    """
     for node in parseTree:
         if type(node) == nltk.Tree:
-            print "label: ", node.label(), "\tword: ", node.leaves()
+            #print "label: ", node.label(), "\tword: ", node.leaves()
             if node.label() == 'S':
                 return node
-            return parseSpend_Sentence(node)
+            return parseSentence(node)
 
-def parseSpend_Object(parseTree):
+def parseObject(parseTree):
+    """
+        Wrapper about parsing the object
+
+        Arg:    parseTree - The nltk tree object about the string want to parse
+    """
     global valueCount
-    valueCount = 0
+    valueCount = 0              # initialize the NP counter
     if len(parseTree) <= 2:
-        __parseSpend_Object(parseTree[1])
+        __parseObject(parseTree[1])
     else:
-        __parseSpend_Object(parseTree)
+        __parseObject(parseTree)
 
-def __parseSpend_Object(parseTree):
+def __parseObject(parseTree):
+    """
+        The implementation to parse the content of value and item.
+        Notice, you should avoid use this function immediatly.
+        This function would only be called by wrapper function.
+
+        Arg:    parseTree - The nltk tree object about the string want to parse
+    """
     global valueCount
     global valuePhrase
     global itemPhrase
@@ -54,16 +73,21 @@ def __parseSpend_Object(parseTree):
     for node in parseTree:
         if type(node) == nltk.Tree:
             if node.label() == 'NP':
-                print "NP:   ", node
+                sp.show("object parsing - NP:   ", str(node))
                 if valueCount == 1:
                     itemPhrase = node
                     valueCount += 1
                 if valueCount == 0:
                     valuePhrase = node
                     valueCount += 1
-            __parseSpend_Object(node)    
+            __parseObject(node)    
 
 def parseSpend(parseTree):
+    """
+        The implementation to parse the string which contain active keyword verb
+
+        Arg:    parseTree - The nltk tree object about the string want to parse
+    """
     global valuePhrase
     global itemPhrase
     global subjectSentence
@@ -71,75 +95,94 @@ def parseSpend(parseTree):
     global itemSentence
     
     # Get the sentence
-    sentenceNode = parseSpend_Sentence(parseTree)
+    sentenceNode = parseSentence(parseTree)
     
     # Get NP and VP
     nounPhrase = sentenceNode[0]
     verbPhrase = sentenceNode[1]
-    print "NP: ", nounPhrase
-    print "VP: ", verbPhrase
 
     # Get value phrase and item phrase
-    parseSpend_Object(verbPhrase)
+    parseObject(verbPhrase)
 
-    # Restore sentence
+    # Get origin words
     subjectSentence = nounPhrase.leaves()
     valueSentence = valuePhrase.leaves()
     itemSentence = itemPhrase.leaves()
-    print "subject: ", subjectSentence
-    print "value  : ", valueSentence
-    print "item   : ", itemSentence
+    sp.show("active parsing - subject: ", str(subjectSentence))
+    sp.show("active parsing - value  : ", str(valueSentence))
+    sp.show("active parsing - item   : ", str(itemSentence))
 
-    itemPhrase = itemSentence
-    itemSentence = ""
-    for word in itemPhrase:
-        itemSentence = itemSentence + str(word) + ' '
+    # Restore to the sentence
     nounPhrase = subjectSentence
     subjectSentence = ""
     for word in nounPhrase:
         subjectSentence = subjectSentence + str(word) + ' '
     valuePhrase = valueSentence
-    valueSentence = valuePhrase[0]
+    valueSentence = ""
+    for word in valuePhrase:
+        valueSentence = valueSentence + str(word) + ' '
+    itemPhrase = itemSentence
+    itemSentence = ""
+    for word in itemPhrase:
+        itemSentence = itemSentence + str(word) + ' '
 
 def parseIs(parseTree):
+    """
+        The implementation to parse the string which contain assign keyword verb
+
+        Arg:    parseTree - The nltk tree object about the string want to parse
+    """
+    global valuePhrase
+    global itemPhrase
+    global subjectSentence
     global valueSentence
     global itemSentence
 
     # Get the sentence
-    sentenceNode = parseSpend_Sentence(parseTree)
+    sentenceNode = parseSentence(parseTree)
     
     # Get NP and VP
     nounPhrase = sentenceNode[0]
     verbPhrase = sentenceNode[1]
-    print "NP: ", nounPhrase
-    print "VP: ", verbPhrase
 
-    # Restore the sentence
+    # Get origin words
     valuePhrase = verbPhrase[1]
     itemPhrase = nounPhrase
     valueSentence = valuePhrase.leaves()
     itemSentence = itemPhrase.leaves()
-    print "value  : ", valueSentence
-    print "item   : ", itemSentence
+    sp.show("assign parsing - value  : ", str(valueSentence))
+    sp.show("assign parsing - item   : ", str(itemSentence))
+
+    # Restore the sentence
     itemPhrase = itemSentence
     itemSentence = ""
     for word in itemPhrase:
         itemSentence = itemSentence + str(word) + ' '
     valuePhrase = valueSentence
-    valueSentence = valuePhrase[0]
+    valueSentence = ""
+    for word in valuePhrase:
+        valueSentence = valueSentence + str(word) + ' '
 
 def parse(record, string):
+    """
+        The main function of dependency parsing
+
+        Arg:    record - The record object to store the result
+                string - The string want to parse
+        Ret:    The result record object or None
+    """
     if record == None:
         sentences = list(dep_parser.raw_parse(string))
         verb = getVerb(sentences)
-        sim = np.zeros(3)
+        sim = np.zeros(2)
 
         # Judge the type of the verb
         sim[0] = similarity(verb, assignKeyword)
         sim[1] = similarity(verb, activeKeyword)
 
         # Maximum likelihood estimation
-        print sim
+        simString = str(sim)
+        sp.show("Word vector compute, result: [is, spend] = " + simString, Type=sp.war)
         if np.max(sim) < similarThreshold:
             return None
         if sim[0] == np.max(sim):
@@ -149,13 +192,19 @@ def parse(record, string):
             parseSpend(sentences)
             try:
                 record = Record(itemSentence, valueSentence)
-            except ValueError:
+            except ValueSubjectError:
                 print valueSentence
                 print subjectSentence
-                record = Record(subjectSentence, list(itemSentence.split())[0])
+                record = Record(subjectSentence, itemSentence)
     return record
 
 def getVerb(parseTree):
+    """
+        Return the possible verb (root of the parsing tree)
+
+        Arg:    parseTree - The nltk tree object about the string want to parse
+        Ret:    The possible verb lexicon
+    """
     return parseTree[0][0][1][0].leaves()[0]
 
 if __name__ == "__main__":

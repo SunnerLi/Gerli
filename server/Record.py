@@ -1,5 +1,8 @@
 import ServerPrint as sp
 
+class ValueSubjectError():
+    pass
+
 """
     The class is the basic element to deal with database
     The whole things would implement as same as Java platform
@@ -13,6 +16,10 @@ class Record(object):
     __description = None    # The other description
 
     def __init__(self, name="", money=-1):
+        # Judge if the subject is value string
+        for word in name.split():
+            if word == 'dollar' or word == 'dollars':
+                raise ValueSubjectError
         self.setName(name)
         self.setMoney(money)
 
@@ -23,7 +30,16 @@ class Record(object):
         self.__name = name
 
     def setMoney(self, money):
-        self.__money = int(money)
+        """
+            Set the value of the record
+            In the later version, this function support money is a string
+        """
+        try:
+            self.__money = int(money)
+        except ValueError:
+            for word in money.split():
+                if word.isdigit():
+                    self.__money = int(word)
 
     def setType(self, _type):
         self.__type = int(_type)
