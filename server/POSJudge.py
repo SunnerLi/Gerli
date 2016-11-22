@@ -17,6 +17,7 @@ tagger = StanfordPOSTagger("english-bidirectional-distsim.tagger")
 sp.show("Finish POS tagger loading")
 
 # Variable
+sentences = ""
 parseString = ""
 word_2_pos = OrderedDict()
 __verb = ""
@@ -33,7 +34,9 @@ def POSTagging(string="I love you"):
     # POS tagging
     global parseString
     global word_2_pos
+    global sentences
     word_2_pos = OrderedDict()
+    sentences = string
     parseString = tagger.tag(string.split())
     #print parseString
     for element in parseString:
@@ -69,17 +72,20 @@ def findVerb():
     """
     # Initialize
     global __verb
+    global __subject
+    global __object
+    global __value
     __verb = ""
 
-    # Find the verb by 1st parser
+    # Find the verb by POS tagger
     for keys in word_2_pos:
         if word_2_pos[keys] == "VV" or word_2_pos[keys] == "VC":
             __verb = keys
     
-    # Find the verb by 2nd parser
+    # Find the verb by dependency parser
     if len(__verb) == 0:
         sp.show("Didn't find the verb, try the second parser", Type=sp.war)
-    # <Haven't implement>
+    dependencyParsing(sentences)
 
 def findObject():
     """
