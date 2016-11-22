@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/customtabs/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="2d1eaa9e0b98f8fc4c2b989d9b30d4f1480648ac">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-customtabs-23.4.0_4674851554e2a38f6343eb7412218711998b11af.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="09b462bbcb77650284bd6614f1a32f360ef369f8">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-media-compat-24.2.1_c77f0069e4116c5607af732f6222e89a6e0a7359.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="935a969265b2a166b2d20415423f5f6e90fe16e0">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_d5b2ea4ce7cba04f58cb18672296c9c0c47325db.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.15.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="820605b42a2d3d9cb9e6c4cc7453fb4f802aedff">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.facebook.android-facebook-android-sdk-4.15.0_f7277359f53bf8a2c8a023274950805e90fa29aa.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-applinks/1.4.0/8ad21bf21784dacce5f2043afb97218cc377e835/bolts-applinks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="8ad21bf21784dacce5f2043afb97218cc377e835">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/bolts-applinks-1.4.0_a66a5307a52fd4456fac77f7f56732d1d3f1d98d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.4.0/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-cardview-v7-23.4.0_66b08ba7211a5b383c70063ef492fc57078f3525.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d5c731fc64c03dfe04d51134955b483551c35849">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-vector-drawable-24.2.1_aec3dd2d7a2e34b39006fb6dca1d8e4e060f5b5d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="b9a1ac78ad7ef3abedc4a4b30cd92bcacb939d1f">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-fragment-24.2.1_a8efbebb6a4fca0120eaa4803009360083aa3d61.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-tasks/1.4.0/d85884acf6810a3bbbecb587f239005cbc846dc4/bolts-tasks-1.4.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d85884acf6810a3bbbecb587f239005cbc846dc4">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/bolts-tasks-1.4.0_e02a6ae53fb564dabd676837dd1f35f99759dc86.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="0ecb4b595fa0f0f8018a149ace3ea6525624f94e">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-compat-24.2.1_554f46365666846c671a838c4b177c27875be3da.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="867dad63c33388ff8c7644b236579355036d075f">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_809430ddbf09888669c44d847e215471cdce9191.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="7e4389bd133359a2ff88623ff1e4ff93d6e6f780">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_5ed8500eebddefc21f1afbcfcb6413dfd2b6c4d9.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="e7f3132168957eefc46229fc32c3bd464642b71e">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-ui-24.2.1_03c0b00877113ada85f295f8f6ad6909e66b3937.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-fragment/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="5f64d657e838e8375135c0f6057a7ff8fab6a50e">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_8120a95413fc87fb91ef6160b39aade4b5693e8d.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="9c4c3bc902450c39ed54de170db4fb12aea20a35">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-core-utils-24.2.1_b646fa6ff03be442ab1f4b2fe169682b5f37c1cf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/24.2.1/support-annotations-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="8de3aafecbdf98a61db6427f008f2d515bcd2544">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/support-annotations-24.2.1_b52418145af9ebf10e1019c55e0c44110e958f69.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="94bc1dfb84dcc8b6f6f8f7cc726d7b2dd39c1574">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-animated-vector-drawable-24.2.1_1f70683d93a3dcb357bb1a7a31669267932467b5.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/24.2.1/jars/libs/internal_impl-24.2.1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="fbf8da429efd5ad21e02e3e5ecaa1efc4167878d">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/internal_impl-24.2.1_c691fa5681fa9884a9b888ba104e640570acb699.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="43b2dba6b5a0b14527961b75329d0b90025f15ea">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-appcompat-v7-24.2.1_24ca27daa52c4578d5128134177bb42e73bbc207.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/exploded-aar/com.android.support/support-v4/24.2.1/jars/classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/GerliTestFB/app/build/intermediates/pre-dexed/debug/com.android.support-support-v4-24.2.1_e60ff91651e3f9a3cefd60814d04f322a7036645.jar" />
+    </item>
+
+</items>
