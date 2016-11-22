@@ -22,6 +22,7 @@ value = None
 valueCount = 0
 valuePhrase = None
 itemPhrase = None
+subjectSentence = None
 valueSentence = None
 itemSentence = None
 
@@ -65,6 +66,7 @@ def __parseSpend_Object(parseTree):
 def parseSpend(parseTree):
     global valuePhrase
     global itemPhrase
+    global subjectSentence
     global valueSentence
     global itemSentence
     
@@ -87,10 +89,15 @@ def parseSpend(parseTree):
     print "subject: ", subjectSentence
     print "value  : ", valueSentence
     print "item   : ", itemSentence
+
     itemPhrase = itemSentence
     itemSentence = ""
     for word in itemPhrase:
         itemSentence = itemSentence + str(word) + ' '
+    nounPhrase = subjectSentence
+    subjectSentence = ""
+    for word in nounPhrase:
+        subjectSentence = subjectSentence + str(word) + ' '
     valuePhrase = valueSentence
     valueSentence = valuePhrase[0]
 
@@ -121,30 +128,36 @@ def parseIs(parseTree):
     valuePhrase = valueSentence
     valueSentence = valuePhrase[0]
 
-def dependencyParsing(string):
-    sentences = list(dep_parser.raw_parse(string))
-    verb = getVerb(sentences)
-    sim = np.zeros(3)
+def parse(record, string):
+    if record == None:
+        sentences = list(dep_parser.raw_parse(string))
+        verb = getVerb(sentences)
+        sim = np.zeros(3)
 
-    # Judge the type of the verb
-    sim[0] = similarity(verb, assignKeyword)
-    sim[1] = similarity(verb, activeKeyword)
+        # Judge the type of the verb
+        sim[0] = similarity(verb, assignKeyword)
+        sim[1] = similarity(verb, activeKeyword)
 
-    # Maximum likelihood estimation
-    print sim
-    if np.max(sim) < similarThreshold:
-        return None
-    if sim[0] == np.max(sim):
-        parseIs(sentences)
-        record = Record(itemSentence, valueSentence)
-    if sim[1] == np.max(sim):
-        parseSpend(sentences)
-        record = Record(itemSentence, valueSentence)
+        # Maximum likelihood estimation
+        print sim
+        if np.max(sim) < similarThreshold:
+            return None
+        if sim[0] == np.max(sim):
+            parseIs(sentences)
+            record = Record(itemSentence, valueSentence)
+        if sim[1] == np.max(sim):
+            parseSpend(sentences)
+            try:
+                record = Record(itemSentence, valueSentence)
+            except ValueError:
+                print valueSentence
+                print subjectSentence
+                record = Record(subjectSentence, list(itemSentence.split())[0])
     return record
 
 def getVerb(parseTree):
     return parseTree[0][0][1][0].leaves()[0]
 
 if __name__ == "__main__":
-    print dependencyParsing("The jackets are 750 dollars").serialize()
+    print parse("The jackets are 750 dollars").serialize()
     

@@ -26,7 +26,7 @@
                 android:id="@+id/edit1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="I spend 100 dollars on jacket"
+                android:text="The books were 500 dollars"
                 />
 
             <Button
@@ -40,14 +40,14 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             >
 
             <EditText
                 android:id="@+id/edit2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="The jacket is 100 dollars        "
+                android:text="I paid 100 dollars for the card saving"
                 />
 
             <Button

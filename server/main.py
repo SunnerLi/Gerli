@@ -1,7 +1,8 @@
-from syntaxJudge import *
 import ServerPrint as sp
 import netifaces as ni
 from POSJudge import *
+import POSTagger
+import dependencyParser
 import socket
 import json
 
@@ -65,12 +66,19 @@ while True:
             resJson["Sentence"] = "Can you say more clearly?"
             resJson["type"] = "sentence"
         else:
+            """
             POSTagging(string=data[sentenceKey])
             if not verbLength() == 0:
                 record = syntaxTypeJudge(
                     getSubject(), getVerb(), getObject(), getValue())
                 resJson["sentence"] = record.serialize()
                 resJson["type"] = "record"
+            """
+            record = None
+            record = POSTagger.tag(record, string=data[sentenceKey])
+            record = dependencyParser.parse(record, string=data[sentenceKey])
+            resJson["sentence"] = record.serialize()
+            resJson["type"] = "record"
 
         # Send the result back to the phone
         sockBack = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)

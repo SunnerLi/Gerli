@@ -18,14 +18,15 @@ embeddedSize = 100
 word_2_id = {"is" : 0, "spend" : 1}
 wordEmbedded = np.array([[1, 0], [0, 1]])
 
+"""
 def syntaxTypeJudge(subject, verb, _object, value):
-    """
+    
         main function
 
         Arg:    The subject, verb, object of the sentence,
                 The value of the transection
         Ret:    The record object
-    """
+    
     sp.show("Sub: ", subject)
     sp.show("Vb: ", verb)
     sp.show("Obj: ", _object)
@@ -44,6 +45,7 @@ def syntaxTypeJudge(subject, verb, _object, value):
     if sim[1] == np.max(sim):
         record = Record(_object, value)
     return record
+"""
 
 def similarity(string1, string2):
     """
