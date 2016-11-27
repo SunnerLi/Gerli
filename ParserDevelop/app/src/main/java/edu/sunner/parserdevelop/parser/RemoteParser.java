@@ -17,6 +17,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+import edu.sunner.parserdevelop.MainActivity;
+
 /**
  * The implementation of remote parser
  * It would transmit the sentence to the server
@@ -43,6 +45,10 @@ public class RemoteParser {
     JSONObject json;
     byte[] buf = new byte[65536];
     String parseString;
+
+    public RemoteParser(){
+        SERVER_IP = MainActivity.addr.getText().toString();
+    }
 
     // The runnable that deal with the sending process
     Runnable sendRunnable = new Runnable() {

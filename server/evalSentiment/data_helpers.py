@@ -44,6 +44,10 @@ def load_data_and_labels(positive_data_file, negative_data_file):
     y = np.concatenate([positive_labels, negative_labels], 0)
     return [x_text, y]
 
+def convertData(string):
+    example = [string.strip()]
+    return [clean_str(sent) for sent in example]
+
 
 def batch_iter(data, batch_size, num_epochs, shuffle=True):
     """
