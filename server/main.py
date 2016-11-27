@@ -1,7 +1,10 @@
+from SentimentThread import *
+
 import ServerPrint as sp
 import dependencyParser
 import netifaces as ni
 import POSTagger
+import config
 import socket
 import json
 
@@ -32,9 +35,14 @@ addrKey="address"
 
 # Launch the socket
 sock = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 sock.bind ((UDP_IP, UDP_PORT))
 sp.show("Finish bind with ip   >> ", UDP_IP)
 sp.show("Finish bind with port >> ", UDP_PORT)
+
+# Launch sentiment analysis thread
+sentimentThread = Thread(target=sentimentThreading)
+sentimentThread.start()
 
 """
     After launch the program, the following would keep accept the information
@@ -42,6 +50,13 @@ sp.show("Finish bind with port >> ", UDP_PORT)
     {
         "sentence"  : "(the_sentence_want_to_parse)"
         "type"      : "<sentence/control>"
+    }
+
+    After Processing, the program would send back to the server
+    The format of the output is:
+    {
+        "sentence"  : (the_response_string)
+        "record"    : (the_parsing_result_object)
     }
 """
 while True:
@@ -64,20 +79,31 @@ while True:
         # 3. else case, the server would parse the sentence
         resJson = dict()
         if len(data[sentenceKey]) == 1:
-            resJson["Sentence"] = data[sentenceKey]
-            resJson["type"] = "sentence"
+            resJson["sentence"] = data[sentenceKey]
+            resJson["record"] = None
         elif len(data[sentenceKey]) == 2:
-            resJson["Sentence"] = "Can you say more clearly?"
-            resJson["type"] = "sentence"
+            resJson["sentence"] = "Can you say more clearly?"
+            resJson["record"] = None
         else:
+            # Parse string
             record = None
             record = POSTagger.tag(record, string=data[sentenceKey])
             record = dependencyParser.parse(record, string=data[sentenceKey])
-            resJson["sentence"] = record.serialize()
-            resJson["type"] = "record"
+            resJson["record"] = record.serialize()
+
+            # Sentiment analysis
+            config.sentiment_testString = data[sentenceKey]
+            config.sentiment_condition = True
+            while config.sentiment_condition:
+                i = 0
+            sp.show("Sentiment Result: ", str(config.sentiment_predictResult))
+            resJson["sentence"] = str(config.sentiment_predictResult)
 
         # Send the result back to the phone
         sockBack = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         print json.dumps(resJson)
         sockBack.sendto(json.dumps(resJson) , (phoneIP, UDP_PORT+1))
         sp.show("Send the result back")
+
+config.sentiment_interruptFlag = True
+sp.show("End all process")

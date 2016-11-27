@@ -193,8 +193,6 @@ def parse(record, string):
             try:
                 record = Record(itemSentence, valueSentence)
             except ValueSubjectError:
-                print valueSentence
-                print subjectSentence
                 record = Record(subjectSentence, itemSentence)
     return record
 
