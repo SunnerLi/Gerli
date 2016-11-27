@@ -19,7 +19,7 @@ sentiment_predictResult = None        # The result of sentiment analysis
 
 # Data loading params
 dev_sample_percentage = 1
-checkpoint_dir = "evalSentiment/vocabFolder/"
+checkpoint_dir = "evalSentiment/trainingOutput/checkpoints"
 
 # Model Hyperparameters
 embedding_dim = 128

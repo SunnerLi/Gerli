@@ -36,7 +36,7 @@ def sentimentThreading():
             sp.show("Sentiment - Finish tensorflow loading")
 
             # Restore graph declaration
-            vocab_path = os.path.join(config.checkpoint_dir, "vocab")
+            vocab_path = os.path.join(config.checkpoint_dir, "../vocab")
             vocab_processor = learn.preprocessing.VocabularyProcessor.restore(vocab_path)
             input_x = graph.get_operation_by_name("input_x").outputs[0]
             dropout_keep_prob = graph.get_operation_by_name("dropout_keep_prob").outputs[0]
