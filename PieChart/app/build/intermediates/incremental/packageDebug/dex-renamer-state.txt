@@ -1,7 +1,0 @@
-#Wed Nov 09 19:18:34 CST 2016
-base.0=D\:\\software\\PieChart\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_6415c46f6b28a294ea48008fa596a84f1a1f573e
-renamed.1=classes2.dex
-renamed.0=classes.dex
-file.1=D\:\\software\\PieChart\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_7e00e4ad3ecfc694b670a4ac67b064312451d0f4\\classes.dex
-base.1=D\:\\software\\PieChart\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run_7e00e4ad3ecfc694b670a4ac67b064312451d0f4
-file.0=D\:\\software\\PieChart\\app\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10\\instant-run-bootstrap_6415c46f6b28a294ea48008fa596a84f1a1f573e\\classes.dex
