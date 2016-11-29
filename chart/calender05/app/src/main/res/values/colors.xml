@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="roboto_calendar_background">#353E70</color>
+    <color name="roboto_calendar_selected_day_background">#7ac5ae</color>
+    <color name="roboto_calendar_current_day_ring">#F1BD9D</color>
+</resources>
