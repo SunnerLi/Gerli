@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">Gerli</string>
+
+    <string name="charge">Charge</string>
+    <string name="month_plan">Month Plan</string>
+    <string name="year_plan">Year Plan</string>
+    <string name="chart_analysis">Chart Analysis</string>
+    <string name="setting">Setting</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+</resources>

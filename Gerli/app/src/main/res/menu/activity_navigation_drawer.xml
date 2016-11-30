@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_charge"
+            android:icon="@drawable/gerli_ui_charge"
+            android:title="@string/charge" />
+        <item
+            android:id="@+id/nav_month_plan"
+            android:icon="@drawable/gerli_ui_month_plan"
+            android:title="@string/month_plan" />
+        <item
+            android:id="@+id/nav_year_plan"
+            android:icon="@drawable/gerli_ui_year_plan"
+            android:title="@string/year_plan" />
+        <item
+            android:id="@+id/nav_chart_analysis"
+            android:icon="@drawable/gerli_ui_chart_analysis"
+            android:title="@string/chart_analysis" />
+        <item
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/gerli_ui_setting"
+            android:title="@string/setting" />
+    </group>
+
+</menu>
