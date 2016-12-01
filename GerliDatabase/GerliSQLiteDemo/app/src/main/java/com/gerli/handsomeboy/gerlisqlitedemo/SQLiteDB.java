@@ -24,14 +24,17 @@ class GerliDatabaseManager {
 
     CalendarManager calendarManager;
 
-    //初始化與取得Gerli資料庫
+    /**
+     * GerliDatabaseManager的建構子
+     * 用來初始化資料庫設定與
+     * @param context
+     * @param name
+     */
     GerliDatabaseManager(Context context, String name){
         sqLiteDB = new SQLiteDB(context,name,null,VERSION);
         db = sqLiteDB.getWritableDatabase();
         calendarManager = new CalendarManager();
     }
-
-
 
     /**
      * 把tableName的表格中所有資料都取出來
@@ -42,6 +45,12 @@ class GerliDatabaseManager {
         return db.rawQuery( "select * from " + tableName, null);
     }
 
+    /**
+     * 根據type來生成長條圖表的資料
+     * type可以放入WEEK跟YEAR來取得周統計圖或年統計圖
+     * @param type
+     * @return 打包成日期與支出的資料包，失敗回傳null
+     */
     public GerliPackage getBarChart(Info_type type){
         if(type == Info_type.WEEK){
             return getBarChartByWeek();
@@ -54,6 +63,7 @@ class GerliDatabaseManager {
             return null;
         }
     }
+
 
     public BarChartPackage getBarChartByWeek(){
         return getBarChartByWeek(calendarManager.getDayCalendar());
