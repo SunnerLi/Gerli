@@ -13,6 +13,8 @@ import android.widget.SimpleCursorAdapter;
 
 import java.util.Calendar;
 
+import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
+
 public class MainActivity extends AppCompatActivity {
     final String DatabaseName = "Gerli_DB";
 
@@ -33,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
 
 
-        databaseManager = new GerliDatabaseManager(this,DatabaseName);
+        databaseManager = new GerliDatabaseManager(this);
         myDB = new SQLiteDB(this,DatabaseName,null,7);
         db = myDB.getReadableDatabase();
 
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
 
     void delete(long id){
         String id_str = Long.toString(id);
-        db.delete("account","id=" + id_str,null);
+        db.delete("account","_id=" + id_str,null);
         select();
     }
     void delete(){

@@ -6,11 +6,13 @@ import java.util.ArrayList;
  * Created by HandsomeBoy on 2016/11/21.
  */
 
-class GerliPackage{
+/*
+public class UnitPackage{
 
 }
-
-class TotalPackage extends GerliPackage{
+*/
+/*
+class TotalPackage extends UnitPackage{
     public TotalPackage(int expense,int income){
         Expense = expense;
         Income = income;
@@ -19,7 +21,7 @@ class TotalPackage extends GerliPackage{
     public int Income;
 }
 
-class BarChartPackage extends GerliPackage{
+class BarChartPackage extends UnitPackage{
     public BarChartPackage(ArrayList<String> weekList,float[] expenseArr){
         this.dateList = (ArrayList<String>) weekList.clone();
         this.expenseArr = expenseArr.clone();
@@ -35,3 +37,5 @@ class yearPlanPackage{
 class monthPlanPackage{
 
 }
+
+*/

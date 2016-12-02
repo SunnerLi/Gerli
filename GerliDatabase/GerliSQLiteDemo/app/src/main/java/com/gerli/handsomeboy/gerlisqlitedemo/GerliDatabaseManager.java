@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import com.gerli.handsomeboy.gerliUnit.UnitPackage;
+import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
+
 /**
  * Created by HandsomeBoy on 2016/10/27.
  */
 class GerliDatabaseManager {
     private static final int VERSION = 7;
+    private final String DatabaseName = "Gerli_DB";
 
     //操作Database的內部成員
     SQLiteDB sqLiteDB;
@@ -26,29 +30,21 @@ class GerliDatabaseManager {
 
     /**
      * GerliDatabaseManager的建構子
-     * 用來初始化資料庫設定與
-     * @param context
-     * @param name
+     * 用來初始化資料庫設定與取得資料庫
+     * @param context Activity 的 context
      */
-    GerliDatabaseManager(Context context, String name){
-        sqLiteDB = new SQLiteDB(context,name,null,VERSION);
+    GerliDatabaseManager(Context context){
+        sqLiteDB = new SQLiteDB(context,DatabaseName,null,VERSION);
         db = sqLiteDB.getWritableDatabase();
         calendarManager = new CalendarManager();
     }
 
-    /**
-     * 把tableName的表格中所有資料都取出來
-     * @param tableName 表格名
-     * @return 整個表格所有欄位資料
-     */
-    public Cursor getCursorByTable(String tableName){
-        return db.rawQuery( "select * from " + tableName, null);
-    }
+    //region BarChart
 
     /**
      * 根據type來生成長條圖表的資料
      * type可以放入WEEK跟YEAR來取得周統計圖或年統計圖
-     * @param type
+     * @param type 欲取得的日期間格。給 Info_type.WEEK 或 Info_type.YEAR
      * @return 打包成日期與支出的資料包，失敗回傳null
      */
     public GerliPackage getBarChart(Info_type type){
@@ -88,7 +84,7 @@ class GerliDatabaseManager {
             expenseArr[j] = expense;
         }
 
-        return new BarChartPackage(weekList,expenseArr);
+        return new UnitPackage().new BarChartPackage(weekList,expenseArr);
     }
 
     public BarChartPackage getBarChartByYear(){
@@ -117,7 +113,57 @@ class GerliDatabaseManager {
             }
             expenseArr[j] = expense;
         }
-        return new BarChartPackage(yearList,expenseArr);
+        return new UnitPackage().new BarChartPackage(yearList,expenseArr);
+    }
+
+    //endregion
+
+    public GerliPackage getPieChart(Info_type type){
+        if(type == Info_type.DAY){
+            return getBarChartByWeek();
+        }
+        else if(type == Info_type.WEEK){
+            return getBarChartByYear();
+        }
+        else if(type == Info_type.MONTH){
+            return getBarChartByYear();
+        }
+        else if(type == Info_type.YEAR){
+            return getBarChartByYear();
+        }
+        else{
+            Log.d("DebugError","getPieChart : Info_type not correct(use DAY、WEEK、MONTH or YEAR)");
+            return null;
+        }
+    }
+
+    public PieChartPackage getPieChartByDay(){
+        return null;
+    }
+
+    public PieChartPackage getPieChartByDay(Calendar dayOfWeek){
+        return null;
+    }
+
+    public PieChartPackage getPieChartByWeek(){
+        return null;
+    }
+
+    public PieChartPackage getPieChartByMonth(){
+        return null;
+    }
+
+    public PieChartPackage getPieChartByYear(){
+        return null;
+    }
+
+    /**
+     * 把tableName的表格中所有資料都取出來
+     * @param tableName 表格名
+     * @return 整個表格所有欄位資料
+     */
+    public Cursor getCursorByTable(String tableName){
+        return db.rawQuery( "select * from " + tableName, null);
     }
 
     public Cursor getCursor_typeByWeek(String start, String end){
@@ -174,7 +220,7 @@ class GerliDatabaseManager {
 
         if(row_num==0){
             Log.d("DatabaseData","today no record");
-            return new TotalPackage(0,0);
+            return new UnitPackage().new TotalPackage(0,0);
         }
 
         int expense = 0;
@@ -192,7 +238,7 @@ class GerliDatabaseManager {
             cursor.moveToNext();
         }
 
-        return new TotalPackage(expense,income);
+        return new UnitPackage().new TotalPackage(expense,income);
     }
 
     public Cursor getCursor_DayTotal(Info_type type,String day){
