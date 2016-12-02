@@ -104,6 +104,14 @@ public class MainActivity extends AppCompatActivity {
         databaseManager.getBarChart(Info_type.YEAR);
         CalendarManager calendarManager = new CalendarManager();
         String string = calendarManager.getDay(2016,1,1);
+        databaseManager.getPieChart(Info_type.YEAR);
+        databaseManager.getPieChart(Info_type.WEEK);
+        databaseManager.getPieChart(Info_type.MONTH);
+        databaseManager.getPieChart(Info_type.DAY);
+        databaseManager.getPieChartByDay(3);
+        databaseManager.getPieChartByWeek(3);
+        databaseManager.getPieChartByYear(3);
+        databaseManager.getPieChartByMonth(3);
 
     }
 

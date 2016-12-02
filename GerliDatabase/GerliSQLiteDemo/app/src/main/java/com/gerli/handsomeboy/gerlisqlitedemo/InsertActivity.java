@@ -71,7 +71,7 @@ public class InsertActivity extends AppCompatActivity {
                 //value.put("Id",1);
                 value.put("Name",nameEditText.getText().toString());
                 value.put("Money", Integer.valueOf(moneyEditText.getText().toString()));
-                value.put("Type", 1);
+                value.put("Type", Integer.valueOf(typeEditText.getText().toString()));
                 //value.put("Time", "2016");
 
                 /*
@@ -83,6 +83,8 @@ public class InsertActivity extends AppCompatActivity {
                 //Log.d("DatabaseDebug","Insert event: timestamp = " + timestamp.toString());
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
                 Timestamp timestamp = new Timestamp(calendar.getTimeInMillis() + TimeZone.getTimeZone("GMT+8:00").getRawOffset());
+
+                timestamp.toString();
 
                 value.put("Time",timestamp.toString());
                 value.put("Description",desEditText.getText().toString());
