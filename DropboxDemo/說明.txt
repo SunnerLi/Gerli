@@ -1,0 +1,6 @@
+manifest基本上複製過去，有一個db-key，key為app key是向dropbox申請
+DBRoulette activity有app key and secret都要更換為你跟dropbox申請的key and secret
+其餘看內部註解
+upload, download, list file三個operation我把它包成DropboxAccess class
+其paramater看prototype應該可以理解
+最後libs裡的jar記得add as library
