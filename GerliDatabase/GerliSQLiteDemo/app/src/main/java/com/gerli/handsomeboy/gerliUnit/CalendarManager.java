@@ -2,6 +2,7 @@ package com.gerli.handsomeboy.gerliUnit;
 
 import android.util.Log;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,50 +21,57 @@ public class CalendarManager {
 
     }
 
-    public String getYear(){
+    public static String getYear(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getYear(Calendar calendar){
+    public static String getYear(Calendar calendar){
         Log.d("asdsadd",yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet));
         return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getYear(int year){
+    public static String getYear(int year){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         calendar.set(year,0,1);
         return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getMonth(){
+    public static String getMonth(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         return monthDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getMonth(Calendar calendar){
+    public static String getMonth(Calendar calendar){
         return monthDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getMonth(int year,int month){
+    public static String getMonth(int year,int month){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         calendar.set(year,month - 1,1);
         return monthDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getDay(){
+    public static String getDay(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getDay(Calendar calendar){
+    public static String getDay(Calendar calendar){
         return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
-    public String getDay(int year,int month,int day){
+    public static String getDay(int year,int month,int day){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         calendar.set(year,month-1,day);
         return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
+    }
+
+    public static String getTime(){
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+        Timestamp timestamp = new Timestamp(calendar.getTimeInMillis() + TimeZone.getTimeZone("GMT+8:00").getRawOffset());
+
+        return timestamp.toString();
     }
 
     public Calendar getDayCalendar(){

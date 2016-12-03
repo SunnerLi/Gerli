@@ -360,6 +360,33 @@ public class GerliDatabaseManager {
         return new UnitPackage().new TotalPackage(expense,income);
     }
 
+    public TotalPackage getDayTotal(String day){
+        Cursor cursor = getCursor_dayItem(day);
+        int row_num = cursor.getCount();
+
+        if(row_num==0){
+            Log.d("DatabaseData","today no record");
+            return new UnitPackage().new TotalPackage(0,0);
+        }
+
+        int expense = 0;
+        int income = 0;
+        cursor.moveToFirst();
+        for(int i =0; i < row_num; i++){
+            int money = cursor.getInt(2);
+
+            if(money > 0){
+                expense += money;
+            }
+            else if(money < 0){
+                income += money;
+            }
+            cursor.moveToNext();
+        }
+
+        return new UnitPackage().new TotalPackage(expense,income);
+    }
+
     public Cursor getCursor_DayRate(Info_type type,String day,int limit){
         String sqlDay = "'" + day + "'";
         if (type ==Info_type.EXPENSE) {
