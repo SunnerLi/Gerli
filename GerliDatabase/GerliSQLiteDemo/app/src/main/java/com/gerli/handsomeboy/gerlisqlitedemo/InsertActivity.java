@@ -93,7 +93,7 @@ public class InsertActivity extends AppCompatActivity {
             void SetEmptyValue(){
                 if(nameEditText.getText().toString().equals("")){nameEditText.setText("無");}
                 if(moneyEditText.getText().toString().equals("")){moneyEditText.setText("0");}
-                if(typeEditText.getText().toString().equals("")){typeEditText.setText("無");}
+                if(typeEditText.getText().toString().equals("")){typeEditText.setText("1");}
                 if(desEditText.getText().toString().equals("")){desEditText.setText("無");}
 
             }

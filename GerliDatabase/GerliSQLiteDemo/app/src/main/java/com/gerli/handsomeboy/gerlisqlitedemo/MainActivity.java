@@ -2,7 +2,6 @@ package com.gerli.handsomeboy.gerlisqlitedemo;
 
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -11,17 +10,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
-import java.util.Calendar;
-
+import com.gerli.handsomeboy.gerliUnit.Table;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
 
 public class MainActivity extends AppCompatActivity {
-    final String DatabaseName = "Gerli_DB";
-
-
     GerliDatabaseManager databaseManager;
-    SQLiteDB myDB;
-    SQLiteDatabase db;
     SimpleCursorAdapter adapter;
 
     ListView listView;
@@ -34,10 +27,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
 
-
         databaseManager = new GerliDatabaseManager(this);
-        myDB = new SQLiteDB(this,DatabaseName,null,7);
-        db = myDB.getReadableDatabase();
 
         ViewSetting();
         select();
@@ -55,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                delete(id);
+                databaseManager.delete(Table.ACCOUNT,id);
+                select();
                 return false;
             }
         });
@@ -64,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                delete();            }
+                databaseManager.delete(Table.ACCOUNT);            }
         });
         insertButton = (Button)findViewById(R.id.insertButton);
         insertButton.setOnClickListener(new View.OnClickListener() {
@@ -95,6 +86,8 @@ public class MainActivity extends AppCompatActivity {
             adapter.changeCursor(cursor);
         }
 
+
+        /*
         databaseManager.getCursor_total(Info_type.EXPENSE);
         TotalPackage totalPackage = databaseManager.getTodayTotal();
         databaseManager.getCursor_DayTotal(Info_type.EXPENSE,new CalendarManager().getDay(2016,11,23));
@@ -112,18 +105,8 @@ public class MainActivity extends AppCompatActivity {
         databaseManager.getPieChartByWeek(3);
         databaseManager.getPieChartByYear(3);
         databaseManager.getPieChartByMonth(3);
+        */
+
 
     }
-
-    void delete(long id){
-        String id_str = Long.toString(id);
-        db.delete("account","_id=" + id_str,null);
-        select();
-    }
-    void delete(){
-        db.delete("account","1",null);
-        select();
-    }
-
-
 }

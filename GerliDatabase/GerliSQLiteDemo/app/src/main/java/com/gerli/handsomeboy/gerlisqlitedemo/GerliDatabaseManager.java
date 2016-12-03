@@ -6,12 +6,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import com.gerli.handsomeboy.gerliUnit.AccountType;
+import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerliUnit.Info_type;
+import com.gerli.handsomeboy.gerliUnit.Table;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
 
@@ -33,7 +38,7 @@ public class GerliDatabaseManager {
      * 用來初始化資料庫設定與取得資料庫
      * @param context Activity 的 context
      */
-    GerliDatabaseManager(Context context){
+    public GerliDatabaseManager(Context context){
         sqLiteDB = new SQLiteDB(context,DatabaseName,null,VERSION);
         db = sqLiteDB.getWritableDatabase();
         calendarManager = new CalendarManager();
@@ -118,6 +123,8 @@ public class GerliDatabaseManager {
 
     //endregion
 
+    //region PieChart
+
     public GerliPackage getPieChart(Info_type type){
         if(type == Info_type.DAY){
             return getBarChartByWeek();
@@ -154,7 +161,7 @@ public class GerliDatabaseManager {
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
-            String type = cursor.getString(0);
+            String type = AccountType.getString(cursor.getInt(0));
             float expense = cursor.getFloat(1);
             typeList.add(type);
             expenseRateArr[i] = expense;
@@ -181,7 +188,7 @@ public class GerliDatabaseManager {
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
-            String type = cursor.getString(0);
+            String type = AccountType.getString(cursor.getInt(0));
             float expense = cursor.getFloat(1);
             typeList.add(type);
             expenseRateArr[i] = expense;
@@ -208,7 +215,7 @@ public class GerliDatabaseManager {
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
-            String type = cursor.getString(0);
+            String type = AccountType.getString(cursor.getInt(0));
             float expense = cursor.getFloat(1);
             typeList.add(type);
             expenseRateArr[i] = expense;
@@ -235,7 +242,7 @@ public class GerliDatabaseManager {
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
-            String type = cursor.getString(0);
+            String type = AccountType.getString(cursor.getInt(0));
             float expense = cursor.getFloat(1);
             typeList.add(type);
             expenseRateArr[i] = expense;
@@ -245,7 +252,7 @@ public class GerliDatabaseManager {
         return new UnitPackage().new PieChartPackage(typeList,expenseRateArr);
     }
 
-
+    //endregion
 
     /**
      * 把tableName的表格中所有資料都取出來
@@ -255,6 +262,8 @@ public class GerliDatabaseManager {
     public Cursor getCursorByTable(String tableName){
         return db.rawQuery( "select * from " + tableName, null);
     }
+
+    //region expenseFunctions
 
     public Cursor getCursor_expenseByWeek(String start, String end){
         return getCursor_DayTotal(Info_type.EXPENSE,start,end);
@@ -280,6 +289,8 @@ public class GerliDatabaseManager {
     public Cursor getCursor_expenseRateByYear(String year,int limit){
         return getCursor_YearRate(Info_type.EXPENSE,year,limit);
     }
+
+    //endregion
 
 
     public Cursor getCursor_total(Info_type type){
@@ -350,17 +361,17 @@ public class GerliDatabaseManager {
     }
 
     public Cursor getCursor_DayRate(Info_type type,String day,int limit){
-
+        String sqlDay = "'" + day + "'";
         if (type ==Info_type.EXPENSE) {
             return db.rawQuery("SELECT type, sum(money) FROM " + sqLiteDB.accountTable +
-                    " WHERE money > 0 " + "AND substr(time,1,10)=" + day +
+                    " WHERE money > 0 " + "AND substr(time,1,10)=" + sqlDay +
                     " GROUP BY type " +
                     " ORDER BY sum(money) DESC" +
                     " LIMIT " +limit ,null);
         }
         else if(type ==Info_type.INCOME){
             return db.rawQuery("SELECT type, sum(money) FROM " + sqLiteDB.accountTable +
-                    " WHERE money < 0 " + "AND substr(time,1,10)=" + day +
+                    " WHERE money < 0 " + "AND substr(time,1,10)=" + sqlDay +
                     " GROUP BY type" +
                     " ORDER BY sum(money) DESC " +
                     " LIMIT " +limit,null);
@@ -401,7 +412,7 @@ public class GerliDatabaseManager {
         return getCursor_DayRate(type,start,end,limit);
     }
 
-    public Cursor getCursor_MonthRate(Info_type type,String month,int limit){
+    public Cursor getCursor_MonthRate(Info_type type, String month, int limit){
         String sqlMonth = "'" + month + "'";
         if (type ==Info_type.EXPENSE) {
             return db.rawQuery("SELECT type, sum(money) FROM " + sqLiteDB.accountTable +
@@ -509,8 +520,56 @@ public class GerliDatabaseManager {
     }
 
 
-    public boolean insert(String table, String nullColumnHack, ContentValues values){
-        return db.insert(table, nullColumnHack, values) != -1;
+    //region CRUD
+
+    public boolean insert(Table table, String nullColumnHack, ContentValues values){
+        String tableStr = getTableName(table);
+        return db.insert(tableStr, nullColumnHack, values) != -1;
+    }
+    public boolean insertAccount(String name, int money, AccountType type, String time, String description){
+        ContentValues values = new ContentValues();
+        values.put("Name",name);
+        values.put("Money",money);
+        values.put("Type",type.getValue());
+        values.put("Time",time);
+        values.put("Description",description);
+        return db.insert(getTableName(Table.ACCOUNT), null, values) != -1;
+    }
+
+    public boolean insertMonthPlan(int year,int month,int day,String description){
+        ContentValues values = new ContentValues();
+        values.put("PlanYear",year);
+        values.put("PlanMonth",month);
+        values.put("Day",day);
+        values.put("Description",description);
+
+        return db.insert(getTableName(Table.MONTH_PLAN), null, values) != -1;
+    }
+
+    public boolean insertYearPlan(int year,int month,String description){
+        ContentValues values = new ContentValues();
+        values.put("PlanYear",year);
+        values.put("Month",month);
+        values.put("Description",description);
+
+        return db.insert(getTableName(Table.YEAR_PLAN), null, values) != -1;
+    }
+
+    public boolean update(Table table,ContentValues values,long id){
+        String tableStr = getTableName(table);
+        String id_str = Long.toString(id);
+        if(tableStr == null){
+            Log.d("DatabaseError","DataBase delete : table name not found");
+            return false;
+        }
+        int e = db.update(tableStr, values,"_id=" + id_str, null);
+
+        if(e == 0){
+            Log.d("DatabaseError","DataBase delete : id is not match in table");
+            return false;
+        }
+        return true;
+
     }
 
     public boolean delete(Table table,long id) {
@@ -521,7 +580,7 @@ public class GerliDatabaseManager {
             return false;
         }
 
-        int e = db.delete(tableStr, "id=" + id_str, null);
+        int e = db.delete(tableStr, "_id=" + id_str, null);
 
         if(e == 0){
             Log.d("DatabaseError","DataBase delete : id is not match in table");
@@ -530,7 +589,27 @@ public class GerliDatabaseManager {
         return true;
     }
 
-    public String getTableName(Table table){
+    public boolean delete(Table table) {
+        String tableStr = getTableName(table);
+        if(tableStr == null){
+            Log.d("DatabaseError","DataBase delete : table name not found");
+            return false;
+        }
+
+        int e = db.delete(tableStr, "1", null);
+
+        if(e == 0){
+            Log.d("DatabaseError","DataBase delete : id is not match in table");
+            return false;
+        }
+        return true;
+    }
+
+    //endregion
+
+    //region staticFunction
+
+    public static String getTableName(Table table){
         String tableName;
         switch (table){
             case ACCOUNT:
@@ -549,282 +628,16 @@ public class GerliDatabaseManager {
         return tableName;
     }
 
+    //endregion
 
 
-}
-
-enum Info_type{
-    EXPENSE,INCOME,CLASS,DAY,WEEK,MONTH,YEAR;
-
-    public static String getInfoTypeName(Info_type info_type){
-        String infoName;
-        switch (info_type){
-            case EXPENSE:
-                infoName = "expense";
-                break;
-            case INCOME:
-                infoName = "income";
-                break;
-            case CLASS:
-                infoName = "class";
-                break;
-            case DAY:
-                infoName = "day";
-                break;
-            case WEEK:
-                infoName = "week";
-                break;
-            case MONTH:
-                infoName = "month";
-                break;
-            case YEAR:
-                infoName = "year";
-                break;
-            default:
-                infoName = null;
-                break;
-        }
-        return infoName;
-    }
-
-    public static boolean isExpense(Info_type type){
-        return type == EXPENSE;
-    }
-
-    public static boolean isIncome(Info_type type){
-        return type == INCOME;
-    }
-
-    public static boolean isClass(Info_type type){
-        return type == CLASS;
-    }
-
-    public static boolean isDay(Info_type type){
-        return type == DAY;
-    }
-
-    public static boolean isWeek(Info_type type){
-        return type == WEEK;
-    }
-
-    public static boolean isMonth(Info_type type){
-        return type == MONTH;
-    }
-
-    public static boolean isYear(Info_type type){
-        return type == YEAR;
-    }
-}
-
-enum Table{
-    ACCOUNT,MONTH_PLAN,YEAR_PLAN
-}
-
-class CalendarManager {
-    static SimpleDateFormat dayDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    static SimpleDateFormat monthDateFormat = new SimpleDateFormat("yyyy-MM");
-    static SimpleDateFormat yearDateFormat = new SimpleDateFormat("yyyy");
-    static int rawOffSet =  TimeZone.getTimeZone("GMT+8:00").getRawOffset();
-
-    public CalendarManager(){
-
-    }
-
-    public String getYear(){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getYear(Calendar calendar){
-        Log.d("asdsadd",yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet));
-        return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getYear(int year){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        calendar.set(year,0,1);
-        return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getMonth(){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        return monthDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getMonth(Calendar calendar){
-        return monthDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getMonth(int year,int month){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        calendar.set(year,month - 1,1);
-        return monthDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getDay(){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getDay(Calendar calendar){
-        return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public String getDay(int year,int month,int day){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        calendar.set(year,month-1,day);
-        return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
-    }
-
-    public Calendar getDayCalendar(){
-        return Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-    }
-
-    public Calendar getDayCalendar(int year,int month,int day){
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        calendar.set(year,month,day);
-        return calendar;
-    }
-
-    public ArrayList<String> getWeekArrList(Calendar calendar){
-        CalendarManager.setToFirstDayOfWeek(calendar);
-
-        ArrayList<String> weekList= new ArrayList<String>();
-        for(int i =0;i<7;i++){
-            weekList.add(getDay(calendar));
-            calendar.add(Calendar.DAY_OF_MONTH,1);
-        }
-        return weekList;
-    }
-
-    public ArrayList<String> getYearArrList(int year){
-        Calendar calendar = getDayCalendar();
-        ArrayList<String> yearList = new ArrayList<String>();
-        calendar.set(Calendar.DAY_OF_MONTH,1);
-        for(int i = 0;i<12;i++){
-            calendar.set(Calendar.MONTH,i);
-            yearList.add(getMonth(calendar));
-        }
-        return yearList;
-    }
-
-    public static void setToFirstDayOfWeek(Calendar calendar){
-        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
-        switch (dayOfWeek){
-            case Calendar.SUNDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,0);
-                break;
-            case Calendar.MONDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,-1);
-                break;
-            case Calendar.TUESDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,-2);
-                break;
-            case Calendar.WEDNESDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,-3);
-                break;
-            case Calendar.THURSDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,-4);
-                break;
-            case Calendar.FRIDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,-5);
-                break;
-            case Calendar.SATURDAY:
-                calendar.add(Calendar.DAY_OF_MONTH,-6);
-                break;
-        }
-    }
-}
-
-enum AccountType{
-
-    BREAKFAST,LUNCH,DINNER,SUPPER,DRINK,SNACK,
-    CLOTHES,ACCESSORY,SHOES,
-    RENT_FOR_HOUSE,DAILY_SUPPLIES,PAYMENT,
-    TRANSPORT,FUEL,AUTOMOBILE,
-    BOOK,STATIONERY,ART,
-    ENTERTAINMENT,SHOPPING,INVEST,GIFTS,
-    OTHERS;
-
-    public static String getString(AccountType type){
-        String typeName;
-        switch (type) {
-            case BREAKFAST:
-                typeName = "早餐";
-                break;
-            case LUNCH:
-                typeName = "午餐";
-                break;
-            case DINNER:
-                typeName = "晚餐";
-                break;
-            case SUPPER:
-                typeName = "宵夜";
-                break;
-            case DRINK:
-                typeName = "飲料";
-                break;
-            case SNACK:
-                typeName = "點心";
-                break;
-            case CLOTHES:
-                typeName = "衣服";
-                break;
-            case ACCESSORY:
-                typeName = "配飾";
-                break;
-            case SHOES:
-                typeName = "鞋子";
-                break;
-            case RENT_FOR_HOUSE:
-                typeName = "房租";
-                break;
-            case DAILY_SUPPLIES:
-                typeName = "日常用品";
-                break;
-            case PAYMENT:
-                typeName = "繳費";
-                break;
-            case TRANSPORT:
-                typeName = "交通";
-                break;
-            case FUEL:
-                typeName = "燃料";
-                break;
-            case AUTOMOBILE:
-                typeName = "汽機車";
-                break;
-            case BOOK:
-                typeName = "書籍";
-                break;
-            case STATIONERY:
-                typeName = "文具";
-                break;
-            case ART:
-                typeName = "美術用具";
-                break;
-            case ENTERTAINMENT:
-                typeName = "娛樂";
-                break;
-            case SHOPPING:
-                typeName = "購物";
-                break;
-            case INVEST:
-                typeName = "投資";
-                break;
-            case GIFTS:
-                typeName = "送禮";
-                break;
-            case OTHERS:
-                typeName = "其他";
-                break;
-            default:
-                typeName = null;
-        }
-        return typeName;
-    }
 
 }
+
+
+
+
+
 
 class SQLiteDB extends SQLiteOpenHelper {
 
