@@ -10,8 +10,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 
+import com.gerli.handsomeboy.gerliUnit.CalendarManager;
 import com.gerli.handsomeboy.gerliUnit.Table;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     GerliDatabaseManager databaseManager;
@@ -106,7 +109,8 @@ public class MainActivity extends AppCompatActivity {
         databaseManager.getPieChartByYear(3);
         databaseManager.getPieChartByMonth(3);
         */
-
+        CalendarManager calendarManager = new CalendarManager();
+        CalendarManager.getLatestRecordTime();
 
     }
 }

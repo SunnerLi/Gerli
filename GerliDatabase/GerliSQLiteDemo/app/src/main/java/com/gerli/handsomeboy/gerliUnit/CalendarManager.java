@@ -6,6 +6,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -15,10 +16,17 @@ public class CalendarManager {
     static SimpleDateFormat dayDateFormat = new SimpleDateFormat("yyyy-MM-dd");
     static SimpleDateFormat monthDateFormat = new SimpleDateFormat("yyyy-MM");
     static SimpleDateFormat yearDateFormat = new SimpleDateFormat("yyyy");
+    static SimpleDateFormat timeDateFormat = new SimpleDateFormat("yyyy-MM-dd:HH-mm-ss");
     static int rawOffSet =  TimeZone.getTimeZone("GMT+8:00").getRawOffset();
 
     public CalendarManager(){
 
+    }
+    public static Date getLatestRecordTime(){
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
+        Date date = calendar.getTime();
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
+        return date;
     }
 
     public static String getYear(){
@@ -27,7 +35,6 @@ public class CalendarManager {
     }
 
     public static String getYear(Calendar calendar){
-        Log.d("asdsadd",yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet));
         return yearDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 
