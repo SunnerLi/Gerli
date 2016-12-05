@@ -30,4 +30,5 @@ public class MyService extends Service {
         notification = new Notification.Builder(getApplicationContext()).setSmallIcon(R.mipmap.ic_launcher).setContentTitle("NotificationDemo").setContentText("PlayAlarm").build();
         notificationManager.notify(notifyID, notification); // 發送通知
     }
+    
 }
