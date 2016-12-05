@@ -6,10 +6,11 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-public class mainActivity extends Activity{
+public class mainActivity extends AppCompatActivity{
 
     final int notifyID = 1; // 通知的識別號碼
     NotificationManager notificationManager;
