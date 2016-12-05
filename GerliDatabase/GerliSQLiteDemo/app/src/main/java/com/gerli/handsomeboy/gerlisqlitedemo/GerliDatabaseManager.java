@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 import com.gerli.handsomeboy.gerliUnit.AccountType;
@@ -261,6 +263,27 @@ public class GerliDatabaseManager {
      */
     public Cursor getCursorByTable(String tableName){
         return db.rawQuery( "select * from " + tableName, null);
+    }
+
+    public Date getLatestRecordTime(){
+        Cursor cursor = db.rawQuery("SELECT Time FROM " + sqLiteDB.accountTable +
+                " ORDER BY Time DESC" +
+                " LIMIT " + 1 ,null);
+
+
+        cursor.moveToFirst();
+        String timeStr = cursor.getString(0);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+        Date data;
+        try{
+            data = format.parse(timeStr);
+            TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
+        }catch (ParseException e){
+            Log.d("DatabaseError","getLatestRecordTime : SimpleDateFormat parse error");
+            return null;
+        }
+
+        return data;
     }
 
     //region expenseFunctions
