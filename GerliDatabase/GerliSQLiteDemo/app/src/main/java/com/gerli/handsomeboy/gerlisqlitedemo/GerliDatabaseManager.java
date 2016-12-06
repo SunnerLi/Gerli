@@ -380,7 +380,7 @@ public class GerliDatabaseManager {
             cursor.moveToNext();
         }
 
-        return new UnitPackage().new TotalPackage(expense,income);
+        return new UnitPackage().new TotalPackage(expense,-income);
     }
 
     public TotalPackage getDayTotal(String day){
@@ -577,6 +577,11 @@ public class GerliDatabaseManager {
         return db.insert(tableStr, nullColumnHack, values) != -1;
     }
     public boolean insertAccount(String name, int money, AccountType type, String time, String description){
+        if(type == null){
+            Log.d("DatabaseError","insertAccount : AccountType is null");
+            return false;
+        }
+
         ContentValues values = new ContentValues();
         values.put("Name",name);
         values.put("Money",money);

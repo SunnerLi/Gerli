@@ -22,6 +22,7 @@ public class CalendarManager {
     public CalendarManager(){
 
     }
+
     public static Date getLatestRecordTime(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
         Date date = calendar.getTime();
