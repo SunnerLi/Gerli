@@ -1,0 +1,4 @@
+export CLASSPATH=/home/sunner/nltk_data/stanford-postagger-full-2015-12-09/stanford-postagger.jar:/home/sunner/nltk_data/stanford-parser-full-2015-12-09
+export STANFORD_MODELS=/home/sunner/nltk_data/stanford-postagger-full-2015-12-09/models/chinese-distsim.tagger
+export STANFORD_PARSER=/home/sunner/nltk_data/stanford-parser-full-2015-12-09/stanford-parser.jar
+
