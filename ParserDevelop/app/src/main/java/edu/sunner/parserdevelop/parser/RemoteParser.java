@@ -16,6 +16,7 @@ import java.net.InetSocketAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
+import java.util.concurrent.Semaphore;
 
 import edu.sunner.parserdevelop.MainActivity;
 
@@ -50,10 +51,20 @@ public class RemoteParser {
         SERVER_IP = MainActivity.addr.getText().toString();
     }
 
+    // Flag to control if precessing in the remote side
+    Semaphore semaphore = new Semaphore(1);
+
     // The runnable that deal with the sending process
     Runnable sendRunnable = new Runnable() {
         @Override
         public void run() {
+            // Set as begin state
+            try {
+                semaphore.acquire();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             // Set sentence into json format
             try {
                 json = new JSONObject();
@@ -99,8 +110,12 @@ public class RemoteParser {
 
                 // Reformat the result to the record object
                 json = new JSONObject(string);
-                Record record = new Record(new JSONObject(json.get("sentence").toString()));
+                Record record = new Record(new JSONObject(json.get("record").toString()));
                 record.dump();
+                Log.v("--> Parser Log", json.get("sentence").toString());
+
+                // Set as end state
+                semaphore.release();
             } catch (SocketException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -157,5 +172,9 @@ public class RemoteParser {
             Log.e("IP Address", ex.toString());
         }
         return null;
+    }
+
+    public int getSemaphore(){
+        return semaphore.availablePermits();
     }
 }

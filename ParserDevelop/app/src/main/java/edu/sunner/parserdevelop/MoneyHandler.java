@@ -14,7 +14,10 @@ public class MoneyHandler {
     }
 
     public boolean work(String string){
-        return work(parser.parse(string));
+        parser.parse(string, Parser.sentence);
+        Record record = parser.get();
+        work(record);
+        return true;
     }
 
     public boolean work(Record record){

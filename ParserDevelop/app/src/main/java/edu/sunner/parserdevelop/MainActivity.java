@@ -7,10 +7,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import edu.sunner.parserdevelop.parser.Parser;
 import edu.sunner.parserdevelop.parser.RemoteParser;
 
 /**
  * Main activity
+ *
+ * Example sentence:
+ * I paid 100 dollars for the card saving
  *
  * @author SunnerLi
  * @revise 10/29/2016
@@ -54,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new RemoteParser().work(edit1.getText().toString(), RemoteParser.sentence);
+                        //new RemoteParser().work(edit1.getText().toString(), RemoteParser.sentence);
+                        new Parser().parse(edit1.getText().toString(), Parser.sentence);
 
                     }
                 }.start();
@@ -67,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new RemoteParser().work(edit2.getText().toString(), RemoteParser.sentence);
+                        //new RemoteParser().work(edit2.getText().toString(), RemoteParser.sentence);
+                        new Parser().parse(edit2.getText().toString(), Parser.sentence);
 
                     }
                 }.start();
@@ -80,7 +87,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new RemoteParser().work(edit3.getText().toString(), RemoteParser.sentence);
+                        //new RemoteParser().work(edit3.getText().toString(), RemoteParser.sentence);
+                        new Parser().parse(edit3.getText().toString(), Parser.sentence);
 
                     }
                 }.start();
@@ -93,7 +101,8 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new RemoteParser().work("exit", RemoteParser.control);
+                        //new RemoteParser().work("exit", RemoteParser.control);
+                        new Parser().parse("exit", Parser.control);
                     }
                 }.start();
             }

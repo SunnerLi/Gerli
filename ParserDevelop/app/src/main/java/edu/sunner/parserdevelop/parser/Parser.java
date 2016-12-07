@@ -32,32 +32,42 @@ public class Parser {
     // No
     public static final int FAIL = 0;
 
+    // Remote parser
+    static RemoteParser remoteParser = new RemoteParser();
+    Record parseResult = new Record();
+
+    // Sentemce type
+    public static final String sentence = remoteParser.sentence;
+    public static final String control = remoteParser.control;
+
     // Constructor
     public Parser() {
     }
 
     // Work function
-    public Record parse(String _string) throws NullPointerException{
+    public void parse(String _string, String stringType) throws NullPointerException {
         // Store the each conponent of the string
         String[] list = _string.split(" ");
 
         // Judge if the string is invalid
         if (list.length != 3) {
-            Log.d(TAG, "Reason: the number of element < 3");
-            return null;
+            Log.d(TAG, "Reason: the number of element < 3, which number is " + list.toString());
+            remoteParser.work(_string, stringType);
         }
         if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {
             Log.d(TAG, "Reason: lose the +- symbol");
-            return null;
+            remoteParser.work(_string, stringType);
         } else {
             String _num = list[2].substring(1, list[2].length());
             if (!isNumeric((_num))) {
                 Log.d(TAG, "Reason: the value is invalid");
-                return null;
+                remoteParser.work(_string, stringType);
+            }else {
+                Log.d(TAG, "Start local parsing");
+                parseResult = _parse(list);
+                parseResult.dump();
             }
         }
-
-        return _parse(list);
     }
 
     // Parsing
@@ -98,5 +108,10 @@ public class Parser {
             return false;
         }
         return true;
+    }
+
+    public Record get() {
+        while (remoteParser.getSemaphore() == 0) ;
+        return parseResult;
     }
 }

@@ -47,7 +47,7 @@
                 android:id="@+id/edit2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="I paid 100 dollars for the card saving"
+                android:text="drink 1 -100"
                 />
 
             <Button
@@ -89,7 +89,7 @@
             android:id="@+id/addr"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="192.168.1.100"
+            android:text="192.168.0.102"
             />
 
 
