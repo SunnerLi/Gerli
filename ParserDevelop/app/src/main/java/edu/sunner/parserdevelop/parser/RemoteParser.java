@@ -174,6 +174,12 @@ public class RemoteParser {
         return null;
     }
 
+    /**
+     * Return the value of semaphore
+     * You shouldn't use this function directly
+     *
+     * @return the value of the semaphore
+     */
     public int getSemaphore(){
         return semaphore.availablePermits();
     }

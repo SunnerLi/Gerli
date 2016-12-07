@@ -13,13 +13,28 @@ public class MoneyHandler {
         parser = new Parser();
     }
 
+    /**
+     * The main function of money handler
+     * Notice, the parser would do the parsing work asynchronousㄗㄠly.
+     * So if you want to read the parsing result,
+     * you should call the get function
+     *
+     * @param string the string want to parse
+     * @return if the work do well
+     */
     public boolean work(String string){
         parser.parse(string, Parser.sentence);
         Record record = parser.get();
-        work(record);
-        return true;
+        return work(record);
     }
 
+    /**
+     * 做parsing完後的剩餘工作
+     * 這個部份裡面的函式需要大家幫忙完成
+     *
+     * @param record the result object after parsing
+     * @return if the work do well
+     */
     public boolean work(Record record){
         // Check if parse fail
         if (record == null){

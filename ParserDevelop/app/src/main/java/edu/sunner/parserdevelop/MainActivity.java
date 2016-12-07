@@ -59,7 +59,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        //new RemoteParser().work(edit1.getText().toString(), RemoteParser.sentence);
                         new Parser().parse(edit1.getText().toString(), Parser.sentence);
 
                     }
@@ -73,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        //new RemoteParser().work(edit2.getText().toString(), RemoteParser.sentence);
                         new Parser().parse(edit2.getText().toString(), Parser.sentence);
 
                     }
@@ -87,7 +85,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        //new RemoteParser().work(edit3.getText().toString(), RemoteParser.sentence);
                         new Parser().parse(edit3.getText().toString(), Parser.sentence);
 
                     }
@@ -101,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        //new RemoteParser().work("exit", RemoteParser.control);
                         new Parser().parse("exit", Parser.control);
                     }
                 }.start();

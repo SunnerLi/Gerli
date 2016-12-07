@@ -34,6 +34,8 @@ public class Parser {
 
     // Remote parser
     static RemoteParser remoteParser = new RemoteParser();
+
+    // Result Record object
     Record parseResult = new Record();
 
     // Sentemce type
@@ -44,7 +46,15 @@ public class Parser {
     public Parser() {
     }
 
-    // Work function
+
+    /**
+     * The wrapper of the parse function
+     * The remote parser would work only if the string doesn't follow the format
+     *
+     * @param _string The string want to parse
+     * @param stringType If the string is the normal sentence or the command
+     * @throws NullPointerException
+     */
     public void parse(String _string, String stringType) throws NullPointerException {
         // Store the each conponent of the string
         String[] list = _string.split(" ");
@@ -81,7 +91,14 @@ public class Parser {
         return record;
     }
 
-    // Judge if the string is alpha
+    //
+
+    /**
+     * Judge if the string is alpha
+     *
+     * @param aString the string want to test
+     * @return if the string is alphabetic or not
+     */
     public boolean isStringAlpha(String aString) {
         int charCount = 0;
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -100,7 +117,12 @@ public class Parser {
         return true;
     }
 
-    // Judge if the string is numberic
+    /**
+     * Judge if the string is numberic
+     *
+     * @param str the string want to test
+     * @return if it's numeric or not
+     */
     public static boolean isNumeric(String str) {
         try {
             double d = Double.parseDouble(str);
@@ -110,6 +132,11 @@ public class Parser {
         return true;
     }
 
+    /**
+     * Return the record object after the parsing process
+     *
+     * @return the record object
+     */
     public Record get() {
         while (remoteParser.getSemaphore() == 0) ;
         return parseResult;
