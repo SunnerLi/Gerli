@@ -1,4 +1,4 @@
-package edu.sunner.parserdevelop;
+package edu.sunner.parserdevelop.parser;
 
 import edu.sunner.parserdevelop.parser.Parser;
 import edu.sunner.parserdevelop.parser.Record;
