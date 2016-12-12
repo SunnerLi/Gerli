@@ -1,5 +1,6 @@
 package com.gerli.gerli;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentTransaction;
@@ -9,9 +10,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Button buttonInput, chatInput, voiceInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +34,8 @@ public class NavigationActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
+
+        setButton();
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -139,4 +146,36 @@ public class NavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    /**
+     * Set the function of the button
+     */
+
+    public void setButton(){
+        buttonInput = (Button)findViewById(R.id.buttonInput);
+        voiceInput = (Button)findViewById(R.id.voiceInput);
+        chatInput = (Button)findViewById(R.id.chatInput);
+
+        buttonInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Enter into button input mode
+            }
+        });
+        voiceInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Enter into voice input mode
+            }
+        });
+        chatInput.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(NavigationActivity.this, ChatInputActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
 }
