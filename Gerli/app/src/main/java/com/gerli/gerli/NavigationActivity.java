@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.gerli.gerli.calculator.NumBtnActivity;
 import com.gerli.gerli.chat.ChatInputActivity;
 
 public class NavigationActivity extends AppCompatActivity
@@ -161,7 +162,9 @@ public class NavigationActivity extends AppCompatActivity
         buttonInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Enter into button input mode
+                Intent intent = new Intent();
+                intent.setClass(NavigationActivity.this, NumBtnActivity.class);
+                startActivity(intent);
             }
         });
         voiceInput.setOnClickListener(new View.OnClickListener() {
