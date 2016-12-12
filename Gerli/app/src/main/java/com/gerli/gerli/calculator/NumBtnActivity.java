@@ -1,6 +1,8 @@
 package com.gerli.gerli.calculator;
 
+import android.content.Intent;
 import android.icu.math.BigDecimal;
+import android.icu.math.MathContext;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,11 +10,16 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.gerli.gerli.R;
+import com.gerli.gerli.btnInput.BtnInputActivity;
 
 public class NumBtnActivity extends AppCompatActivity {
+    final double eps = 1e-10;
+
     TextView txtDollar;
     boolean add = false,sub = false,mul = false,div = false;
     boolean dot = false;
+    boolean cal = false;
+    boolean res = false;
     int dotDigit = 0;
     double currentNT = 0;
     double tmpNT = 0;
@@ -111,12 +118,16 @@ public class NumBtnActivity extends AppCompatActivity {
                     addDigit(9);
                     break;
                 case R.id.btnAdd:
+                    calculate(1);
                     break;
                 case R.id.btnSub:
+                    calculate(2);
                     break;
                 case R.id.btnMul:
+                    calculate(3);
                     break;
                 case R.id.btnDiv:
+                    calculate(4);
                     break;
                 case R.id.btnAC:
                     clearDigit();
@@ -125,12 +136,17 @@ public class NumBtnActivity extends AppCompatActivity {
                     addDot();
                     break;
                 case R.id.btnBack:
+                    deleteDigit();
                     break;
                 case R.id.btnOK:
+                    enterResult();
                     break;
             }
         }
-        public void addDigit(int digit){
+        void addDigit(int digit){
+            if(res && !(add || sub || mul || div)){
+                clearDigit();
+            }
             if(!dot){
                 if(currentNT == 0){
                     currentNT += digit;
@@ -161,19 +177,137 @@ public class NumBtnActivity extends AppCompatActivity {
             }
         }
 
-        public void clearDigit(){
+        void clearDigit(){
             add = sub = mul = div = false;
             dot = false;
+            cal = false;
+            res = false;
             dotDigit = 0;
             txtDollar.setText("0");
             currentNT = Double.parseDouble(txtDollar.getText().toString());
+            tmpNT = currentNT;
         }
 
-        public void addDot(){
+        void addDot(){
             if(!dot){
                 dot = true;
                 txtDollar.setText(txtDollar.getText().toString() + ".");
             }
+        }
+
+        void deleteDigit(){
+            if(!dot){
+                currentNT /= 10;
+                currentNT = Math.floor(currentNT);
+                int decimal = (int)currentNT;
+                txtDollar.setText(Integer.toString(decimal));
+            }
+            else{
+                if(dotDigit == 0){
+                    dot = false;
+                    int decimal = (int)currentNT;
+                    txtDollar.setText(Integer.toString(decimal));
+                    return;
+                }
+                dotDigit--;
+                for(int i = 0; i < dotDigit; i++){
+                    currentNT *= 10;
+
+                }
+                currentNT = Math.floor(currentNT);
+                java.math.BigDecimal NTdecimal = new java.math.BigDecimal(currentNT);
+                java.math.BigDecimal rightShift = new java.math.BigDecimal(10);
+                for(int i = 0; i < dotDigit; i++){
+                    NTdecimal = NTdecimal.divide(rightShift,2, BigDecimal.ROUND_HALF_UP);
+                }
+                if(dotDigit == 0){
+                    int decimal = (int)currentNT;
+                    txtDollar.setText(Integer.toString(decimal) + ".");
+                }
+                else{
+                    currentNT = NTdecimal.doubleValue();
+                    txtDollar.setText(Double.toString(currentNT));
+                }
+            }
+        }
+
+        void calculate(int mode){
+            dotDigit = 0;
+            dot = false;
+            cal = true;
+            if(add || sub || mul || div){
+                java.math.BigDecimal NTdecimal = new java.math.BigDecimal(currentNT);
+                java.math.BigDecimal tmpDecimal = new java.math.BigDecimal(tmpNT);
+                if(add){
+                    tmpDecimal = tmpDecimal.add(NTdecimal);
+                }
+                else if(sub){
+                    tmpDecimal = tmpDecimal.subtract(NTdecimal);
+                }
+                else if(mul){
+                    tmpDecimal = tmpDecimal.multiply(NTdecimal);
+                    tmpDecimal = tmpDecimal.setScale(2,BigDecimal.ROUND_HALF_UP);
+                }
+                else{
+                    tmpDecimal = tmpDecimal.divide(NTdecimal,2, BigDecimal.ROUND_HALF_UP);
+                }
+
+                tmpNT = tmpDecimal.doubleValue();
+                currentNT = 0;
+
+                if(isFloat(tmpNT)){
+                    txtDollar.setText(Double.toString(tmpNT));
+                }
+                else{
+
+                    txtDollar.setText(Integer.toString((int)tmpNT));
+                }
+
+                add = sub = mul = div = false;
+            }
+            else{
+                tmpNT = currentNT;
+                currentNT = 0;
+            }
+
+            switch (mode){
+                case 1:
+                    add = true;
+                    break;
+                case 2:
+                    sub = true;
+                    break;
+                case 3:
+                    mul = true;
+                    break;
+                case 4:
+                    div = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        void enterResult(){
+            if(cal){
+                calculate(5);
+                currentNT = tmpNT;
+                cal = false;
+                res = true;
+            }
+            else{
+                Intent intent = new Intent(NumBtnActivity.this, BtnInputActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putDouble("DOLLAR",currentNT);
+
+                intent.putExtras(bundle);
+                startActivity(intent);
+            }
+        }
+
+        boolean isFloat(double num){
+            return num - Math.floor(num) >= eps;
         }
     };
 }
