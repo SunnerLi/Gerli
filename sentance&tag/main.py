@@ -75,13 +75,13 @@ def numberConvertAlpha(string):
                 value /= 10
 
             # Convert into string
-            while len(stack) > 0:
-                digit = stack[-1]
-                if not digit == 0:
-                    _res.append(number2String[digit])
-                    if len(stack) > 1 and len(stack) < 6:
-                        _res.append(digit2String[len(stack)])
-                stack.remove(digit)
+            #while len(stack) > 0:
+            digit = stack[-1]
+            if not digit == 0:
+                _res.append(number2String[digit])
+                if len(stack) > 1 and len(stack) < 6:
+                    _res.append(digit2String[len(stack)])
+            stack.remove(digit)
     return _res
 
 def doubleList2Strings(dblist):
@@ -163,3 +163,8 @@ def work():
 
 
 work()
+#print doubleList2Strings( numbersConvertAlphas( makeGaussianNoice(alphaValue, ratioOfRadius, numberOfCopy, "I spend 50 dollars on pens") ) )
+#print numbersConvertAlphas( [['I', 'spend', '52', 'dollars', 'on', 'pens']] )
+#string = "I spend 52 dollars on pens"
+#print [string.split()]
+#print numberConvertAlpha(string.split())
