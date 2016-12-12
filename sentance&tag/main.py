@@ -33,6 +33,15 @@ digit2String = {
 }
 
 def makeGaussianNoice(sigma, radius, copyTimes, string):
+    """
+        Generate several sentence that the value is different from gaussian noice
+
+        Arg:    sigma       - The sigma variable of gaussian function
+                radius      - The r^2 variable of gaussian function
+                copyTimes   - The times that you want to repeat generate
+                string      - The string that would be referred
+        Ret:    The double list that contains the split strings
+    """
     # Get the value of the string
     _string = string.split()
     value = -1
@@ -56,12 +65,26 @@ def makeGaussianNoice(sigma, radius, copyTimes, string):
     return strings
 
 def numbersConvertAlphas(strings):
+    """
+        Convert the arabic number to the english string
+        (For double string list)
+
+        Arg:    strings - The double list want to convert 
+        Ret:    The double list that contain the splitted result
+    """
     _res = []
     for string in strings:
         _res.append(numberConvertAlpha(string))
     return _res
 
 def numberConvertAlpha(string):
+    """
+        Convert the arabic number to the english string
+        (For normal string list)
+
+        Arg:    string - The list of the string want to convert
+        Ret:    The list that contain the splitted result
+    """
     _res = []
     for word in string:
         if not word.isdigit():
@@ -85,6 +108,12 @@ def numberConvertAlpha(string):
     return _res
 
 def doubleList2Strings(dblist):
+    """
+        Convert the double string list to string format
+
+        Arg:    dblist - The double string list you want to convert
+        Ret:    The list of the strings
+    """
     string = []
     for _list in dblist:
         _string = ""
@@ -95,6 +124,9 @@ def doubleList2Strings(dblist):
     return string
 
 def work():
+    """
+        load the string file and generate .pos file & .neg file
+    """
     wholeString = list()
     for i in range(lowerFileName, upperFileName):
         # Arrange sentences file

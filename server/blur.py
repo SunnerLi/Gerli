@@ -18,6 +18,13 @@ digit2String = {
 }
 
 def numberConvertAlpha(string):
+    """
+        Convert the arabic number to the english string
+        (For normal string list)
+
+        Arg:    string - The list of the string want to convert
+        Ret:    The list that contain the splitted result
+    """
     _res = []
     for word in string:
         if not word.isdigit():
@@ -31,7 +38,6 @@ def numberConvertAlpha(string):
                 value /= 10
 
             # Convert into string
-            #while len(stack) > 0:
             digit = stack[-1]
             if not digit == 0:
                 _res.append(number2String[digit])
@@ -41,6 +47,12 @@ def numberConvertAlpha(string):
     return _res
 
 def List2Strings(_list):
+    """
+        Convert the string list to string format
+
+        Arg:    _list - The double string list you want to convert
+        Ret:    The list of the strings
+    """
     string = []
     _string = ""
     for word in _list:
@@ -50,6 +62,12 @@ def List2Strings(_list):
     return string
 
 def blur(string):
+    """
+        The wrapper function to do the blurring process
+
+        Arg:    string - The string want to blur
+        Ret:    The string that has been blurred
+    """
     return List2Strings(numberConvertAlpha(string.split()))
 
 if __name__ == "__main__":
