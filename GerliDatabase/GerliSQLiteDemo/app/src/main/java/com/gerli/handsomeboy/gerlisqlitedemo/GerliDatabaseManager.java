@@ -256,6 +256,45 @@ public class GerliDatabaseManager {
 
     //endregion
 
+    //region 'YearPlan'&'MonthPlan
+
+    public UnitPackage.PlanPackage getYearPlan(int year,int month){
+        Cursor cursor = getCursor_yearPlan(year,month);
+
+        int row_num = cursor.getCount();
+        int[] id = new int[row_num];
+        String[] description = new String[row_num];
+
+        cursor.moveToFirst();
+        for(int i = 0; i < row_num; i++){
+            id[i] = cursor.getInt(0);
+            description[i] = cursor.getString(1);
+            cursor.moveToNext();
+        }
+
+        return new UnitPackage().new PlanPackage(id,description);
+    }
+
+    public UnitPackage.PlanPackage getMonthPlan(int year,int month,int day){
+        Cursor cursor = getCursor_monthPlan(year,month,day);
+
+        int row_num = cursor.getCount();
+        int[] id = new int[row_num];
+        String[] description = new String[row_num];
+
+        cursor.moveToFirst();
+        for(int i = 0; i < row_num; i++){
+            id[i] = cursor.getInt(0);
+            description[i] = cursor.getString(1);
+            cursor.moveToNext();
+        }
+
+        return new UnitPackage().new PlanPackage(id,description);
+    }
+
+    //endregion
+
+
     /**
      * 把tableName的表格中所有資料都取出來
      * @param tableName 表格名
@@ -316,46 +355,6 @@ public class GerliDatabaseManager {
     //endregion
 
 
-    public Cursor getCursor_total(Info_type type){
-        String whereCaluse = "";
-        switch (type){
-            case EXPENSE:
-                whereCaluse = " money > 0 ";
-                break;
-            case INCOME:
-                whereCaluse = " money < 0 ";
-                break;
-            case CLASS:
-            case DAY:
-            case WEEK:
-            case MONTH:
-            case YEAR:
-                Log.d("DatabaseDebug","getCursor_total : Info_type not correct(use EXPENSE or INCOME)");
-                return null;
-        }
-
-        return db.rawQuery("select  sum(money),Time from " + sqLiteDB.accountTable +
-                " where " + whereCaluse, null);
-    }
-
-    public Cursor getCursor_todayItem(){
-        String today = calendarManager.getDay();
-
-        Log.d("DatabaseDebug","getCursor_todayItem : Today = " + today);
-
-        return db.rawQuery("select * from " + sqLiteDB.accountTable +
-                " where substr(Time, 1, 10)='" + today + "'", null);
-    }
-
-    public Cursor getCursor_dayItem(String day){
-
-        Log.d("DatabaseDebug","getCursor_dayItem : day = " + day);
-
-        return db.rawQuery("select * from " + sqLiteDB.accountTable +
-                " where substr(Time, 1, 10)='" + day + "'", null);
-    }
-
-
     public TotalPackage getTodayTotal(){
         Cursor cursor = getCursor_todayItem();
         int row_num = cursor.getCount();
@@ -409,6 +408,53 @@ public class GerliDatabaseManager {
 
         return new UnitPackage().new TotalPackage(expense,income);
     }
+
+
+
+
+    //region Cursor
+
+    public Cursor getCursor_total(Info_type type){
+        String whereCaluse = "";
+        switch (type){
+            case EXPENSE:
+                whereCaluse = " money > 0 ";
+                break;
+            case INCOME:
+                whereCaluse = " money < 0 ";
+                break;
+            case CLASS:
+            case DAY:
+            case WEEK:
+            case MONTH:
+            case YEAR:
+                Log.d("DatabaseDebug","getCursor_total : Info_type not correct(use EXPENSE or INCOME)");
+                return null;
+        }
+
+        return db.rawQuery("select  sum(money),Time from " + sqLiteDB.accountTable +
+                " where " + whereCaluse, null);
+    }
+
+    public Cursor getCursor_todayItem(){
+        String today = calendarManager.getDay();
+
+        Log.d("DatabaseDebug","getCursor_todayItem : Today = " + today);
+
+        return db.rawQuery("select * from " + sqLiteDB.accountTable +
+                " where substr(Time, 1, 10)='" + today + "'", null);
+    }
+
+    public Cursor getCursor_dayItem(String day){
+
+        Log.d("DatabaseDebug","getCursor_dayItem : day = " + day);
+
+        return db.rawQuery("select * from " + sqLiteDB.accountTable +
+                " where substr(Time, 1, 10)='" + day + "'", null);
+    }
+
+
+
 
     public Cursor getCursor_DayRate(Info_type type,String day,int limit){
         String sqlDay = "'" + day + "'";
@@ -568,6 +614,18 @@ public class GerliDatabaseManager {
             return null;
         }
     }
+
+    public Cursor getCursor_monthPlan(int year,int month ,int day){
+        return db.rawQuery("SELECT _id,Description FROM " +  sqLiteDB.monthTable +
+                " WHERE PlanYear = " + year  + " AND PlanMonth = " + month + " AND Day = " + day ,null);
+    }
+
+    public Cursor getCursor_yearPlan(int year,int month){
+        return db.rawQuery("SELECT _id,Description FROM " +  sqLiteDB.yearTable +
+                " WHERE PlanYear = " + year  + " AND Month = " + month ,null);
+    }
+
+    //endregion
 
 
     //region CRUD

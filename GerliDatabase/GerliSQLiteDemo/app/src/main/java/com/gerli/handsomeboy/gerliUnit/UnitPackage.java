@@ -38,12 +38,14 @@ public class UnitPackage {
         public float[] expenseArr;
     }
 
-    public class yearPlanPackage{
+    public class PlanPackage extends GerliPackage{
+        public PlanPackage(int[] id,String[] description){
+            this.id = id;
+            this.description = description;
+        }
 
-    }
-
-    public class monthPlanPackage{
-
+        public int[] id;
+        public String[] description;
     }
 }
 
