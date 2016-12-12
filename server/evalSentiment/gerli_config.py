@@ -17,9 +17,9 @@ l2_reg_lambda = 0.0
 
 # Training parameters
 batch_size = 64
-num_epochs = 200
+num_epochs = 20
 evaluate_every = 100
-checkpoint_every = 100
+checkpoint_every = 500
 
 # Misc Parameters
 allow_soft_placement = True
