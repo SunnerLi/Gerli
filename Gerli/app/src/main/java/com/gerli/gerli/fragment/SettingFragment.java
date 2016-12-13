@@ -1,4 +1,4 @@
-package com.gerli.gerli;
+package com.gerli.gerli.fragment;
 
 
 import android.os.Bundle;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
+
+import com.gerli.gerli.R;
 
 
 /**

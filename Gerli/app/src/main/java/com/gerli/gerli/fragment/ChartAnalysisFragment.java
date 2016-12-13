@@ -1,4 +1,4 @@
-package com.gerli.gerli;
+package com.gerli.gerli.fragment;
 
 
 import android.os.Bundle;
@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.gerli.gerli.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class YearPlanFragment extends Fragment {
+public class ChartAnalysisFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -22,7 +24,7 @@ public class YearPlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_year_plan, container, false);
+        return inflater.inflate(R.layout.fragment_chart_analysis, container, false);
     }
 
 }
