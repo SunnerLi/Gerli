@@ -1,4 +1,5 @@
 from SentimentThread import *
+from blur import *
 
 import ServerPrint as sp
 import dependencyParser
@@ -92,12 +93,13 @@ while True:
             resJson["record"] = record.serialize()
 
             # Sentiment analysis
+            data[sentenceKey] = blur(data[sentenceKey])
             config.sentiment_testString = data[sentenceKey]
             config.sentiment_condition = True
             while config.sentiment_condition:
                 i = 0
             sp.show("Sentiment Result: ", str(config.sentiment_predictResult))
-            resJson["sentence"] = str(config.sentiment_predictResult)
+            resJson["sentence"] = str(config.sentiment_predictResult[0])
 
         # Send the result back to the phone
         sockBack = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)

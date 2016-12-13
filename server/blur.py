@@ -1,5 +1,6 @@
 # Converter mapping
 number2String = {
+    0 : 'zero',
     1 : 'one',
     2 : 'two',
     3 : 'three',
@@ -38,6 +39,8 @@ def numberConvertAlpha(string):
                 value /= 10
 
             # Convert into string
+            if len(stack) == 0:
+                stack.append(0)
             digit = stack[-1]
             if not digit == 0:
                 _res.append(number2String[digit])
@@ -68,7 +71,7 @@ def blur(string):
         Arg:    string - The string want to blur
         Ret:    The string that has been blurred
     """
-    return List2Strings(numberConvertAlpha(string.split()))
+    return List2Strings(numberConvertAlpha(string.split()))[0]
 
 if __name__ == "__main__":
     print blur("I spend 52 dollars on pens")
