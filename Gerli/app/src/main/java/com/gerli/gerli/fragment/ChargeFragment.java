@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.gerli.gerli.DatePickerFragment;
 import com.gerli.gerli.R;
@@ -29,8 +30,8 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_charge, container, false);
 
-        Button choseDateButton = (Button) myView.findViewById(R.id.choose_date_button);
-        choseDateButton.setOnClickListener(new View.OnClickListener() {
+        TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
+        choseDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment newFragment = new DatePickerFragment();
@@ -41,7 +42,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     }
 
     public void passOnDateSet(int year, int month, int day) {
-        Button choseDateButton = (Button) getActivity().findViewById(R.id.choose_date_button);
-        choseDateButton.setText("HHHHHHHHHHH");
+        TextView choseDateText = (TextView) getActivity().findViewById(R.id.choose_date_text);
+        choseDateText.setText("HHHHHHHHHHH");
     }
 }
