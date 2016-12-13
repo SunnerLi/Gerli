@@ -47,6 +47,10 @@ public class RemoteParser {
     byte[] buf = new byte[65536];
     String parseString;
 
+    // Parsing result
+    public Record recordResult = new Record();
+    public int sentimentResult = -1;
+
     public RemoteParser(){
         SERVER_IP = MainActivity.addr.getText().toString();
     }
@@ -60,7 +64,9 @@ public class RemoteParser {
         public void run() {
             // Set as begin state
             try {
+                semaphore.release();
                 semaphore.acquire();
+                Log.i("--> Parser Log", "get semaphore, start sending");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -110,8 +116,9 @@ public class RemoteParser {
 
                 // Reformat the result to the record object
                 json = new JSONObject(string);
-                Record record = new Record(new JSONObject(json.get("record").toString()));
-                record.dump();
+                recordResult = new Record(new JSONObject(json.get("record").toString()));
+                sentimentResult = json.getInt("sentence");
+                recordResult.dump();
                 Log.v("--> Parser Log", json.get("sentence").toString());
 
                 // Set as end state
@@ -183,4 +190,5 @@ public class RemoteParser {
     public int getSemaphore(){
         return semaphore.availablePermits();
     }
+
 }

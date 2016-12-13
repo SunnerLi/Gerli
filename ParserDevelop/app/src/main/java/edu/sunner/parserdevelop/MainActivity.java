@@ -4,16 +4,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import edu.sunner.parserdevelop.parser.Parser;
 import edu.sunner.parserdevelop.parser.RemoteParser;
 
 /**
  * Main activity
- *
+ * <p/>
  * Example sentence:
  * I paid 100 dollars for the card saving
  *
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * Default onCreate
+     *
      * @param savedInstanceState
      */
     @Override
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new Parser().parse(edit1.getText().toString(), Parser.sentence);
+                        work(edit1.getText().toString());
 
                     }
                 }.start();
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new Parser().parse(edit2.getText().toString(), Parser.sentence);
+                        work(edit2.getText().toString());
 
                     }
                 }.start();
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         super.run();
-                        new Parser().parse(edit3.getText().toString(), Parser.sentence);
+                        work(edit3.getText().toString());
 
                     }
                 }.start();
@@ -103,5 +106,17 @@ public class MainActivity extends AppCompatActivity {
                 }.start();
             }
         });
+    }
+
+    /**
+     * 教學文件上寫的步驟
+     * 最後會把批評或鼓勵的話印出來。
+     *
+     * @param string 想分析的話
+     */
+    private void work(String string) {
+        Parser parser = new Parser();
+        parser.parse(string, Parser.sentence);
+        Log.i("--- 手機回應:", parser.getSentence());
     }
 }

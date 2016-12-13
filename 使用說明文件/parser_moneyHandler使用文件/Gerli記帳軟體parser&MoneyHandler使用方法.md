@@ -21,6 +21,8 @@
 				+-----RemoteParser
 				|
 				+-----MoneyHandler
+				|
+				+-----Sentences
 ```
 <br/>
 如果你把蛤蠣的東西也加進來，大概專案結構會長的像這樣，搭配蛤蠣的圖應該滿好懂的：
@@ -38,6 +40,8 @@
 		|		+-----RemoteParser
 		|		|
 		|		+-----MoneyHandler
+		|		|
+		|		+-----Sentences
 		|
 		+-----gerli.handsomeboy
 				|
@@ -75,6 +79,15 @@
 ```java
 	Record record = new Record()
 	record = parser.get()
+```
+<br/>
+大家可以看一下[這邊](https://github.com/SunnerLi/Gerli/blob/parserDevelope/ParserDevelop/app/src/main/java/edu/sunner/parserdevelop/MainActivity.java)裡面的work函式，它很簡單的實做一個parser的流程如下。先創建一個物件，然後呼叫parse函式，最後呼叫getSentence把句子拿出來，就只要三個步驟。
+```java
+private void work(String string) {
+    Parser parser = new Parser();
+    parser.parse(string, Parser.sentence);
+    Log.i("--- 手機回應:", parser.getSentence());
+}
 ```
 <br/>
 
