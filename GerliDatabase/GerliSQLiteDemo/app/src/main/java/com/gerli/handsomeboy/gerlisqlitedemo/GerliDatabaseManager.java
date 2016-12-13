@@ -26,7 +26,7 @@ import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
  * Created by HandsomeBoy on 2016/10/27.
  */
 public class GerliDatabaseManager {
-    private static final int VERSION = 7;
+    private static final int VERSION = 9;
     private final String DatabaseName = "Gerli_DB";
 
     //操作Database的內部成員
@@ -729,6 +729,20 @@ public class GerliDatabaseManager {
 
     }
 
+    public boolean updateMonthPlan(String description,int id){
+        ContentValues values = new ContentValues();
+        values.put("Description",description);
+
+        return db.update(getTableName(Table.MONTH_PLAN),values,"_id=" + id,null) != -1;
+    }
+
+    public boolean updateYearPlan(String description,int id){
+        ContentValues values = new ContentValues();
+        values.put("Description",description);
+
+        return db.update(getTableName(Table.YEAR_PLAN),values,"_id=" + id,null) != -1;
+    }
+
     public boolean delete(Table table,long id) {
         String tableStr = getTableName(table);
         String id_str = Long.toString(id);
@@ -854,8 +868,16 @@ class SQLiteDB extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d("DatabasePosition","DataBase Upgrade : Begin");
 
-        final String drop = "DROP TABLE " + accountTable;
-        db.execSQL(drop);
+        final String dropAccount = "DROP TABLE " + accountTable;
+        db.execSQL(dropAccount);
+        onCreate(db);
+
+        final String dropYear = "DROP TABLE " + yearTable;
+        db.execSQL(dropYear);
+        onCreate(db);
+
+        final String dropMonth = "DROP TABLE " + monthTable;
+        db.execSQL(dropMonth);
         onCreate(db);
 
         Log.d("DatabasePosition","DataBase Upgrade : Finish");
