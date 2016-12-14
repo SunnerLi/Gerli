@@ -29,6 +29,33 @@
             android:id="@+id/charge_list_view"
             />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:id="@+id/buttonInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="按鈕輸入"/>
+
+        <Button
+            android:id="@+id/voiceInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="語音輸入"/>
+
+        <Button
+            android:id="@+id/chatInput"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="聊天輸入"/>
+
     </LinearLayout>
 
 </RelativeLayout>
