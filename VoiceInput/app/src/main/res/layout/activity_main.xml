@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="0dp"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp">
+    tools:context="com.example.huyuxuan.voiceinput.MainActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1"
+        android:paddingBottom="0dp"
+        android:paddingEnd="0dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="0dp"
+        android:paddingStart="0dp"
+        android:paddingTop="0dp">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="86dp"
+            android:weightSum="1"
+            android:background="@color/colorPrimaryDark"
+            android:padding="0dp"
+            android:elevation="11dp">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="?attr/actionModeCloseDrawable"
+                android:id="@+id/backBtn"
+                android:background="?attr/actionBarDivider"
+                android:paddingLeft="10dp"
+                android:layout_gravity="center_vertical"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="語音記帳 "
+                android:textSize="18sp"
+                android:id="@+id/title_textView"
+                android:textColor="@android:color/darker_gray"
+                android:paddingLeft="10dp"
+                android:layout_gravity="center_vertical"/>
+
+            <Button
+                android:text="getTodayTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnCheck"
+                android:layout_weight="1"
+                android:background="@android:drawable/menuitem_background"
+                android:textColor="@color/colorLightGray" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPramaryLightDark"
+            android:weightSum="1">
+
+            <TextView
+                android:text="範例：noodles dinner 75\n收入的話類別請說income"
+                android:layout_width="184dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/PStextView"
+                android:background="@color/colorLightGray"
+                android:layout_gravity="center_horizontal"
+                android:textColor="@color/colorPrimaryDark"
+                android:paddingTop="20dp" />
+
+            <ImageButton
+                android:layout_width="274dp"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/recorder"
+                android:id="@+id/recordBtn"
+                android:background="?attr/actionBarItemBackground"
+                android:layout_gravity="center"
+                android:adjustViewBounds="true"
+                android:cropToPadding="false"
+                android:paddingTop="20dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
