@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.gerli.gerli.DatePickerFragment;
 import com.gerli.gerli.R;
+import com.gerli.handsomeboy.gerliUnit.AccountType;
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
@@ -25,7 +26,7 @@ import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 public class ChargeFragment extends Fragment implements DatePickerFragment.PassOnDateSetListener {
 
     private GerliDatabaseManager gerliDatabaseManager;
-
+    private View myView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.fragment_charge, container, false);
+        myView = inflater.inflate(R.layout.fragment_charge, container, false);
 
         TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
         choseDateText.setOnClickListener(new View.OnClickListener() {
@@ -45,17 +46,27 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
                 newFragment.show(getActivity().getFragmentManager(), "datePicker");
             }
         });
+        choseDateText.setText(CalendarManager.getDay());
+        gerliDatabaseManager = new GerliDatabaseManager(getActivity().getApplicationContext());
+        gerliDatabaseManager.insertAccount("嗨", 123, AccountType.BOOK, CalendarManager.getDay(), "jkl");
         Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay());
+
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),
                 R.layout.charge_list, mCursor, new String[] {"Name", "Money"}, new int[]{R.id.item_name, R.id.item_cost}, 0);
         ListView listView = (ListView) myView.findViewById(R.id.charge_list_view);
         listView.setAdapter(adapter);
+
         return myView;
     }
 
     public void passOnDateSet(int year, int month, int day) {
         TextView choseDateText = (TextView) getActivity().findViewById(R.id.choose_date_text);
         choseDateText.setText(CalendarManager.getDay(year, month, day));
+        Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay(year, month, day));
 
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getActivity().getApplicationContext(),
+                R.layout.charge_list, mCursor, new String[] {"Name", "Money"}, new int[]{R.id.item_name, R.id.item_cost}, 0);
+        ListView listView = (ListView) myView.findViewById(R.id.charge_list_view);
+        listView.setAdapter(adapter);
     }
 }
