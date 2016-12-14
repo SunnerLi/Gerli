@@ -8,13 +8,15 @@ import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
+
 /**
  * Created by user on 2016/12/8.
  */
 
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
-    PassOnDateSetListener mListener;
+    private PassOnDateSetListener mListener;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     public interface PassOnDateSetListener {
         void passOnDateSet(int year, int month, int day);
+
     }
 
     @Override
