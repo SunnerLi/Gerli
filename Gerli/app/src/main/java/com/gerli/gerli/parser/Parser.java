@@ -80,7 +80,12 @@ public class Parser {
         }
     }
 
-    // Parsing
+    /**
+     * Simple parsing function
+     *
+     * @param list The parsing string result
+     * @return The result record object
+     */
     private Record _parse(String[] list) {
         Record record = new Record();
 
@@ -90,8 +95,6 @@ public class Parser {
         record.setMoney(list[2]);
         return record;
     }
-
-    //
 
     /**
      * Judge if the string is alpha

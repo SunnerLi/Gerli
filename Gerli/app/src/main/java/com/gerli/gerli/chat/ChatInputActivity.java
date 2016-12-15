@@ -12,6 +12,7 @@ import com.gerli.gerli.R;
 
 import java.util.ArrayList;
 import com.gerli.gerli.parser.MoneyHandler;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 public class ChatInputActivity extends AppCompatActivity {
 
@@ -21,13 +22,22 @@ public class ChatInputActivity extends AppCompatActivity {
     private EditText mEditTextMessage;
     private ChatMessageAdapter mAdapter;
 
+    // SQLite
+    GerliDatabaseManager manager;
+
     // Handler
-    private MoneyHandler moneyHandler = new MoneyHandler();
+    private MoneyHandler moneyHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_input);
+
+        // Get the instance since it cannot define before onCreate
+        manager = new GerliDatabaseManager(this);
+        moneyHandler = new MoneyHandler(manager);
+
+        // get view object
         setView();
     }
 

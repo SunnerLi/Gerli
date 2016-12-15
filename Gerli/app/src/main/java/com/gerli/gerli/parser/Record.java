@@ -2,6 +2,8 @@ package com.gerli.gerli.parser;
 
 import android.util.Log;
 
+import com.gerli.handsomeboy.gerliUnit.AccountType;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -22,7 +24,7 @@ public class Record {
     private static int __money = -1;
 
     // The type of the transection
-    private static int __type = -1;
+    private static AccountType __type;
 
     // The time when the deal happen
     private static String __time = null;
@@ -80,11 +82,87 @@ public class Record {
     }
 
     public void setType(int type) {
-        this.__type = type;
+        setType(AccountType.getString(type));;
     }
 
+    /**
+     * Set the type while the string name map to the integer enumeration
+     *
+     * @param type The type string you want to assign
+     */
     public void setType(String type) {
-        this.__type = Integer.valueOf(type);
+        switch (type){
+            case "breakfast":
+                this.__type = AccountType.BREAKFAST;
+                break;
+            case "lunch":
+                this.__type = AccountType.LUNCH;
+                break;
+            case "dinner":
+                this.__type = AccountType.DINNER;
+                break;
+            case "supper":
+                this.__type = AccountType.SUPPER;
+                break;
+            case "drink":
+                this.__type = AccountType.DRINK;
+                break;
+            case "snack":
+                this.__type = AccountType.SNACK;
+                break;
+            case "clothes":
+                this.__type = AccountType.CLOTHES;
+                break;
+            case "accessory":
+                this.__type = AccountType.ACCESSORY;
+                break;
+            case "shoes":
+                this.__type = AccountType.SHOES;
+                break;
+            case "rent":
+                this.__type = AccountType.RENT_FOR_HOUSE;
+                break;
+            case "supplies":
+                this.__type = AccountType.DAILY_SUPPLIES;
+                break;
+            case "payment":
+                this.__type = AccountType.PAYMENT;
+                break;
+            case "transport":
+                this.__type = AccountType.TRANSPORT;
+                break;
+            case "fuel":
+                this.__type = AccountType.FUEL;
+                break;
+            case "automobile":
+                this.__type = AccountType.AUTOMOBILE;
+                break;
+            case "book":
+                this.__type = AccountType.BOOK;
+                break;
+            case "stationery":
+                this.__type = AccountType.STATIONERY;
+                break;
+            case "art":
+                this.__type = AccountType.ART;
+                break;
+            case "entertainment":
+                this.__type = AccountType.ENTERTAINMENT;
+                break;
+            case "shopping":
+                this.__type = AccountType.SHOPPING;
+                break;
+            case "invest":
+                this.__type = AccountType.INVEST;
+                break;
+            case "gift":
+                this.__type = AccountType.GIFTS;
+                break;
+            case "others":
+            case "income":
+                this.__type = AccountType.OTHERS;
+                break;
+        }
     }
 
     public void setTime(String time) {
@@ -107,7 +185,7 @@ public class Record {
         return this.__money;
     }
 
-    public int getType() {
+    public AccountType getType() {
         return this.__type;
     }
 

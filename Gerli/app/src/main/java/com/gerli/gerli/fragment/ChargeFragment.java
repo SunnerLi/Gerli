@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.gerli.gerli.DatePickerFragment;
 import com.gerli.gerli.NavigationActivity;
 import com.gerli.gerli.R;
+import com.gerli.gerli.VoiceInputActivity;
 import com.gerli.gerli.calculator.NumBtnActivity;
 import com.gerli.gerli.chat.ChatInputActivity;
 import com.gerli.handsomeboy.gerliUnit.AccountType;
@@ -98,7 +99,9 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         voiceInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Enter into voice input mode
+                Intent intent = new Intent();
+                intent.setClass(getContext(), VoiceInputActivity.class);
+                startActivity(intent);
             }
         });
         chatInput.setOnClickListener(new View.OnClickListener() {
