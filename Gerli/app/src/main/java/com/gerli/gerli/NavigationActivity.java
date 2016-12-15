@@ -3,6 +3,7 @@ package com.gerli.gerli;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -15,11 +16,16 @@ import android.widget.Button;
 
 import com.gerli.gerli.calculator.NumBtnActivity;
 import com.gerli.gerli.chat.ChatInputActivity;
+import com.gerli.gerli.fragment.ChargeFragment;
+import com.gerli.gerli.fragment.ChartAnalysisFragment;
+import com.gerli.gerli.fragment.MonthPlanFragment;
+import com.gerli.gerli.fragment.SettingFragment;
+import com.gerli.gerli.fragment.YearPlanFragment;
 
 public class NavigationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    Button buttonInput, chatInput, voiceInput;
+    public Fragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +44,6 @@ public class NavigationActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.getMenu().getItem(0).setChecked(true);
 
-        setButton();
 
         // Check that the activity is using the layout version with
         // the fragment_container FrameLayout
@@ -53,7 +58,7 @@ public class NavigationActivity extends AppCompatActivity
 
             // Create a new Fragment to be placed in the activity layout
             ChargeFragment firstFragment = new ChargeFragment();
-
+            mFragment = firstFragment;
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.fragment_container, firstFragment).commit();
@@ -103,6 +108,7 @@ public class NavigationActivity extends AppCompatActivity
             getSupportActionBar().setTitle(R.string.app_name);
             // Create fragment and give it an argument specifying the article it should show
             ChargeFragment newFragment = new ChargeFragment();
+            mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             // Replace whatever is in the fragment_container view with this fragment,
@@ -114,6 +120,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_month_plan) {
             getSupportActionBar().setTitle(R.string.month_plan);
             MonthPlanFragment newFragment = new MonthPlanFragment();
+            mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_container, newFragment);
@@ -122,6 +129,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_year_plan) {
             getSupportActionBar().setTitle(R.string.year_plan);
             YearPlanFragment newFragment = new YearPlanFragment();
+            mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_container, newFragment);
@@ -130,6 +138,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_chart_analysis) {
             getSupportActionBar().setTitle(R.string.chart_analysis);
             ChartAnalysisFragment newFragment = new ChartAnalysisFragment();
+            mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_container, newFragment);
@@ -138,6 +147,7 @@ public class NavigationActivity extends AppCompatActivity
         } else if (id == R.id.nav_setting) {
             getSupportActionBar().setTitle(R.string.setting);
             SettingFragment newFragment = new SettingFragment();
+            mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
             transaction.replace(R.id.fragment_container, newFragment);
@@ -149,38 +159,4 @@ public class NavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-    /**
-     * Set the function of the button
-     */
-
-    public void setButton(){
-        buttonInput = (Button)findViewById(R.id.buttonInput);
-        voiceInput = (Button)findViewById(R.id.voiceInput);
-        chatInput = (Button)findViewById(R.id.chatInput);
-
-        buttonInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(NavigationActivity.this, NumBtnActivity.class);
-                startActivity(intent);
-            }
-        });
-        voiceInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Enter into voice input mode
-            }
-        });
-        chatInput.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(NavigationActivity.this, ChatInputActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
 }

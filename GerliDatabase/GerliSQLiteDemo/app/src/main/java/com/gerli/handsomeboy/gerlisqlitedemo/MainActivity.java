@@ -113,5 +113,6 @@ public class MainActivity extends AppCompatActivity {
         CalendarManager.getLatestRecordTime();
         databaseManager.getLatestRecordTime();
 
+
     }
 }

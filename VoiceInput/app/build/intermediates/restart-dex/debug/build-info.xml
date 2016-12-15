@@ -5,40 +5,39 @@
     density="xxhdpi"
     format="8"
     plugin-version="2.2.2"
-    timestamp="1481032453316274000"
+    timestamp="1481631435379879000"
     token="-2900176183546620916"
     verifier="COLD_SWAP_REQUESTED" >
 
     <task
         name="javac"
-        duration="230" />
+        duration="0" />
     <task
         name="instant-run-dex"
         duration="0" />
     <task
         name="instant-run-transform"
-        duration="49" />
+        duration="0" />
     <task
         name="verifier"
-        duration="1" />
-
-    <artifact
-        location="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
-        type="DEX" />
+        duration="0" />
 
     <build
-        timestamp="1481032376147577000"
+        timestamp="1481630330121491000"
         verifier="FULL_BUILD_REQUESTED" >
         <artifact
             location="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/outputs/apk/app-debug.apk"
             type="MAIN" />
     </build>
     <build
-        timestamp="1481032453316274000"
+        timestamp="1481631353024190000"
         verifier="COLD_SWAP_REQUESTED" >
         <artifact
-            location="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_0/classes.dex"
+            location="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/5/slice_6/classes.dex"
             type="DEX" />
     </build>
+    <build
+        timestamp="1481631435379879000"
+        verifier="COLD_SWAP_REQUESTED" />
 
 </instant-run>
