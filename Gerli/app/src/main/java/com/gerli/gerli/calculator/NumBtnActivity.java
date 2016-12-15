@@ -288,6 +288,9 @@ public class NumBtnActivity extends AppCompatActivity {
             }
         }
 
+        /**
+         * Enter the next activity of button input process
+         */
         void enterResult(){
             if(cal){
                 calculate(5);
