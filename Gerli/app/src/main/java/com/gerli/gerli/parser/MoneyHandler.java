@@ -60,6 +60,7 @@ public class MoneyHandler {
      * @param record The record object you want to store
      */
     public void save2SQL(Record record){
+        record.dump();
         manager.insertAccount(record.getName(),
             record.getMoney(),
             record.getType(),
@@ -68,5 +69,9 @@ public class MoneyHandler {
 
     public void save2Cloud(){
         // Haven't implement
+    }
+
+    public String getSentence(){
+        return parser.getSentence();
     }
 }

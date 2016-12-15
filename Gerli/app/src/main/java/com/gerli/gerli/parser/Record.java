@@ -24,7 +24,7 @@ public class Record {
     private static int __money = -1;
 
     // The type of the transection
-    private static AccountType __type;
+    private static AccountType __type = AccountType.OTHERS;
 
     // The time when the deal happen
     private static String __time = null;

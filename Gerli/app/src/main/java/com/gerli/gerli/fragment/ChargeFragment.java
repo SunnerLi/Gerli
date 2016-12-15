@@ -56,7 +56,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         });
         choseDateText.setText(CalendarManager.getDay());
         gerliDatabaseManager = new GerliDatabaseManager(getContext());
-        gerliDatabaseManager.insertAccount("嗨", 123, AccountType.BOOK, CalendarManager.getDay(), "jkl");
+        //gerliDatabaseManager.insertAccount("嗨", 123, AccountType.BOOK, CalendarManager.getDay(), "jkl");
         Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay());
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(), R.layout.charge_list, mCursor,
