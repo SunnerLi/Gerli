@@ -102,10 +102,10 @@ public class VoiceInputActivity extends AppCompatActivity {
         }
     }
 
-    private ImageButton.OnClickListener back = new ImageButton.OnClickListener(){
+    private Button.OnClickListener back = new Button.OnClickListener(){
         public void onClick(View v){
             //回到上一頁畫面
-
+            VoiceInputActivity.this.finish();
         }
     };
 }
