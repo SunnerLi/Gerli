@@ -52,7 +52,7 @@ public class RemoteParser {
 
     public RemoteParser(){
         // SERVER_IP = MainActivity.addr.getText().toString();
-        SERVER_IP = "192.168.0.102";
+        // SERVER_IP = "192.168.0.102";
     }
 
     // Flag to control if precessing in the remote side
