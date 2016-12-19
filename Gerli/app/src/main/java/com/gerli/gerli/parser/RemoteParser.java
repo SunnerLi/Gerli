@@ -47,7 +47,7 @@ public class RemoteParser {
     String parseString;
 
     // Parsing result
-    public Record recordResult = new Record();
+    public Record recordResult = null;
     public int sentimentResult = -1;
 
     public RemoteParser(){
