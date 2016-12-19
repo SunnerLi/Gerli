@@ -21,6 +21,7 @@
         <activity android:name=".chat.ChatInputActivity"></activity>
         <activity android:name=".calculator.NumBtnActivity"></activity>
         <activity android:name=".btnInput.BtnInputActivity"></activity>
+        <activity android:name=".VoiceInputActivity"></activity>
     </application>
 
 </manifest>

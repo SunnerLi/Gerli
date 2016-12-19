@@ -11,12 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gerli.gerli.DatePickerFragment;
 import com.gerli.gerli.NavigationActivity;
 import com.gerli.gerli.R;
+import com.gerli.gerli.VoiceInputActivity;
 import com.gerli.gerli.calculator.NumBtnActivity;
 import com.gerli.gerli.chat.ChatInputActivity;
 import com.gerli.handsomeboy.gerliUnit.AccountType;
@@ -32,7 +34,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     private GerliDatabaseManager gerliDatabaseManager;
     private View myView;
 
-    Button buttonInput, chatInput, voiceInput;
+    ImageButton buttonInput, chatInput, voiceInput;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         });
         choseDateText.setText(CalendarManager.getDay());
         gerliDatabaseManager = new GerliDatabaseManager(getContext());
-        gerliDatabaseManager.insertAccount("嗨", 123, AccountType.BOOK, CalendarManager.getDay(), "jkl");
+        //gerliDatabaseManager.insertAccount("嗨", 123, AccountType.BOOK, CalendarManager.getDay(), "jkl");
         Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay());
 
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(), R.layout.charge_list, mCursor,
@@ -83,9 +85,9 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
      */
 
     public void setButton(){
-        buttonInput = (Button) myView.findViewById(R.id.buttonInput);
-        voiceInput = (Button) myView.findViewById(R.id.voiceInput);
-        chatInput = (Button) myView.findViewById(R.id.chatInput);
+        buttonInput = (ImageButton) myView.findViewById(R.id.buttonInput);
+        voiceInput = (ImageButton) myView.findViewById(R.id.voiceInput);
+        chatInput = (ImageButton) myView.findViewById(R.id.chatInput);
 
         buttonInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,7 +100,9 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         voiceInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Enter into voice input mode
+                Intent intent = new Intent();
+                intent.setClass(getContext(), VoiceInputActivity.class);
+                startActivity(intent);
             }
         });
         chatInput.setOnClickListener(new View.OnClickListener() {

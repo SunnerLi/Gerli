@@ -1,5 +1,7 @@
 package com.gerli.gerli.chat;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -12,6 +14,7 @@ import com.gerli.gerli.R;
 
 import java.util.ArrayList;
 import com.gerli.gerli.parser.MoneyHandler;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 public class ChatInputActivity extends AppCompatActivity {
 
@@ -21,13 +24,22 @@ public class ChatInputActivity extends AppCompatActivity {
     private EditText mEditTextMessage;
     private ChatMessageAdapter mAdapter;
 
+    // SQLite
+    GerliDatabaseManager manager;
+
     // Handler
-    private MoneyHandler moneyHandler = new MoneyHandler();
+    private MoneyHandler moneyHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_input);
+
+        // Get the instance since it cannot define before onCreate
+        manager = new GerliDatabaseManager(this);
+        moneyHandler = new MoneyHandler(manager);
+
+        // get view object
         setView();
     }
 
@@ -50,7 +62,7 @@ public class ChatInputActivity extends AppCompatActivity {
                     return;
                 }
                 sendMessage(message);
-                mEditTextMessage.setText("");
+                // mEditTextMessage.setText("");
             }
         });
     }
@@ -60,12 +72,28 @@ public class ChatInputActivity extends AppCompatActivity {
      *
      * @param message the message you want to assign
      */
-    private void sendMessage(String message) {
+    private void sendMessage(final String message) {
         ChatMessage chatMessage = new ChatMessage(message, true, false);
         mAdapter.add(chatMessage);
 
-        mimicOtherMessage("feed back - " + message);
+        // mimicOtherMessage("feed back - " + message);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                moneyHandler.work(message);
+                responseHandler.sendEmptyMessage(0);
+            }
+        }.start();
     }
+
+    Handler responseHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            mimicOtherMessage(moneyHandler.getSentence());
+        }
+    };
 
     /**
      * Set the opposite message

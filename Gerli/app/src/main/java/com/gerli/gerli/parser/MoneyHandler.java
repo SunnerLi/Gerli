@@ -1,14 +1,19 @@
 package com.gerli.gerli.parser;
 
 
+import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
+
 /**
  * Created by sunner on 10/28/16.
  */
 public class MoneyHandler {
     Parser parser = null;
+    GerliDatabaseManager manager;
 
-    public MoneyHandler(){
+    public MoneyHandler(GerliDatabaseManager mana){
         parser = new Parser();
+        manager = mana;
     }
 
     /**
@@ -43,31 +48,30 @@ public class MoneyHandler {
         // Save the result
         save2SQL(record);
 
-        // 兔曹 (Haven't implement)
-        voiceRemind();
-
         // Save into cloud service
         save2Cloud();
-
-        // Post the article
-        postArticle();
 
         return true;
     }
 
+    /**
+     * Save the record object into SQLite
+     *
+     * @param record The record object you want to store
+     */
     public void save2SQL(Record record){
-        // Haven't implement
-    }
-
-    public void voiceRemind(){
-        // Haven't implement
+        record.dump();
+        manager.insertAccount(record.getName(),
+            record.getMoney(),
+            record.getType(),
+            CalendarManager.getTime(),null);
     }
 
     public void save2Cloud(){
         // Haven't implement
     }
 
-    public void postArticle(){
-        // Haven't implement
+    public String getSentence(){
+        return parser.getSentence();
     }
 }

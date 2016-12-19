@@ -141,4 +141,7 @@ public class Parser {
         while (remoteParser.getSemaphore() == 0) ;
         return parseResult;
     }
+    public String getSentence(){
+        return sentence;
+    }
 }
