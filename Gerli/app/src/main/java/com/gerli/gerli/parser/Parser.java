@@ -80,12 +80,7 @@ public class Parser {
         }
     }
 
-    /**
-     * Simple parsing function
-     *
-     * @param list The parsing string result
-     * @return The result record object
-     */
+    // Parsing
     private Record _parse(String[] list) {
         Record record = new Record();
 
@@ -95,6 +90,8 @@ public class Parser {
         record.setMoney(list[2]);
         return record;
     }
+
+    //
 
     /**
      * Judge if the string is alpha
@@ -142,40 +139,9 @@ public class Parser {
      */
     public Record get() {
         while (remoteParser.getSemaphore() == 0) ;
-        if (remoteParser.recordResult == null)
-            return parseResult;
-        else
-            return remoteParser.recordResult;
+        return parseResult;
     }
-
-    /**
-     * Wrapper function to get the string by the sentiment value
-     *
-     * @return The string which correspond to the sentiment value
-     */
-    public String getSentence() {
-        while (remoteParser.getSemaphore() == 0) ;
-        if (remoteParser.recordResult == null)
-            return getSentence(Math.random() > 0.5 ? 1 : 0);
-        else
-            return getSentence(remoteParser.sentimentResult);
-    }
-
-    /**
-     * Get the sentiment string by the sentiment value
-     *
-     * @param sentiment The value of the sentiment
-     * @return The target string
-     */
-    public String getSentence(int sentiment){
-        switch (sentiment){
-            case 0:
-                return new Sentences().getCritical();
-            case 1:
-                return new Sentences().getEncourage();
-            default:
-                break;
-        }
-        return "null string exception";
+    public String getSentence(){
+        return sentence;
     }
 }

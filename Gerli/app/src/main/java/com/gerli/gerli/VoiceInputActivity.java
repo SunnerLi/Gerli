@@ -19,12 +19,12 @@ import java.util.Locale;
 
 public class VoiceInputActivity extends AppCompatActivity {
 
-    ImageButton recordBtn;//語音輸入btn
+    Button recordBtn;//語音輸入btn
     String resultStr;
     MoneyHandler moneyHandler; ;
     private static final int RQS_VOICE_RECOGNITION = 1;
     Button btCheck;//檢查今日收入支出
-    ImageButton backBtn;//回上一頁
+    Button backBtn;//回上一頁
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +33,8 @@ public class VoiceInputActivity extends AppCompatActivity {
         final GerliDatabaseManager manager = new GerliDatabaseManager(this);
         moneyHandler = new MoneyHandler(manager);
         btCheck = (Button)findViewById(R.id.btnCheck);
-        recordBtn = (ImageButton)findViewById(R.id.recordBtn);
-        backBtn = (ImageButton)findViewById(R.id.backBtn);
+        recordBtn = (Button) findViewById(R.id.recordBtn);
+        backBtn = (Button)findViewById(R.id.backBtn);
         backBtn.setOnClickListener(back);
         recordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
