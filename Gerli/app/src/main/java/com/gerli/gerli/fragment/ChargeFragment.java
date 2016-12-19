@@ -114,4 +114,18 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
             }
         });
     }
+
+    public void updateListView(){
+        Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay());
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(), R.layout.charge_list, mCursor,
+                new String[] {"Name", "Money"}, new int[]{R.id.item_name, R.id.item_cost}, 0);
+        ListView listView = (ListView) myView.findViewById(R.id.charge_list_view);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateListView();
+    }
 }
