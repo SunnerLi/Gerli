@@ -12,6 +12,7 @@ import android.widget.SimpleCursorAdapter;
 
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
 import com.gerli.handsomeboy.gerliUnit.Table;
+import com.gerli.handsomeboy.gerliUnit.UnitPackage;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
 
 import java.util.Calendar;
@@ -112,6 +113,10 @@ public class MainActivity extends AppCompatActivity {
         CalendarManager calendarManager = new CalendarManager();
         CalendarManager.getLatestRecordTime();
         databaseManager.getLatestRecordTime();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2016,10,22);
+        UnitPackage.BarChartPackage barChartPackage = databaseManager.getBarChartByWeek(calendar);
 
 
     }

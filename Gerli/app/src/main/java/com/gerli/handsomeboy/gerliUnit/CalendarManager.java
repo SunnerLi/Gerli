@@ -71,7 +71,7 @@ public class CalendarManager {
 
     public static String getDay(int year,int month,int day){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        calendar.set(year,month - 1,day);
+        calendar.set(year,month-1,day);
         return dayDateFormat.format(calendar.getTimeInMillis() + rawOffSet);
     }
 

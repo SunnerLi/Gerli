@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -38,14 +39,16 @@
                 <GridView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:numColumns="auto_fit"/>
+                    android:numColumns="auto_fit"
+                    android:id="@+id/gridTypeList" />
             </LinearLayout>
         </ScrollView>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:onClick="desOnClick">
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -70,7 +73,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:onClick="inOutOnClick">
 
             <ImageView
                 android:layout_width="wrap_content"

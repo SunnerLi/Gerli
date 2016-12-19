@@ -26,7 +26,7 @@ import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
  * Created by HandsomeBoy on 2016/10/27.
  */
 public class GerliDatabaseManager {
-    private static final int VERSION = 7;
+    private static final int VERSION = 9;
     private final String DatabaseName = "Gerli_DB";
 
     //操作Database的內部成員
@@ -79,6 +79,11 @@ public class GerliDatabaseManager {
         Cursor cursor =  getCursor_expenseByWeek(weekList.get(0),weekList.get(6));    //0為禮拜天,1為禮拜一,...,6為禮拜六
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getBarChartByWeek : accountTable no data");
+            return null;
+        }
+
         String[] arr = weekList.toArray(new String[weekList.size()]);
         cursor.moveToFirst();
         for (int i = 0,j=0; i < row_num; i++){
@@ -109,6 +114,11 @@ public class GerliDatabaseManager {
         Cursor cursor =  getCursor_expenseByYear(yearList.get(0),yearList.get(11));    //0為1月,1為二月,...,11為12月
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getBarChartByYear : accountTable no data");
+            return null;
+        }
+
         String[] arr = yearList.toArray(new String[yearList.size()]);
         cursor.moveToFirst();
         for (int i = 0,j=0; i < row_num; i++){
@@ -160,6 +170,11 @@ public class GerliDatabaseManager {
         Cursor cursor =  getCursor_expenseRateByDay(calendarManager.getDay(day),limit);
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getPieChartByDay : accountTable no data");
+            return null;
+        }
+
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
@@ -187,6 +202,11 @@ public class GerliDatabaseManager {
         Cursor cursor =  getCursor_expenseRateByWeek(dayOfWeek,limit);
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getPieChartByWeek : accountTable no data");
+            return null;
+        }
+
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
@@ -214,6 +234,11 @@ public class GerliDatabaseManager {
         Cursor cursor =  getCursor_expenseRateByMonth(calendarManager.getMonth(dayOfMonth),limit);
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getPieChartByMonth : accountTable no data");
+            return null;
+        }
+
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
@@ -241,6 +266,11 @@ public class GerliDatabaseManager {
         Cursor cursor =  getCursor_expenseRateByYear(calendarManager.getYear(dayOfYear),limit);
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getPieChartByYear : accountTable no data");
+            return null;
+        }
+
         expenseRateArr = new float[row_num];
         cursor.moveToFirst();
         for (int i = 0; i < row_num; i++){
@@ -262,6 +292,11 @@ public class GerliDatabaseManager {
         Cursor cursor = getCursor_yearPlan(year,month);
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getYearPlan : accountTable no data");
+            return null;
+        }
+
         int[] id = new int[row_num];
         String[] description = new String[row_num];
 
@@ -279,6 +314,11 @@ public class GerliDatabaseManager {
         Cursor cursor = getCursor_monthPlan(year,month,day);
 
         int row_num = cursor.getCount();
+        if(row_num < 1 ){
+            Log.d("DatabaseData","getYearPlan : accountTable no data");
+            return null;
+        }
+
         int[] id = new int[row_num];
         String[] description = new String[row_num];
 
@@ -309,6 +349,10 @@ public class GerliDatabaseManager {
                 " ORDER BY Time DESC" +
                 " LIMIT " + 1 ,null);
 
+        if(cursor.getCount() < 1 ){
+            Log.d("DatabaseData","getLatestRecordTime : accountTable no data");
+            return null;
+        }
 
         cursor.moveToFirst();
         String timeStr = cursor.getString(0);
@@ -685,6 +729,20 @@ public class GerliDatabaseManager {
 
     }
 
+    public boolean updateMonthPlan(String description,int id){
+        ContentValues values = new ContentValues();
+        values.put("Description",description);
+
+        return db.update(getTableName(Table.MONTH_PLAN),values,"_id=" + id,null) != -1;
+    }
+
+    public boolean updateYearPlan(String description,int id){
+        ContentValues values = new ContentValues();
+        values.put("Description",description);
+
+        return db.update(getTableName(Table.YEAR_PLAN),values,"_id=" + id,null) != -1;
+    }
+
     public boolean delete(Table table,long id) {
         String tableStr = getTableName(table);
         String id_str = Long.toString(id);
@@ -810,8 +868,16 @@ class SQLiteDB extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.d("DatabasePosition","DataBase Upgrade : Begin");
 
-        final String drop = "DROP TABLE " + accountTable;
-        db.execSQL(drop);
+        final String dropAccount = "DROP TABLE " + accountTable;
+        db.execSQL(dropAccount);
+        onCreate(db);
+
+        final String dropYear = "DROP TABLE " + yearTable;
+        db.execSQL(dropYear);
+        onCreate(db);
+
+        final String dropMonth = "DROP TABLE " + monthTable;
+        db.execSQL(dropMonth);
         onCreate(db);
 
         Log.d("DatabasePosition","DataBase Upgrade : Finish");
