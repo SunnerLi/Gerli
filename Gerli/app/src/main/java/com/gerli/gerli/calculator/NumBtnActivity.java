@@ -13,6 +13,8 @@ import com.gerli.gerli.R;
 import com.gerli.gerli.btnInput.BtnInputActivity;
 
 public class NumBtnActivity extends AppCompatActivity {
+    final static int BUTTON_INPUT_REQUEST = 1;
+
     final double eps = 1e-10;
 
     TextView txtDollar;
@@ -28,6 +30,7 @@ public class NumBtnActivity extends AppCompatActivity {
     Button btnAdd,btnSub,btnMul,btnDiv;
     Button btnAC,btnOK,btnDot,btnBack;
 
+    boolean inOut = true;   //true代表支出
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -232,6 +235,7 @@ public class NumBtnActivity extends AppCompatActivity {
         }
 
         void calculate(int mode){
+            btnOK.setText("=");
             dotDigit = 0;
             dot = false;
             cal = true;
@@ -273,15 +277,19 @@ public class NumBtnActivity extends AppCompatActivity {
             switch (mode){
                 case 1:
                     add = true;
+                    txtDollar.setText(txtDollar.getText().toString() + "+");
                     break;
                 case 2:
                     sub = true;
+                    txtDollar.setText(txtDollar.getText().toString() + "-");
                     break;
                 case 3:
                     mul = true;
+                    txtDollar.setText(txtDollar.getText().toString() + "*");
                     break;
                 case 4:
                     div = true;
+                    txtDollar.setText(txtDollar.getText().toString() + "/");
                     break;
                 default:
                     break;
@@ -297,15 +305,17 @@ public class NumBtnActivity extends AppCompatActivity {
                 currentNT = tmpNT;
                 cal = false;
                 res = true;
+                btnOK.setText("OK");
             }
             else{
                 Intent intent = new Intent(NumBtnActivity.this, BtnInputActivity.class);
 
                 Bundle bundle = new Bundle();
                 bundle.putDouble("DOLLAR",currentNT);
+                bundle.putBoolean("INOUT",inOut);
 
                 intent.putExtras(bundle);
-                startActivity(intent);
+                startActivityForResult(intent,BUTTON_INPUT_REQUEST);
             }
         }
 
@@ -313,4 +323,28 @@ public class NumBtnActivity extends AppCompatActivity {
             return num - Math.floor(num) >= eps;
         }
     };
+
+    public void inOutTxtClick(View view) {
+        TextView textView = (TextView)view;
+        if(inOut){
+            textView.setText("收入");
+            inOut = false;
+        }
+        else{
+            textView.setText("支出");
+            inOut = true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case BUTTON_INPUT_REQUEST:
+                if(resultCode == RESULT_OK){
+                    finish();
+                }
+                break;
+        }
+    }
 }

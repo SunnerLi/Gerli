@@ -15,100 +15,115 @@
     <TextView
         android:text="0"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:id="@+id/btn_txtdollar"
         android:textSize="60sp"
         android:textAlignment="viewEnd" />
 
-    <LinearLayout
-        android:orientation="vertical"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_weight="1">
 
-
-        <ScrollView
+        <GridView
             android:layout_width="match_parent"
+            android:numColumns="auto_fit"
+            android:id="@+id/gridTypeList"
+            android:layout_height="120dp"
+            android:background="@drawable/btn_input_border"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="desOnClick"
+        android:background="@drawable/btn_input_border"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:id="@+id/txt_des"
+            android:textSize="36sp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" >
+        <ImageView
+            app:srcCompat="@drawable/gerli_des"
+            android:id="@+id/img_des"
+            android:background="@drawable/btn_input_border"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="15dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
 
-                <GridView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:numColumns="auto_fit"
-                    android:id="@+id/gridTypeList" />
-            </LinearLayout>
-        </ScrollView>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:text="描述"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="desOnClick">
+            android:id="@+id/textViewDes"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/img_des"
+            android:textSize="24sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
-                android:id="@+id/img_des"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true" />
+    </RelativeLayout>
 
-            <TextView
-                android:text="描述"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txt_des"
-                android:textSize="36sp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true" />
-        </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:onClick="inOutOnClick"
+        android:background="@drawable/btn_input_border"
+        android:layout_marginBottom="10dp">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:srcCompat="@drawable/gerli_money"
+            android:id="@+id/img_InOut"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/btn_input_border"
+            android:layout_marginLeft="15dp" />
+
+        <TextView
+            android:text="支出"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="inOutOnClick">
+            android:id="@+id/txt_InOut"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:textSize="36sp" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@mipmap/ic_launcher"
-                android:id="@+id/img_InOut"
-                android:layout_centerInParent="true"
-                android:layout_alignParentLeft="true" />
-
-            <TextView
-                android:text="支出"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/txt_InOut"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:textSize="36sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/img_InOut"
+            android:id="@+id/textViewInOut"
+            android:textSize="24sp"
+            android:text="支出/收入" />
 
-            <Button
-                android:text="OK"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/btn_enter"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true" />
-        </RelativeLayout>
+    </RelativeLayout>
 
-    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
+
+        <Button
+            android:text="OK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_enter"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
 
 
 </LinearLayout>

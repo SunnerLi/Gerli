@@ -24,81 +24,86 @@ public enum AccountType{
     }
 
     public static String getString(int type){
+
+        return AccountType.getString(AccountType.getType(type));
+    }
+
+    public static AccountType getType(int type){
         AccountType accountType;
         switch (type){
-            case 1:
+            case 0:
                 accountType = BREAKFAST;
                 break;
-            case 2:
+            case 1:
                 accountType = LUNCH;
                 break;
-            case 3:
+            case 2:
                 accountType = DINNER;
                 break;
-            case 4:
+            case 3:
                 accountType = SUPPER;
                 break;
-            case 5:
+            case 4:
                 accountType = DRINK;
                 break;
-            case 6:
+            case 5:
                 accountType = SNACK;
                 break;
-            case 7:
+            case 6:
                 accountType = CLOTHES;
                 break;
-            case 8:
+            case 7:
                 accountType = ACCESSORY;
                 break;
-            case 9:
+            case 8:
                 accountType = SHOES;
                 break;
-            case 10:
+            case 9:
                 accountType = RENT_FOR_HOUSE;
                 break;
-            case 11:
+            case 10:
                 accountType = DAILY_SUPPLIES;
                 break;
-            case 12:
+            case 11:
                 accountType = PAYMENT;
                 break;
-            case 13:
+            case 12:
                 accountType = TRANSPORT;
                 break;
-            case 14:
+            case 13:
                 accountType = FUEL;
                 break;
-            case 15:
+            case 14:
                 accountType = AUTOMOBILE;
                 break;
-            case 16:
+            case 15:
                 accountType = BOOK;
                 break;
-            case 17:
+            case 16:
                 accountType = STATIONERY;
                 break;
-            case 18:
+            case 17:
                 accountType = ART;
                 break;
-            case 19:
+            case 18:
                 accountType = ENTERTAINMENT;
                 break;
-            case 20:
+            case 19:
                 accountType = SHOPPING;
                 break;
-            case 21:
+            case 20:
                 accountType = INVEST;
                 break;
-            case 22:
+            case 21:
                 accountType = GIFTS;
                 break;
-            case 23:
+            case 22:
                 accountType = OTHERS;
                 break;
             default:
-                accountType = null;
+                accountType = OTHERS;
         }
-        return AccountType.getString(accountType);
+        return accountType;
     }
 
     public static String getString(AccountType type){
@@ -174,7 +179,7 @@ public enum AccountType{
                 typeName = "其他";
                 break;
             default:
-                typeName = null;
+                typeName = "其他";
         }
         return typeName;
     }

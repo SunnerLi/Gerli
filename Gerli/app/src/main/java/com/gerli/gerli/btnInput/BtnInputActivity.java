@@ -3,6 +3,7 @@ package com.gerli.gerli.btnInput;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -17,14 +18,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gerli.gerli.R;
+import com.gerli.gerli.calculator.NumBtnActivity;
+import com.gerli.handsomeboy.gerliUnit.AccountType;
+import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener{
-    double dollar = 0.0;
+public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnMenuItemClickListener,DesDialFragListener{
+
     String[] gridCol = {"gridImage","gridTxt"};
 
     TextView txtDollar;
@@ -33,18 +38,31 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
     TextView txt_InOut;
     Button btn_enter;
 
-
     String name;
+    double dollar = 0.0;
+    int type = -1;//-1沒有定義類別
     boolean isExpense = true;
 
 
     int[] image = {
-            R.drawable.gerli_ui_gerli,R.drawable.gerli_ui_charge,R.drawable.gerli_ui_chart_analysis,
-            R.drawable.gerli_ui_setting,R.drawable.gerli_ui_month_plan,R.drawable.gerli_ui_year_plan
+            R.drawable.gerli_type_breakfast,R.drawable.gerli_type_lunch,R.drawable.gerli_type_dinner,
+            R.drawable.gerli_type_supper,R.drawable.gerli_type_drink,R.drawable.gerli_type_snack,
+            R.drawable.gerli_type_clothes,R.drawable.gerli_type_accessory,R.drawable.gerli_type_shoes,
+            R.drawable.gerli_type_rent,R.drawable.gerli_type_dailysupply,R.drawable.gerli_type_payment,
+            R.drawable.gerli_type_transport,R.drawable.gerli_type_fuel,R.drawable.gerli_type_car,
+            R.drawable.gerli_type_book,R.drawable.gerli_type_stationery,R.drawable.gerli_type_art,
+            R.drawable.gerli_type_entertainment,R.drawable.gerli_type_shopping,R.drawable.gerli_type_invest,
+            R.drawable.gerli_type_gift,R.drawable.gerli_type_others
     };
+    /*
     String[] imgText = {
+            "gerli","記帳","分析","設定","月計畫","年計畫",
+            "gerli","記帳","分析","設定","月計畫","年計畫",
+            "gerli","記帳","分析","設定","月計畫","年計畫",
             "gerli","記帳","分析","設定","月計畫","年計畫"
     };
+    */
+    String[] imgText;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,14 +71,31 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
         Intent intent = getIntent();
         Bundle bundle =  intent.getExtras();
         dollar = bundle.getDouble("DOLLAR");
+        isExpense = bundle.getBoolean("INOUT");
 
         txtDollar = (TextView)findViewById(R.id.btn_txtdollar);
-        txtDollar.setText(String.valueOf(dollar));
+        txtDollar.setText(String.valueOf(dollar) + "NT");
         txt_des = (TextView)findViewById(R.id.txt_des);
         txt_InOut = (TextView)findViewById(R.id.txt_InOut);
+        if(isExpense){
+            txt_InOut.setText("支出");
+        }
+        else{
+            isExpense = false;
+            txt_InOut.setText("收入");
+        }
         btn_enter = (Button)findViewById(R.id.btn_enter);
+        btn_enter.setOnClickListener(listener);
 
+        setGridString();
         createGridType();
+    }
+
+    void setGridString(){
+        imgText = new String[image.length];
+        for(int i = 0;i<image.length;i++){
+            imgText[i] = AccountType.getString(i);
+        }
     }
 
     void createGridType(){
@@ -90,12 +125,16 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
                 view.setBackgroundColor(Color.GRAY);
                 adapterView.setTag(view);
 
+                type = i;
                 Toast.makeText(BtnInputActivity.this,imgText[i],Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     public void desOnClick(View view) {
+        FragmentManager fm = getSupportFragmentManager();
+        BtnInput_describeFragment fragment = BtnInput_describeFragment.newInstance(txt_des.getText().toString());
+        fragment.show(fm,"BtnInput_describeFragment");
     }
 
     public void inOutOnClick(View view) {
@@ -104,6 +143,35 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
         popup.inflate(R.menu.gerli_type_popmenu);
         popup.show();
     }
+
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(txt_des.getText().toString().length()==0){
+                Toast.makeText(BtnInputActivity.this,"請輸入描述",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            name = txt_des.getText().toString();
+            if(type == -1){
+                Toast.makeText(BtnInputActivity.this,"請選擇類別",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(!isExpense){
+                dollar = (-dollar);
+            }
+
+            GerliDatabaseManager db = new GerliDatabaseManager(BtnInputActivity.this);
+            boolean e = db.insertAccount(name,(int)dollar,AccountType.getType(type), CalendarManager.getTime(),"");
+            if(!e){
+                Toast.makeText(BtnInputActivity.this,"資料庫新增資料失敗!",Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            Intent intent = new Intent(BtnInputActivity.this, NumBtnActivity.class);
+            setResult(RESULT_OK,intent);
+            finish();
+        }
+    };
 
     @Override
     public boolean onMenuItemClick(MenuItem menuItem) {
@@ -117,5 +185,10 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
                 txt_InOut.setText("收入");
                 break; }
         return false;
+    }
+
+    @Override
+    public void onFinishEditDescription(String inputText) {
+        txt_des.setText(inputText);
     }
 }
