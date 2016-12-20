@@ -34,7 +34,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     private GerliDatabaseManager gerliDatabaseManager;
     private View myView;
 
-    Button buttonInput, chatInput, voiceInput;
+    ImageButton buttonInput, chatInput, voiceInput;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,9 +85,9 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
      */
 
     public void setButton(){
-        buttonInput = (Button) myView.findViewById(R.id.buttonInput);
-        voiceInput = (Button) myView.findViewById(R.id.voiceInput);
-        chatInput = (Button) myView.findViewById(R.id.chatInput);
+        buttonInput = (ImageButton) myView.findViewById(R.id.buttonInput);
+        voiceInput = (ImageButton) myView.findViewById(R.id.voiceInput);
+        chatInput = (ImageButton) myView.findViewById(R.id.chatInput);
 
         buttonInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,5 +113,19 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
                 startActivity(intent);
             }
         });
+    }
+
+    public void updateListView(){
+        Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay());
+        SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(), R.layout.charge_list, mCursor,
+                new String[] {"Name", "Money"}, new int[]{R.id.item_name, R.id.item_cost}, 0);
+        ListView listView = (ListView) myView.findViewById(R.id.charge_list_view);
+        listView.setAdapter(adapter);
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        updateListView();
     }
 }
