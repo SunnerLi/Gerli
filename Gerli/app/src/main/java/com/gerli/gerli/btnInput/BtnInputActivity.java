@@ -126,7 +126,7 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
                 adapterView.setTag(view);
 
                 type = i;
-                Toast.makeText(BtnInputActivity.this,imgText[i],Toast.LENGTH_SHORT).show();
+                //Toast.makeText(BtnInputActivity.this,imgText[i],Toast.LENGTH_SHORT).show();
             }
         });
     }
