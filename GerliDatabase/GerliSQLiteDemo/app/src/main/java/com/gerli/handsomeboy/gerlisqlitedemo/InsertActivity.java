@@ -41,7 +41,7 @@ public class InsertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myDB = new SQLiteDB(this,DatabaseName,null,7);
+        myDB = new SQLiteDB(this,DatabaseName,null,9);
         db = myDB.getWritableDatabase();
 
         ViewSetting();
@@ -82,7 +82,7 @@ public class InsertActivity extends AppCompatActivity {
                 */
                 //Log.d("DatabaseDebug","Insert event: timestamp = " + timestamp.toString());
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-                Timestamp timestamp = new Timestamp(calendar.getTimeInMillis() + TimeZone.getTimeZone("GMT+8:00").getRawOffset());
+                Timestamp timestamp = new Timestamp(calendar.getTimeInMillis());
 
                 timestamp.toString();
 

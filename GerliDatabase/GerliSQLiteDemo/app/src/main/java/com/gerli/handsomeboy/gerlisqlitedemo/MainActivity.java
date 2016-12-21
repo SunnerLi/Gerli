@@ -78,6 +78,17 @@ public class MainActivity extends AppCompatActivity {
         Cursor cursor = databaseManager.getCursor_todayItem();
         //Cursor cursor = databaseManager.getCursor_total(Info_type.EXPENSE);
 
+        cursor.moveToFirst();
+        for(int i = 0; i < cursor.getCount();i++){
+            cursor.getInt(0);
+            cursor.getString(1);
+            cursor.getInt(2);
+            cursor.getInt(3);
+            cursor.getString(4);
+            cursor.getString(5);
+        }
+
+
         if(listView.getAdapter() == null){
             adapter = new SimpleCursorAdapter(this
                     ,R.layout.query_list_account

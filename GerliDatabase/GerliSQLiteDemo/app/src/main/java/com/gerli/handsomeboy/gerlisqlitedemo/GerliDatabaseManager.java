@@ -481,7 +481,7 @@ public class GerliDatabaseManager {
     }
 
     public Cursor getCursor_todayItem(){
-        String today = calendarManager.getDay();
+        String today = CalendarManager.getDay();
 
         Log.d("DatabaseDebug","getCursor_todayItem : Today = " + today);
 
