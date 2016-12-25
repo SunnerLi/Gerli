@@ -9,22 +9,25 @@ import android.view.ViewGroup;
 
 import com.gerli.gerli.R;
 
+import noman.weekcalendar.WeekCalendar;
+
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DAY extends Fragment {
-
-
     public DAY() {
         // Required empty public constructor
     }
-
-
+    private WeekCalendar weekCalendar;
+    private View myView;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_day, container, false);
+        myView = inflater.inflate(R.layout.fragment_day, container, false);
+
+        //init();//當按下一個日期
+        return  myView;
     }
 
 }

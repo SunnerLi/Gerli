@@ -14,7 +14,7 @@ import com.gerli.gerli.R;
  */
 public class YEAR extends Fragment {
 
-
+    private View myView;
     public YEAR() {
         // Required empty public constructor
     }
@@ -24,7 +24,8 @@ public class YEAR extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_year, container, false);
+        myView = inflater.inflate(R.layout.fragment_year, container, false);
+        return  myView;
     }
 
 }

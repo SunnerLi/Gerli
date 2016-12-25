@@ -14,17 +14,19 @@ import com.gerli.gerli.R;
  */
 public class MONTH extends Fragment {
 
+    private View myView;
 
     public MONTH() {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_month, container, false);
+        myView = inflater.inflate(R.layout.fragment_month, container, false);
+
+        return  myView;
     }
 
 }

@@ -14,7 +14,7 @@ import com.gerli.gerli.R;
  * A simple {@link Fragment} subclass.
  */
 public class YearPlanFragment extends Fragment {
-
+    private View myView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +24,8 @@ public class YearPlanFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_year_plan, container, false);
+       myView = inflater.inflate(R.layout.fragment_year_plan, container, false);
+        return  myView;
     }
 
 }

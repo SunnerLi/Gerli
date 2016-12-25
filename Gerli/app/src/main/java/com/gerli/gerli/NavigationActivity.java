@@ -1,6 +1,5 @@
 package com.gerli.gerli;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -11,11 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import com.gerli.gerli.calculator.NumBtnActivity;
-import com.gerli.gerli.chat.ChatInputActivity;
 import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
 import com.gerli.gerli.fragment.MonthPlanFragment;
@@ -119,7 +114,7 @@ public class NavigationActivity extends AppCompatActivity
             transaction.commit();
         } else if (id == R.id.nav_month_plan) {
             getSupportActionBar().setTitle(R.string.month_plan);
-            MonthPlanFragment newFragment = new MonthPlanFragment();
+            MonthPlanFragment newFragment = new MonthPlanFragment() ;
             mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
