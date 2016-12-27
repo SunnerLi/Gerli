@@ -30,7 +30,7 @@ public class SetAlarmService extends Service {
     private final static int NIGHT = 23;
     private final static ArrayList<Integer> alarmHour = new ArrayList<>(
         Arrays.asList(9, 10, MORNING, AFTERNOON, NIGHT));
-    private final static int alarmMinute = 30;
+    private final static int alarmMinute = 46;
     private final static int alarmSecond = 0;
 
     // System intent symbol

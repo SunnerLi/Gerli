@@ -41,7 +41,7 @@ public class EventReceiver extends BroadcastReceiver {
                 // 建立通知
                 final Notification notification = new Notification.Builder(context.getApplicationContext())
                     .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("NotificationDemo")
+                    .setContentTitle("Gerli")
                     .setContentText(msg).build();
                 notificationManager.notify(notifyID, notification); // 發送通知
                 //talker.talk(msg);
