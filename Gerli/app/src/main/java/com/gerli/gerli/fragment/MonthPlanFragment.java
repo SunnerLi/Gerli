@@ -1,6 +1,7 @@
 package com.gerli.gerli.fragment;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -28,7 +30,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
     private ArrayAdapter adapter;
     private View myView;
     private RobotoCalendarView.RobotoCalendarListener robotoCalendarListener;
-
+    Button Input;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +41,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView= inflater.inflate(R.layout.fragment_month_plan, container, false);
-
+        setButton();
         // Gets the calendar from the view
         robotoCalendarView = (RobotoCalendarView) myView.findViewById(R.id.robotoCalendarPicker);
 
@@ -51,6 +53,21 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
 
         robotoCalendarView.updateView();
         return myView;
+    }
+
+    private void setButton() {
+        Input = (Button) myView.findViewById(R.id.add);
+
+        Input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent myIntent = new Intent(getContext(),MPinputActivity.class);
+                myIntent.putExtra("YEAR",year);
+                myIntent.putExtra("MONTH",month);
+                myIntent.putExtra("DATE",date);
+                startActivityForResult(myIntent, SET_MPinput);
+            }
+        });
     }
 //    @Override
 //    protected void attachBaseContext(Context newBase) {
