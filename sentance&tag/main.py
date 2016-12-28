@@ -1,3 +1,4 @@
+from processVote import *
 import random
 import math
 
@@ -48,20 +49,25 @@ def makeGaussianNoice(sigma, radius, copyTimes, string):
     for word in _string:
         if word.isdigit():
             value = int(word)
-    
-    # Get the limit
-    gaussian = (math.exp(-1 * pow(radius, 2) * 0.5)) / ((2 * math.pi * pow(sigma, 2)) ** 0.5)
-    upper = value * gaussian
-    lower = value * (2 - gaussian)
 
-    # Generate the string
-    position = _string.index(str(value))
+    # Check if the string didn't have value information
     strings = []
-    for i in range(copyTimes):
-        strings.append(list(_string))
-    for i in range(1, copyTimes):
-        _value = random.random() * (upper - lower) + lower
-        strings[i][position] = str(int(_value))
+    if value == -1:
+        for i in range(copyTimes):
+            strings.append(list(_string))
+    else:
+        # Get the limit
+        gaussian = (math.exp(-1 * pow(radius, 2) * 0.5)) / ((2 * math.pi * pow(sigma, 2)) ** 0.5)
+        upper = max(value * gaussian, 0)
+        lower = max(value * (2 - gaussian), 0)
+
+        # Generate the string
+        position = _string.index(str(value))
+        for i in range(copyTimes):
+            strings.append(list(_string))
+        for i in range(1, copyTimes):
+            _value = random.random() * (upper - lower) + lower
+            strings[i][position] = str(int(_value))
     return strings
 
 def numbersConvertAlphas(strings):
@@ -98,7 +104,6 @@ def numberConvertAlpha(string):
                 value /= 10
 
             # Convert into string
-            #while len(stack) > 0:
             digit = stack[-1]
             if not digit == 0:
                 _res.append(number2String[digit])
@@ -170,14 +175,17 @@ def work():
         f.writelines(negStrings)
 
     # Generate additional positive data
+    voteWork()
     strings = ""
     with open(posFileName, 'r') as f:
         strings = f.readlines()
+    with open('voteResult.pos', 'r') as f:
+        strings += f.readlines()
     _res = []
     for string in strings:
         _string = makeGaussianNoice(alphaValue, ratioOfRadius, numberOfCopy, string)
         _string = numbersConvertAlphas(_string)
-        _res += doubleList2Strings(_string)
+        _res += doubleList2Strings(_string)    
     with open(posFileName, 'w') as f:
         f.writelines(_res)
 
@@ -185,6 +193,8 @@ def work():
     strings = ""
     with open(negFileName, 'r') as f:
         strings = f.readlines()
+    with open('voteResult.neg', 'r') as f:
+        strings += f.readlines()
     _res = []
     for string in strings:
         _string = makeGaussianNoice(alphaValue, ratioOfRadius, numberOfCopy, string)
