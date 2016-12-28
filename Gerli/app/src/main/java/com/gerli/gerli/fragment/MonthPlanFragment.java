@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.gerli.gerli.R;
+import com.gerli.handsomeboy.gerliUnit.Table;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 import com.marcohc.robotocalendar.RobotoCalendarView;
@@ -33,9 +34,16 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
     private View myView;
     private RobotoCalendarView.RobotoCalendarListener robotoCalendarListener;
     Button Input;
+
+    GerliDatabaseManager manager;
+
+    int[] id;
+    String[] description;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        manager = new GerliDatabaseManager(getContext());
     }
 
     @Override
@@ -54,6 +62,9 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         robotoCalendarView.showDateTitle(true);
 
         robotoCalendarView.updateView();
+
+
+
         return myView;
     }
 
@@ -80,44 +91,11 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
     public void onDayClick(Calendar daySelectedCalendar) {
         year=daySelectedCalendar.get(Calendar.YEAR);
         month=daySelectedCalendar.get(Calendar.MONTH)+1;//月處理的方式
-        date=daySelectedCalendar.get(Calendar.MONTH);
+        date=daySelectedCalendar.get(Calendar.DAY_OF_MONTH);
         robotoCalendarView.markCircleImage1(daySelectedCalendar);//產生點點的函式
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
-        manager.insertMonthPlan(2016,12,20,"柳隨雲好帥");//新增一筆月計畫
-       // 資料庫取得
-        UnitPackage.PlanPackage planPackage=manager.getMonthPlan( 2016, 12,20);
-        int[] id=planPackage.id;
-        String[] description = planPackage.description;
 
-        //listview
-        listView = (ListView) myView.findViewById(R.id.listView1);
+        list_update();
 
-        // 清單陣列
-        adapter = new ArrayAdapter(getContext(),
-                android.R.layout.simple_list_item_1);
-
-        for(int i=0;i<description.length;i++){
-            adapter.add(description[i]+id[i]);
-        }
-
-        listView.setAdapter(adapter);
-        //longclick
-        listView.setLongClickable(true);
-        listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean  onItemLongClick(AdapterView arg0, View arg1, int arg2,
-                                            long arg3) {
-                // TODO Auto-generated method stub
-                ListView listView = (ListView) arg0;// ID arg3  文字 arg2
-                Toast.makeText(
-                        getContext(),
-                        "ID：" + arg3 +
-                                "   選單文字："+ listView.getItemAtPosition(arg2).toString()+"刪除",
-                        Toast.LENGTH_LONG).show();
-
-                return true;
-            }
-        });
 
         Toast.makeText(getActivity(), "onDayClick: " + daySelectedCalendar.getTime(), Toast.LENGTH_SHORT).show();
     }
@@ -136,5 +114,47 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         //Toast.makeText(this, "onLeftButtonClick!", Toast.LENGTH_SHORT).show();
     }
 
+    void list_update(){
+
+        //listview
+        listView = (ListView) myView.findViewById(R.id.listView1);
+        // 資料庫取得
+        UnitPackage.PlanPackage planPackage=manager.getMonthPlan( year, month,date);
+
+        adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1);
+        if(planPackage != null){
+            id=planPackage.id;
+            description = planPackage.description;
+            // 清單陣列
+
+            for(int i=0;i<description.length;i++){
+                adapter.add(description[i]+id[i]);
+            }
+        }
+
+        listView.setAdapter(adapter);
+        //longclick
+        listView.setLongClickable(true);
+        listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean  onItemLongClick(AdapterView arg0, View arg1, int arg2,
+                                            long arg3) {
+                // TODO Auto-generated method stub
+                ListView listView = (ListView) arg0;// ID arg3  文字 arg2
+
+                manager.delete(Table.MONTH_PLAN,id[arg2]);
+                list_update();
+                /*
+                Toast.makeText(
+                        getContext(),
+                        "ID：" + arg3 +
+                                "   選單文字："+ listView.getItemAtPosition(arg2).toString()+"刪除",
+                        Toast.LENGTH_LONG).show();
+                */
+                return true;
+            }
+        });
+    }
 
 }
