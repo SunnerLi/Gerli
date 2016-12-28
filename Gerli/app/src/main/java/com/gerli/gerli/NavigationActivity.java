@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
 import com.gerli.gerli.TimedRemind.SetAlarmService;
 import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
@@ -22,12 +23,15 @@ import com.gerli.gerli.fragment.MonthPlanFragment;
 import com.gerli.gerli.fragment.SettingFragment;
 import com.gerli.gerli.fragment.YearPlanFragment;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "## NavigationActivity";
     public Fragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
