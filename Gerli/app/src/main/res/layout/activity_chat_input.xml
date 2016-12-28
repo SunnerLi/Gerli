@@ -30,7 +30,7 @@
             android:id="@+id/et_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="I spend 50 dollars on dinner"
+            android:text="drink 無 -100"
 
             android:layout_weight="1" />
 
@@ -42,4 +42,4 @@
     </LinearLayout>
 
 </RelativeLayout>
-<!--drink 無 -100-->
+<!--drink 無 -100  I spend 50 dollars on dinner-->
