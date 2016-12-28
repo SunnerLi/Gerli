@@ -32,32 +32,53 @@ public class Parser {
     // No
     public static final int FAIL = 0;
 
+    // Remote parser
+    static RemoteParser remoteParser = new RemoteParser();
+
+    // Result Record object
+    Record parseResult = new Record();
+
+
+    // Sentemce type
+    public static final String sentence = remoteParser.sentence;
+    public static final String control = remoteParser.control;
+
     // Constructor
     public Parser() {
     }
 
-    // Work function
-    public Record parse(String _string) throws NullPointerException{
+
+    /**
+     * The wrapper of the parse function
+     * The remote parser would work only if the string doesn't follow the format
+     *
+     * @param _string    The string want to parse
+     * @param stringType If the string is the normal sentence or the command
+     * @throws NullPointerException
+     */
+    public void parse(String _string, String stringType) throws NullPointerException {
         // Store the each conponent of the string
         String[] list = _string.split(" ");
 
         // Judge if the string is invalid
+        remoteParser.recordResult = null;
         if (list.length != 3) {
-            Log.d(TAG, "Reason: the number of element < 3");
-            return null;
-        }
-        if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {
+            Log.d(TAG, "Reason: the number of element < 3, which number is " + list.toString());
+            remoteParser.work(_string, stringType);
+        } else if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {
             Log.d(TAG, "Reason: lose the +- symbol");
-            return null;
+            remoteParser.work(_string, stringType);
         } else {
             String _num = list[2].substring(1, list[2].length());
             if (!isNumeric((_num))) {
                 Log.d(TAG, "Reason: the value is invalid");
-                return null;
+                remoteParser.work(_string, stringType);
+            } else {
+                Log.d(TAG, "Start local parsing");
+                parseResult = _parse(list);
+                parseResult.dump();
             }
         }
-
-        return _parse(list);
     }
 
     // Parsing
@@ -65,13 +86,18 @@ public class Parser {
         Record record = new Record();
 
         // Store the item
-        record.__setName(list[0]);
-        record.__setType(list[1]);
-        record.__setMoney(list[2]);
+        record.setName(list[0]);
+        record.setType(list[1]);
+        record.setMoney(list[2]);
         return record;
     }
 
-    // Judge if the string is alpha
+    /**
+     * Judge if the string is alpha
+     *
+     * @param aString the string want to test
+     * @return if the string is alphabetic or not
+     */
     public boolean isStringAlpha(String aString) {
         int charCount = 0;
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -90,7 +116,12 @@ public class Parser {
         return true;
     }
 
-    // Judge if the string is numberic
+    /**
+     * Judge if the string is numberic
+     *
+     * @param str the string want to test
+     * @return if it's numeric or not
+     */
     public static boolean isNumeric(String str) {
         try {
             double d = Double.parseDouble(str);
@@ -98,5 +129,49 @@ public class Parser {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Return the record object after the parsing process
+     *
+     * @return the record object
+     */
+    public Record get() {
+        while (remoteParser.getSemaphore() == 0) ;
+        if (remoteParser.recordResult == null)
+            return parseResult;
+        else
+            return remoteParser.recordResult;
+    }
+
+    /**
+     * Wrapper function to get the string by the sentiment value
+     *
+     * @return The string which correspond to the sentiment value
+     */
+    public String getSentence() {
+        while (remoteParser.getSemaphore() == 0) ;
+        if (remoteParser.recordResult == null)
+            return getSentence(Math.random() > 0.5 ? 1 : 0);
+        else
+            return getSentence(remoteParser.sentimentResult);
+    }
+
+    /**
+     * Get the sentiment string by the sentiment value
+     *
+     * @param sentiment The value of the sentiment
+     * @return The target string
+     */
+    public String getSentence(int sentiment){
+        switch (sentiment){
+            case 0:
+                return new Sentences().getCritical();
+            case 1:
+                return new Sentences().getEncourage();
+            default:
+                break;
+        }
+        return "null string exception";
     }
 }

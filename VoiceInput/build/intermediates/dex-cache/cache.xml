@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="4ccbcda5c72027c7f7c14be9ff8640d9cb0d8da0">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-utils-25.0.0_5248a6227c2dc76d5f326e4511e12b4d8126789d/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="53a420cd4f49274db6bd43475f8006ba67ef6bbd">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-25.0.0_626a3dc9b95a80a57a598780d723295668494a2a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="e5343c9d19cb19ff55f6b268c7f3fe8c9d224f6f">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_ec3fb2a897653ea5d1e2c3f7a5b741412fc9e537/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-core-utils/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="3b61a70884adaf0be3fc06c70c801e3e6df13133">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_91af9d55e06392a534d5d008e214b8e00e49d274/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="75b1f366ff0bbc78f8b1f7cf0dc82e7c53afef6a">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-compat-25.0.0_6a15a3dc3d17f7e0feebde863da90c39a5733cca/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-v4/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-25.0.0_3d81268bed4f87f07572e4dbda8d471b28235177/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="76fb65a4b41ea42dab8a1310ed772a2420c96b52">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-media-compat-25.0.0_38e904ffe16b6c9e752b8ebc128ae84a1bff9f59/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="07daa0b6e1d455c82a38422ffe287c18823d339a">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-fragment-25.0.0_a93639fa267dc7df16f602267a64f8b83be777e5/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="d29714cc76b38157e3cbd034c66e1ec808eb4c19">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-25.0.0_b812ca176ae8efd9ea4c8d94eeb41ad77eef555f/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="527a76fb1d98ace42c30280a0d1a90a5fc3e4887">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_69989c0ae6d175ca86a067e4def3b0bf259acd28/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-fragment/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="ee5faf4dee5b6a4364bf51587871047dde7c703a">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_7dba3076b3a56cc2bc33eae923b401cc971c9d10/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="6323a8f34d68b9e615e514ee874b5083e20e48e5">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_68c9d9c5180be962b100fc331a4f82b491715a8a/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/25.0.0/support-annotations-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="a22d2cc94da87b254451fa8ed28afc30b4653773">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-25.0.0_e745417dc012c77d4d6bc9ff2e78f9cf67e69cdc/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="f2e3b9bc1ec25f652e8007ce7774c991e38f6a00">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_b4cf8bc1616fd82217e360592c42c68a66bdc713/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-media-compat/25.0.0/jars/libs/internal_impl-25.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="665d21a8a069c96b4d9e8b434f5096d865b4e261">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-25.0.0_07f3b3cb1292ae9848ce67c7ff720dd495a733e7/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="8bc45ce1f63d1a391fd38b32a201be5a42f9c95d">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-25.0.0_db39bb5f87922ed0c95eec202e92d6715f9f7162/classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/exploded-aar/com.android.support/support-core-ui/25.0.0/jars/classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="24.0.1"
+        sha1="26674000177e45447a0326a6ad84612761199a13">
+        <dex dex="/Users/huyuxuan/Documents/androidApp/VoiceInput/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-core-ui-25.0.0_5f7944ebdf1ba57ba8bdc8854f1d3c8ae1d1f320/classes.dex" />
+    </item>
+
+</items>

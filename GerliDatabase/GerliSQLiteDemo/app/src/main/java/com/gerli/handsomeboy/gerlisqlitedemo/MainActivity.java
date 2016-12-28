@@ -1,103 +1,134 @@
 package com.gerli.handsomeboy.gerlisqlitedemo;
 
-import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+
+import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerliUnit.Table;
+import com.gerli.handsomeboy.gerliUnit.UnitPackage;
+import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
-    final String DatabaseName = "Gerli_DB";
+    GerliDatabaseManager databaseManager;
+    SimpleCursorAdapter adapter;
 
-    SQLiteDB myDB;
-    SQLiteDatabase db;
+    ListView listView;
+    Button deleteButton;
+    Button insertButton;
 
-    DatabaseManger db_m;
-
-    //TextView
-    TextView nameTextView;
-    TextView moneyTextView;
-    TextView typeTextView;
-    TextView desTextView;
-    //EditText
-    EditText nameEditText;
-    EditText moneyEditText;
-    EditText typeEditText;
-    EditText desEditText;
-    //Button
-    Button enterButton;
-    Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main2);
 
-        myDB = new SQLiteDB(this,DatabaseName,null,2);
-        db = myDB.getWritableDatabase();
+        databaseManager = new GerliDatabaseManager(this);
 
         ViewSetting();
-        //DBInsertTest();
+        select();
+    }
+
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        select();
     }
 
     void ViewSetting(){
-        //TextView
-        nameTextView = (TextView)findViewById(R.id.nameTextView);
-        moneyTextView = (TextView)findViewById(R.id.moneyTextView);
-        typeTextView = (TextView)findViewById(R.id.typeTextView);
-        desTextView = (TextView)findViewById(R.id.desTextView);
-        //EditText
-        nameEditText = (EditText)findViewById(R.id.nameEditText);
-        moneyEditText = (EditText)findViewById(R.id.moneyEditText);
-        typeEditText = (EditText)findViewById(R.id.typeEditText);
-        desEditText = (EditText)findViewById(R.id.desEditText);
-        //Button
-        enterButton = (Button)findViewById(R.id.enterButton);
-        enterButton.setOnClickListener(new View.OnClickListener() {
+        listView = (ListView)findViewById(R.id.listView);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
-            public void onClick(View v) {
-                ContentValues value = new ContentValues();
-                SetEmptyValue();
-                //value.put("Id",1);
-                value.put("Name",nameEditText.getText().toString());
-                value.put("Money", Integer.valueOf(moneyEditText.getText().toString()));
-                value.put("Type", 1);
-                value.put("Time", "2016");
-                value.put("Description",desEditText.getText().toString());
-                db.insert("Account",null,value);
-            }
-            void SetEmptyValue(){
-                if(nameEditText.getText().toString().equals("")){nameEditText.setText("無");}
-                if(moneyEditText.getText().toString().equals("")){moneyEditText.setText("0");}
-                if(typeEditText.getText().toString().equals("")){typeEditText.setText("無");}
-                if(desEditText.getText().toString().equals("")){desEditText.setText("無");}
-
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                databaseManager.delete(Table.ACCOUNT,id);
+                select();
+                return false;
             }
         });
-        cancelButton = (Button)findViewById(R.id.cancelButton);
-        cancelButton.setOnClickListener(new View.OnClickListener() {
+
+        deleteButton = (Button)findViewById(R.id.deleteButton);
+        deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainActivity.this.finish();
+                databaseManager.delete(Table.ACCOUNT);            }
+        });
+        insertButton = (Button)findViewById(R.id.insertButton);
+        insertButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(MainActivity.this, InsertActivity.class);
+                startActivity(intent);
             }
         });
     }
 
-    void DBInsertTest(){
-        ContentValues value = new ContentValues();
-        //value.put("Id",1);
-        value.put("Name","早餐");
-        value.put("Money", 50);
-        value.put("Type", 1);
-        value.put("Time", "2016");
-        value.put("Description","Test");
-        db.insert("Account",null,value);
+    void select(){
+        //Cursor cursor = db.query("Account",null,null,null,null,null,null);
+        //Cursor cursor = db.rawQuery( "select rowid as _id,Name,Money,Type,Time,Description from account", null);
+        Cursor cursor = databaseManager.getCursor_todayItem();
+        //Cursor cursor = databaseManager.getCursor_total(Info_type.EXPENSE);
+
+        cursor.moveToFirst();
+        for(int i = 0; i < cursor.getCount();i++){
+            cursor.getInt(0);
+            cursor.getString(1);
+            cursor.getInt(2);
+            cursor.getInt(3);
+            cursor.getString(4);
+            cursor.getString(5);
+        }
+
+
+        if(listView.getAdapter() == null){
+            adapter = new SimpleCursorAdapter(this
+                    ,R.layout.query_list_account
+                    ,cursor
+                    ,new String[]{"Name","Money","Type","Time","Description"}
+                    ,new int[]{R.id.textView,R.id.textView2,R.id.textView3,R.id.textView4,R.id.textView5},0);
+            listView.setAdapter(adapter);
+        }
+        else{
+            adapter.changeCursor(cursor);
+        }
+
+
+        /*
+        databaseManager.getCursor_total(Info_type.EXPENSE);
+        TotalPackage totalPackage = databaseManager.getTodayTotal();
+        databaseManager.getCursor_DayTotal(Info_type.EXPENSE,new CalendarManager().getDay(2016,11,23));
+        databaseManager.getBarChartByWeek();
+        databaseManager.getBarChart(Info_type.WEEK);
+        databaseManager.getBarChartByYear();
+        databaseManager.getBarChart(Info_type.YEAR);
+        CalendarManager calendarManager = new CalendarManager();
+        String string = calendarManager.getDay(2016,1,1);
+        databaseManager.getPieChart(Info_type.YEAR);
+        databaseManager.getPieChart(Info_type.WEEK);
+        databaseManager.getPieChart(Info_type.MONTH);
+        databaseManager.getPieChart(Info_type.DAY);
+        databaseManager.getPieChartByDay(3);
+        databaseManager.getPieChartByWeek(3);
+        databaseManager.getPieChartByYear(3);
+        databaseManager.getPieChartByMonth(3);
+        */
+        CalendarManager calendarManager = new CalendarManager();
+        CalendarManager.getLatestRecordTime();
+        databaseManager.getLatestRecordTime();
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2016,10,22);
+        UnitPackage.BarChartPackage barChartPackage = databaseManager.getBarChartByWeek(calendar);
+
+
     }
 }
