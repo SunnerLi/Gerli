@@ -9,8 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import com.gerli.gerli.R;
 
+import com.gerli.gerli.R;
 
 
 /**
@@ -22,8 +22,6 @@ public class ChartAnalysisFragment extends Fragment {
     PagerTabStrip tab_strp;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
-
         super.onCreate(savedInstanceState);
     }
 

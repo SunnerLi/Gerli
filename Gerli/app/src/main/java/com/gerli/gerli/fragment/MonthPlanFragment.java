@@ -14,11 +14,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.gerli.gerli.R;
-
+import com.gerli.handsomeboy.gerliUnit.UnitPackage;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 import com.marcohc.robotocalendar.RobotoCalendarView;
 
 import java.util.Calendar;
-
 
 
 /**
@@ -42,7 +42,6 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         myView= inflater.inflate(R.layout.fragment_month_plan, container, false);
         setButton();
         // Gets the calendar from the view
@@ -83,26 +82,23 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         month=daySelectedCalendar.get(Calendar.MONTH)+1;//月處理的方式
         date=daySelectedCalendar.get(Calendar.MONTH);
         robotoCalendarView.markCircleImage1(daySelectedCalendar);//產生點點的函式
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        manager.insertMonthPlan(2016,12,20,"柳隨雲好帥");//新增一筆月計畫
+       // 資料庫取得
+        UnitPackage.PlanPackage planPackage=manager.getMonthPlan( 2016, 12,20);
+        int[] id=planPackage.id;
+        String[] description = planPackage.description;
 
         //listview
         listView = (ListView) myView.findViewById(R.id.listView1);
 
         // 清單陣列
-        adapter = new ArrayAdapter(getActivity(),
+        adapter = new ArrayAdapter(getContext(),
                 android.R.layout.simple_list_item_1);
 
-//        for(int i=0;i<description.length;i++){
-//            adapter.add(description[i]+id[i]);
-//        }
-
-        adapter.add("紅豆");//liatview 資料扔進去的方法
-        adapter.add("黑豆");
-        adapter.add("綠豆");
-        adapter.add("花豆");
-        adapter.add("毛豆");
-        adapter.add("土豆");
-        adapter.add("芋頭");
-        adapter.add("地瓜");
+        for(int i=0;i<description.length;i++){
+            adapter.add(description[i]+id[i]);
+        }
 
         listView.setAdapter(adapter);
         //longclick
@@ -110,11 +106,11 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         listView.setOnItemLongClickListener( new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean  onItemLongClick(AdapterView arg0, View arg1, int arg2,
-                                            long arg3) { //長按觸發
+                                            long arg3) {
                 // TODO Auto-generated method stub
                 ListView listView = (ListView) arg0;// ID arg3  文字 arg2
                 Toast.makeText(
-                       getActivity(),
+                        getContext(),
                         "ID：" + arg3 +
                                 "   選單文字："+ listView.getItemAtPosition(arg2).toString()+"刪除",
                         Toast.LENGTH_LONG).show();
@@ -122,6 +118,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
                 return true;
             }
         });
+
         Toast.makeText(getActivity(), "onDayClick: " + daySelectedCalendar.getTime(), Toast.LENGTH_SHORT).show();
     }
     @Override
@@ -139,5 +136,5 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         //Toast.makeText(this, "onLeftButtonClick!", Toast.LENGTH_SHORT).show();
     }
 
-    
+
 }

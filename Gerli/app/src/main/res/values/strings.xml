@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Gerli</string>
-    <string name="facebook_app_id">932600366870775</string>
 
     <string name="charge">Charge</string>
     <string name="month_plan">Month Plan</string>
