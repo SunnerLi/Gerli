@@ -1,7 +1,16 @@
 package com.gerli.gerli.fragment;
 
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
+import android.preference.Preference;
+import android.preference.PreferenceFragment;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,61 +19,68 @@ import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
 import com.gerli.gerli.R;
+import com.gerli.gerli.TimedRemind.SetAlarmService;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SettingFragment extends Fragment {
+public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener{
+    // 加入欄位變數宣告
+    private SharedPreferences sharedPreferences;
+    private CheckBoxPreference defaultNotice, defaultCloudCopy;
+    private Context mContext;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getActivity().getApplicationContext();
+        addPreferencesFromResource(R.xml.settings);
+
+        defaultNotice = (CheckBoxPreference) findPreference("notice");
+        defaultCloudCopy = (CheckBoxPreference) findPreference("cloudCopy");
+        defaultNotice.setOnPreferenceChangeListener(this);
+
+        // 建立SharedPreferences物件
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+    public void onResume() {
+        super.onResume();
+        boolean b = sharedPreferences.getBoolean("notice",false);
+        defaultNotice.setDefaultValue(b);
+        defaultNotice.setChecked(b);
+
+        b = sharedPreferences.getBoolean("cloudCopy",false);
+        defaultCloudCopy.setDefaultValue(b);
+        defaultCloudCopy.setChecked(b);
     }
 
-
     @Override
-    public void onStart() {
-        super.onStart();
-
-        ToggleButton cloudBackupToggle = (ToggleButton) getActivity().findViewById(R.id.cloud_Backup);
-        cloudBackupToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
+    public boolean onPreferenceChange(Preference preference, Object o) {
+        switch (preference.getKey()) {
+            case "notice":
+                boolean b = !sharedPreferences.getBoolean("notice", false);
+                Intent intent = new Intent(mContext, SetAlarmService.class);
+                if (b) {
+                    mContext.startService(intent);
                 } else {
-                    // The toggle is disabled
+                    mContext.stopService(intent);
                 }
-            }
-        });
-
-        ToggleButton facebookRemindToggle = (ToggleButton) getActivity().findViewById(R.id.facebook_remind);
-        facebookRemindToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                } else {
-                    // The toggle is disabled
-                }
-            }
-        });
-
-        ToggleButton budgetRemindToggle = (ToggleButton) getActivity().findViewById(R.id.budget_remind);
-        budgetRemindToggle.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    // The toggle is enabled
-                } else {
-                    // The toggle is disabled
-                }
-            }
-        });
+                defaultNotice.setChecked(b);
+                sharedPreferences.edit()
+                    .putBoolean("notice", b)
+                    .apply();
+                break;
+            case "cloudCopy":
+                boolean needCopy = !sharedPreferences.getBoolean("cloudCopy", false);
+                defaultCloudCopy.setChecked(needCopy);
+                sharedPreferences.edit()
+                    .putBoolean("cloudCopy", needCopy)
+                    .apply();
+                break;
+        }
+        return false;
     }
 }

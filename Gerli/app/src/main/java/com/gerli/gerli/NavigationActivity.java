@@ -1,7 +1,9 @@
 package com.gerli.gerli;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -10,25 +12,26 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 
-import com.gerli.gerli.calculator.NumBtnActivity;
-import com.gerli.gerli.chat.ChatInputActivity;
+import com.facebook.FacebookSdk;
+import com.gerli.gerli.TimedRemind.SetAlarmService;
 import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
 import com.gerli.gerli.fragment.MonthPlanFragment;
 import com.gerli.gerli.fragment.SettingFragment;
 import com.gerli.gerli.fragment.YearPlanFragment;
 
-public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import static com.facebook.FacebookSdk.getApplicationContext;
 
+public class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public final String TAG = "## NavigationActivity";
     public Fragment mFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -36,7 +39,7 @@ public class NavigationActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -61,9 +64,12 @@ public class NavigationActivity extends AppCompatActivity
             mFragment = firstFragment;
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_container, firstFragment).commit();
+                .add(R.id.fragment_container, firstFragment).commit();
 
         }
+
+        // Check the system remind
+        setPreference();
     }
 
     @Override
@@ -75,29 +81,30 @@ public class NavigationActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
-/*
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.navigation, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+    /*
+        @Override
+        public boolean onCreateOptionsMenu(Menu menu) {
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.navigation, menu);
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
-*/
+        @Override
+        public boolean onOptionsItemSelected(MenuItem item) {
+            // Handle action bar item clicks here. The action bar will
+            // automatically handle clicks on the Home/Up button, so long
+            // as you specify a parent activity in AndroidManifest.xml.
+            int id = item.getItemId();
+
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
+                return true;
+            }
+
+            return super.onOptionsItemSelected(item);
+        }
+    */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -145,6 +152,7 @@ public class NavigationActivity extends AppCompatActivity
 
             transaction.commit();
         } else if (id == R.id.nav_setting) {
+            /*
             getSupportActionBar().setTitle(R.string.setting);
             SettingFragment newFragment = new SettingFragment();
             mFragment = newFragment;
@@ -153,10 +161,27 @@ public class NavigationActivity extends AppCompatActivity
             transaction.replace(R.id.fragment_container, newFragment);
 
             transaction.commit();
+            */
+            startActivity(new Intent(NavigationActivity.this, SettingActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    /**
+     * Load the value of remind setting and start the system service
+     */
+    private void setPreference() {
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean b = sharedPrefs.getBoolean("notice", true);
+        Intent intent = new Intent(NavigationActivity.this, SetAlarmService.class);
+        if (b) {
+            Log.i(TAG, "Start load setting");
+            startService(intent);
+        } else {
+            stopService(intent);
+        }
     }
 }

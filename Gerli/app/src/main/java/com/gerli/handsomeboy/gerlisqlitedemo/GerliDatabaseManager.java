@@ -346,24 +346,22 @@ public class GerliDatabaseManager {
 
     public Date getLatestRecordTime(){
         Cursor cursor = db.rawQuery("SELECT Time FROM " + sqLiteDB.accountTable +
-                " ORDER BY Time DESC" +
-                " LIMIT " + 1 ,null);
+            " ORDER BY Time DESC" +
+            " LIMIT " + 1 ,null);
 
-        if(cursor.getCount() < 1 ){
-            Log.d("DatabaseData","getLatestRecordTime : accountTable no data");
-            return null;
-        }
 
-        cursor.moveToFirst();
-        String timeStr = cursor.getString(0);
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
-        Date data;
-        try{
-            data = format.parse(timeStr);
-            TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
-        }catch (ParseException e){
-            Log.d("DatabaseError","getLatestRecordTime : SimpleDateFormat parse error");
-            return null;
+        Date data = new Date(0);
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            String timeStr = cursor.getString(0);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
+
+            try{
+                data = format.parse(timeStr);
+                TimeZone.setDefault(TimeZone.getTimeZone("Asia/Taipei"));
+            }catch (ParseException e){
+                Log.d("DatabaseError","getLatestRecordTime : SimpleDateFormat parse error");
+            }
         }
 
         return data;

@@ -1,13 +1,37 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.gerli.gerli.fragment.MonthPlanFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.marcohc.robotocalendar.RobotoCalendarView
+        android:id="@+id/robotoCalendarPicker"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="Month Plan" />
+        android:layout_height="330dp">
 
-</FrameLayout>
+    </com.marcohc.robotocalendar.RobotoCalendarView>
+
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:cacheColorHint="#00000000"
+        android:layout_height="123dp"
+        android:layout_below="@+id/robotoCalendarPicker"
+        android:layout_alignParentStart="true"
+        android:textColor="#F1BD9D">
+    </ListView>
+
+    <Button
+        android:text="ADD"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/add"
+        android:onClick="buttom_Click2"
+        android:textColor="#353E70"
+        android:layout_weight="1"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="17dp" />
+
+</RelativeLayout>
