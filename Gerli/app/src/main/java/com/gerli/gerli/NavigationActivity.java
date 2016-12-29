@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
 import com.gerli.gerli.TimedRemind.SetAlarmService;
 import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
@@ -28,6 +29,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
