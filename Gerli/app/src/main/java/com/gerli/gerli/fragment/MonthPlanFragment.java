@@ -97,7 +97,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         list_update();
 
 
-        Toast.makeText(getActivity(), "onDayClick: " + daySelectedCalendar.getTime(), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "onDayClick: " + daySelectedCalendar.getTime(), Toast.LENGTH_SHORT).show();
     }
     @Override
     public void onDayLongClick(Calendar daySelectedCalendar) {
@@ -157,4 +157,9 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        list_update();
+    }
 }
