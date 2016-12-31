@@ -20,7 +20,7 @@
             android:title="@string/chart_analysis" />
         <item
             android:id="@+id/nav_cloud"
-            android:icon="@drawable/gerli_ui_cloud"
+            android:icon="@drawable/dropbox_icon"
             android:title="@string/cloud" />
         <item
             android:id="@+id/nav_setting"
