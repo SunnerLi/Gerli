@@ -27,7 +27,7 @@ import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
  */
 public class GerliDatabaseManager {
     private static final int VERSION = 9;
-    private final String DatabaseName = "Gerli_DB";
+    public static final String DatabaseName = "Gerli_DB.gerli.db";
 
     //操作Database的內部成員
     SQLiteDB sqLiteDB;
