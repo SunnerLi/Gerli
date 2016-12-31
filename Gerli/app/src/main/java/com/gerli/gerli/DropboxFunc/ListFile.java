@@ -3,6 +3,7 @@ package com.gerli.gerli.DropboxFunc;
 import java.io.File;
 import java.util.ArrayList;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ArrayAdapter;
@@ -31,6 +32,7 @@ public class ListFile extends AsyncTask<Void, Void, Boolean> {
     private DropboxAPI<?> mApi;
     private String mPath;
     private ListView mList;
+    private final ProgressDialog mDialog;
 
     private ArrayList<String> files;
 
@@ -46,6 +48,11 @@ public class ListFile extends AsyncTask<Void, Void, Boolean> {
         mList = view;
         mExt = ext;
         files = new ArrayList<>();
+
+        mDialog = new ProgressDialog(context);
+        mDialog.setMessage("請稍後.....");
+        mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mDialog.show();
     }
 
     @Override
@@ -126,6 +133,7 @@ public class ListFile extends AsyncTask<Void, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean result) {
         super.onPostExecute(result);
+        mDialog.dismiss();
         if (result) {
             ArrayAdapter<String> listAdapter=new ArrayAdapter<>(mContext,android.R.layout.simple_list_item_1,files);
             mList.setAdapter(listAdapter);
