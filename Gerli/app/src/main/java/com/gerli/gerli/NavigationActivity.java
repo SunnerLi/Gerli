@@ -3,6 +3,7 @@ package com.gerli.gerli;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -15,12 +16,17 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
 
+import com.facebook.FacebookSdk;
 import com.gerli.gerli.TimedRemind.SetAlarmService;
 import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
+import com.gerli.gerli.fragment.DropboxView;
 import com.gerli.gerli.fragment.MonthPlanFragment;
 import com.gerli.gerli.fragment.SettingFragment;
 import com.gerli.gerli.fragment.YearPlanFragment;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
+
+import java.io.File;
 
 public class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "## NavigationActivity";
@@ -28,6 +34,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        FacebookSdk.sdkInitialize(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -141,6 +148,22 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_chart_analysis) {
             getSupportActionBar().setTitle(R.string.chart_analysis);
             ChartAnalysisFragment newFragment = new ChartAnalysisFragment();
+            mFragment = newFragment;
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+            transaction.replace(R.id.fragment_container, newFragment);
+
+            transaction.commit();
+        } else if (id == R.id.nav_cloud) {
+            final String MyDropbox_DIR = "/Backup/";//<<<===============dropbox directory
+            File downloadDir = new File(this.getDatabasePath(GerliDatabaseManager.DatabaseName).getParent());//<<<========local directory
+            final String APP_KEY = this.getString(R.string.dropbox_app_key); //<<<============replace app key
+            final String APP_SECRET = this.getString(R.string.dropbox_app_secret); //<<<=============replace app secret
+            final String fileExt = "gerli.db";//<<<===========副檔名 null or * 為全部
+
+            getSupportActionBar().setTitle(R.string.cloud);
+            DropboxView newFragment = DropboxView.newInstance(APP_KEY, APP_SECRET,
+                    MyDropbox_DIR, downloadDir.getAbsolutePath(), fileExt);
             mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 

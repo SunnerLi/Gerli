@@ -1,11 +1,16 @@
 <resources>
     <string name="app_name">Gerli</string>
+    <string name="facebook_app_id">166045387206166</string>
+    <string name="dropbox_app_key">0wif1kzhfpkyq51</string>
+    <string name="dropbox_app_secret">c12p5e55ak5x3ai</string>
+    <string name="dropbox_db_key">db-0wif1kzhfpkyq51</string>
 
     <string name="charge">Charge</string>
     <string name="month_plan">Month Plan</string>
     <string name="year_plan">Year Plan</string>
     <string name="chart_analysis">Chart Analysis</string>
     <string name="setting">Setting</string>
+    <string name="cloud">Cloud Backup</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
