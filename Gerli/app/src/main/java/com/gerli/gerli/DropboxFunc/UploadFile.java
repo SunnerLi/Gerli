@@ -3,6 +3,9 @@ package com.gerli.gerli.DropboxFunc;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -76,7 +79,8 @@ public class UploadFile extends AsyncTask<Void, Long, Boolean> {
             // By creating a request, we get a handle to the putFile operation,
             // so we can cancel it later if we want to
             FileInputStream fis = new FileInputStream(mFile);
-            String path = mPath + mFile.getName();
+            SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss", Locale.TAIWAN);
+            String path = mPath + "(" + df.format(new Date()) + ")" + mFile.getName();
             mRequest = mApi.putFileOverwriteRequest(path, fis, mFile.length(),
                     new ProgressListener() {
                         @Override
