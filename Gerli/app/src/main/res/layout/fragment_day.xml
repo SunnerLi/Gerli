@@ -6,9 +6,12 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="show date"
+        android:id="@+id/choose_date_text"
+        android:layout_marginTop="30dp" />
 
     <Button
         android:text="@string/com_facebook_share_button_text"
