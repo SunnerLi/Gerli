@@ -131,10 +131,12 @@ public class WEEK extends Fragment {
     private void setbarchart() {
         GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
-        calendar.set(2017,1,29);
+
 
         UnitPackage.BarChartPackage barChartPackage = manager.getBarChartByWeek();
-
+        if(barChartPackage == null){
+            return;
+        }
         ArrayList<String> dataList = barChartPackage.dateList;
         float[] expenseArr = barChartPackage.expenseArr;
 
