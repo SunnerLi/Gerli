@@ -61,7 +61,7 @@ public class MONTH extends Fragment {
 
         shareBtn.setOnClickListener(shareOnclick);
         setpiechart();
-        setbarchart();
+
         return  myView;
     }
     private void setbarchart() {

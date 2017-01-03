@@ -22,6 +22,8 @@ public class MPinputActivity extends AppCompatActivity {
         year = myIntent.getIntExtra("YEAR",1);
         month = myIntent.getIntExtra("MONTH",1);
         date = myIntent.getIntExtra("DATE",1);
+
+
     }
 
     public void button2_Click(View view) {
