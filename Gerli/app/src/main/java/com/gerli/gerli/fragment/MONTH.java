@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -22,22 +24,23 @@ import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
 import com.gerli.gerli.R;
 import com.gerli.gerli.ShareFunction;
-import com.github.mikephil.charting.charts.BarChart;
+import com.gerli.handsomeboy.gerliUnit.UnitPackage;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 import com.github.mikephil.charting.charts.PieChart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class MONTH extends Fragment {
+    private ListView listView;
+    private ArrayAdapter adapter;
     private Random random;//用於產生隨機數
     private View myView;
     private Button shareBtn;
@@ -64,67 +67,38 @@ public class MONTH extends Fragment {
 
         return  myView;
     }
-    private void setbarchart() {
-        BarChart barChart = (BarChart) myView.findViewById(R.id.chart2);
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(4f, 0));
-        entries.add(new BarEntry(8f, 1));
-        entries.add(new BarEntry(6f, 2));
-        entries.add(new BarEntry(12f, 3));
-        entries.add(new BarEntry(18f, 4));
-        entries.add(new BarEntry(9f, 5));
-
-        BarDataSet dataset = new BarDataSet(entries, "# of Calls");
-
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("January");
-        labels.add("February");
-        labels.add("March");
-        labels.add("April");
-        labels.add("May");
-        labels.add("June");
-
-        BarData data = new BarData(labels, dataset);
-        int[] color = {
-                Color.rgb(241, 189, 157), Color.rgb(61, 146, 200), Color.rgb(53, 62, 112),
-                Color.rgb(122, 198, 174)
-        };
-        dataset.setColors(color); //
-        barChart.setData(data);
-        barChart.animateY(5000);
-    }
 
     public void setpiechart(){
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByMonth(year,month,10);
+        if(pieChartPackage == null){
+            return;
+        }
+        ArrayList<String> dataList = pieChartPackage.typeList;
+        float[] expenseArr = pieChartPackage.expenseArr;
 
-
+        list_update();
         PieChart pieChart = (PieChart) myView.findViewById(R.id.chart);
         random = new Random();//隨機數
 
 
         ArrayList<Entry> entries = new ArrayList<>(); //數值填入
-        for (int i = 0; i < 6; i++) {
-            float profit = random.nextFloat() * 100;
-            //entries.add(BarEntry(float val,int positon);
-            entries.add(new Entry(profit, i));
-            // xVals.add((i + 1) + "月");
+        for(int i=0;i<expenseArr.length;i++)
+        {
+            entries.add(new Entry(expenseArr[i], i));
+
         }
 
-
-        /*entries.add(new Entry(4f, 0));
-        entries.add(new Entry(8f, 1));
-        entries.add(new Entry(6f, 2));
-        entries.add(new Entry(12f, 3));
-        entries.add(new Entry(18f, 4));
-        entries.add(new Entry(9f, 5));*/
         PieDataSet dataset = new PieDataSet(entries, "各類別分析");//類別填入
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Breafast");
-        labels.add("Lunch");
-        labels.add("Dinner");
-        labels.add("traffic");
-        labels.add("snack");
-        labels.add("clothes");
+        for (int i = 0; i <dataList.size(); i++) {
+            labels.add(dataList.get(i));
+        }
 
         PieData data = new PieData(labels, dataset);
         int[] color = {
@@ -138,9 +112,39 @@ public class MONTH extends Fragment {
 
         pieChart.setDescription("");
         pieChart.setData(data);
-        pieChart.animateY(5000);
+        pieChart.animateY(2500);
 
     }
+
+    void list_update(){
+        //資料庫
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByMonth(year,month,10);
+        if(pieChartPackage == null){
+            return;
+        }
+        ArrayList<String> dataList = pieChartPackage.typeList;
+        float[] expenseArr = pieChartPackage.expenseArr;
+
+        //listview
+        listView = (ListView) myView.findViewById(R.id.listView1);
+
+        adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1);
+        if(pieChartPackage != null){
+            // 清單陣列
+            for(int i=0;i<dataList.size();i++){
+                adapter.add((i+1)+". "+dataList.get(i)+"  "+expenseArr[i]);
+            }
+        }
+        listView.setAdapter(adapter);
+
+    }
+
     public View.OnClickListener shareOnclick = new View.OnClickListener() {
 
         @Override

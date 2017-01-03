@@ -1,6 +1,7 @@
 package com.gerli.gerli.fragment;
 
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -9,7 +10,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -19,19 +23,20 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
+import com.gerli.gerli.DatePickerFragment;
 import com.gerli.gerli.R;
 import com.gerli.gerli.ShareFunction;
-
-import noman.weekcalendar.WeekCalendar;
+import com.gerli.handsomeboy.gerliUnit.CalendarManager;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DAY extends Fragment {
+public class DAY extends Fragment implements DatePickerFragment.PassOnDateSetListener{
     public DAY() {
         // Required empty public constructor
     }
-    private WeekCalendar weekCalendar;
+    private ListView listView;
+    private ArrayAdapter adapter;
     private View myView;
     private Button shareBtn;
     private ShareDialog shareDialog;
@@ -42,8 +47,17 @@ public class DAY extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_day, container, false);
+        TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
+        choseDateText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getActivity().getFragmentManager(), "datePicker");
+            }
+        });
+        choseDateText.setText(CalendarManager.getDay());
+        //FB分享
         shareBtn = (Button)myView.findViewById(R.id.butShareDay);
-
         shareDialog = new ShareDialog(this);
         callbackManager = CallbackManager.Factory.create();
 
@@ -103,5 +117,11 @@ public class DAY extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void passOnDateSet(int year, int month, int day) {
+        TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
+        choseDateText.setText(CalendarManager.getDay(year, month + 1, day));
     }
 }
