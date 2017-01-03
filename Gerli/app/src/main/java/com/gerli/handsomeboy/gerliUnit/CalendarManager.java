@@ -88,7 +88,7 @@ public class CalendarManager {
 
     public Calendar getDayCalendar(int year,int month,int day){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+8:00"));
-        calendar.set(year,month,day);
+        calendar.set(year,month - 1,day);
         return calendar;
     }
 
