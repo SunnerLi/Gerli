@@ -1,11 +1,12 @@
 package com.gerli.gerli.fragment;
 
 
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,25 +24,42 @@ import com.facebook.share.Sharer;
 import com.facebook.share.model.SharePhoto;
 import com.facebook.share.model.SharePhotoContent;
 import com.facebook.share.widget.ShareDialog;
-import com.gerli.gerli.DatePickerFragment;
 import com.gerli.gerli.R;
 import com.gerli.gerli.ShareFunction;
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerliUnit.UnitPackage;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
+import com.github.mikephil.charting.charts.PieChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.PieData;
+import com.github.mikephil.charting.data.PieDataSet;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DAY extends Fragment implements DatePickerFragment.PassOnDateSetListener{
+public class DAY extends Fragment  {
+
+    private static int year1;
+    private static int month1;
+    private static int day1;
+
     public DAY() {
         // Required empty public constructor
     }
+
+    private Random random;//用於產生隨機數
     private ListView listView;
     private ArrayAdapter adapter;
-    private View myView;
+    private static  View myView;
     private Button shareBtn;
     private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private Bitmap myBitmap;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,11 +69,14 @@ public class DAY extends Fragment implements DatePickerFragment.PassOnDateSetLis
         choseDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogFragment newFragment = new DatePickerFragment();
-                newFragment.show(getActivity().getFragmentManager(), "datePicker");
+                DatePickerDialogFragment dlg = DatePickerDialogFragment.newInstance();
+                FragmentManager fm = getActivity().getSupportFragmentManager();
+                dlg.show(fm, "datepickerdialog");
+                Toast.makeText(getActivity(), "onDayClick: " +year1 +month1 +day1 , Toast.LENGTH_SHORT).show();
             }
         });
         choseDateText.setText(CalendarManager.getDay());
+
         //FB分享
         shareBtn = (Button)myView.findViewById(R.id.butShareDay);
         shareDialog = new ShareDialog(this);
@@ -63,10 +84,103 @@ public class DAY extends Fragment implements DatePickerFragment.PassOnDateSetLis
 
         shareBtn.setOnClickListener(shareOnclick);
 
-        //init();//當按下一個日期
+        setpiechart();
+        sum();
         return  myView;
     }
+    public  void sum()
+    {
+        TextView icome = (TextView) myView.findViewById(R.id.income);
+        TextView expense = (TextView) myView.findViewById(R.id.expense);
+        TextView total = (TextView) myView.findViewById(R.id.total);
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+//        UnitPackage.TotalPackage totalPackage = manager.getTodayTotal();
+//        if(totalPackage == null)
+//        {
+//            return;
+//        }
+//        int income1 = totalPackage.Income;
+//        int expense1 = totalPackage.Expense;
+//
+//        icome.setText(income1);
+//        expense.setText(expense1);
 
+
+    }
+    public void setpiechart(){
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByDay(year,month,date,10);
+        if(pieChartPackage == null){
+            return;
+        }
+        ArrayList<String> dataList = pieChartPackage.typeList;
+        float[] expenseArr = pieChartPackage.expenseArr;
+
+        list_update();
+        PieChart pieChart = (PieChart) myView.findViewById(R.id.chart);
+        random = new Random();//隨機數
+
+
+        ArrayList<Entry> entries = new ArrayList<>(); //數值填入
+        for(int i=0;i<expenseArr.length;i++)
+        {
+            entries.add(new Entry(expenseArr[i], i));
+
+        }
+
+        PieDataSet dataset = new PieDataSet(entries, "各類別分析");//類別填入
+
+        ArrayList<String> labels = new ArrayList<String>();
+        for (int i = 0; i <dataList.size(); i++) {
+            labels.add(dataList.get(i));
+        }
+
+        PieData data = new PieData(labels, dataset);
+        int[] color = {
+                Color.rgb(241, 189, 157), Color.rgb(61, 146, 200), Color.rgb(53, 62, 112),
+                Color.rgb(122, 198, 174)
+        };
+        dataset.setColors(color);
+        dataset.setSliceSpace(5f);
+        dataset.setValueTextColor(Color.WHITE);
+        dataset.setValueTextSize(18f);//
+
+        pieChart.setDescription("");
+        pieChart.setData(data);
+        pieChart.animateY(2500);
+
+    }
+    void list_update(){
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByDay(year,month,date,10);
+        if(pieChartPackage == null){
+            return;
+        }
+        ArrayList<String> dataList = pieChartPackage.typeList;
+        float[] expenseArr = pieChartPackage.expenseArr;
+
+        //listview
+        listView = (ListView) myView.findViewById(R.id.listView1);
+
+        adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1);
+        if(pieChartPackage != null){
+            // 清單陣列
+            for(int i=0;i<dataList.size();i++){
+                adapter.add((i+1)+". "+dataList.get(i)+"  "+expenseArr[i]);
+            }
+        }
+        listView.setAdapter(adapter);
+
+    }
     public View.OnClickListener shareOnclick = new View.OnClickListener() {
 
         @Override
@@ -119,9 +233,20 @@ public class DAY extends Fragment implements DatePickerFragment.PassOnDateSetLis
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    public static void getDate(int year, int monthOfYear, int dayOfMonth) {
+        TextView output = (TextView) myView.findViewById(R.id.choose_date_text);
+        output.setText(Integer.toString(year) + "/ " +
+                Integer.toString(monthOfYear + 1) + "/ " +
+                Integer.toString(dayOfMonth));
+        year1 = Integer.valueOf(year);
+        month1 =  Integer.valueOf(monthOfYear + 1);
+        day1 = Integer.valueOf(dayOfMonth);
+
+    }
     @Override
-    public void passOnDateSet(int year, int month, int day) {
-        TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
-        choseDateText.setText(CalendarManager.getDay(year, month + 1, day));
+    public void onResume(){
+        super.onResume();
+       setpiechart();
     }
 }
