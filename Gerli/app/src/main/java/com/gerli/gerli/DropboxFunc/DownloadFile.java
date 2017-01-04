@@ -13,6 +13,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -29,6 +30,7 @@ import com.dropbox.client2.exception.DropboxParseException;
 import com.dropbox.client2.exception.DropboxPartialFileException;
 import com.dropbox.client2.exception.DropboxServerException;
 import com.dropbox.client2.exception.DropboxUnlinkedException;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 /**
  * Here we show getting metadata for a directory and downloading a file in a
@@ -66,6 +68,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
 
         mDialog = new ProgressDialog(context);
         mDialog.setMessage("Download File");
+        mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mDialog.setButton(ProgressDialog.BUTTON_POSITIVE, "Cancel", new OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 mCanceled = true;
@@ -96,34 +99,22 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
                 return false;
             }
 
-            Entry fileEnt=mApi.metadata(mPath,10000,null,true,null);
+            Entry fileEnt = mApi.metadata(mPath, 10000, null, true, null);
             if(fileEnt.isDir){
-                mErrorMsg="DIR";
+                mErrorMsg = "DIR";
                 return false;
             }
 
-            mFileLen=fileEnt.bytes;
-            String DownladPath=mDir.getAbsolutePath()+"/"+mFile;
+            mFileLen = fileEnt.bytes;
+            File downloadFile = new File(mDir, GerliDatabaseManager.DatabaseName);
 
             try {
-                mFos = new FileOutputStream(DownladPath);
+                mFos = new FileOutputStream(downloadFile);
             } catch (FileNotFoundException e) {
                 mErrorMsg = "Couldn't create a local file to store the file";
                 return false;
             }
-            mApi.getFile(mPath,null,mFos,
-                    new ProgressListener() {
-                        @Override
-                        public long progressInterval() {
-                            // Update the progress bar every half-second or so
-                            return 500;
-                        }
-
-                        @Override
-                        public void onProgress(long bytes, long total) {
-                            publishProgress(bytes);
-                        }
-                    });
+            mApi.getFile(mPath, null, mFos, null);
             return true;
 
         } catch (DropboxUnlinkedException e) {

@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.facebook.CallbackManager;
@@ -41,6 +43,8 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class WEEK extends Fragment {
+    private ListView listView;
+    private ArrayAdapter adapter;
     private Random random;//用於產生隨機數
     private View myView;
     private Button shareBtn;
@@ -72,13 +76,15 @@ public class WEEK extends Fragment {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByWeek(year,month,day,5);
+        int date = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByWeek(year,month,date,10);
         if(pieChartPackage == null){
             return;
         }
         ArrayList<String> dataList = pieChartPackage.typeList;
         float[] expenseArr = pieChartPackage.expenseArr;
+
+        list_update();
 
         PieChart pieChart = (PieChart) myView.findViewById(R.id.chart);
         random = new Random();//隨機數
@@ -97,24 +103,13 @@ public class WEEK extends Fragment {
 
         }
 
-        /*entries.add(new Entry(4f, 0));
-        entries.add(new Entry(8f, 1));
-        entries.add(new Entry(6f, 2));
-        entries.add(new Entry(12f, 3));
-        entries.add(new Entry(18f, 4));
-        entries.add(new Entry(9f, 5));*/
         PieDataSet dataset = new PieDataSet(entries, "各類別分析");//類別填入
 
         ArrayList<String> labels = new ArrayList<String>();
         for (int i = 0; i <dataList.size(); i++) {
             labels.add(dataList.get(i));
         }
-        labels.add("Breafast");
-        labels.add("Lunch");
-        labels.add("Dinner");
-        labels.add("traffic");
-        labels.add("snack");
-        labels.add("clothes");
+
 
         PieData data = new PieData(labels, dataset);
         int[] color = {
@@ -131,10 +126,38 @@ public class WEEK extends Fragment {
         pieChart.animateY(5000);
 
     }
+    void list_update(){
+        //資料庫
+        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int data = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByWeek(year,month,data,5);
+        if(pieChartPackage == null){
+            return;
+        }
+        ArrayList<String> dataList = pieChartPackage.typeList;
+        float[] expenseArr = pieChartPackage.expenseArr;
+
+        //listview
+        listView = (ListView) myView.findViewById(R.id.listView1);
+
+        adapter = new ArrayAdapter(getContext(),
+                android.R.layout.simple_list_item_1);
+        if(pieChartPackage != null){
+            // 清單陣列
+            for(int i=0;i<dataList.size();i++){
+                adapter.add((i+1)+". "+dataList.get(i)+"  "+expenseArr[i]);
+            }
+        }
+        listView.setAdapter(adapter);
+
+    }
     private void setbarchart() {
         GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
-
+        calendar.set(2017,1,29);
 
         UnitPackage.BarChartPackage barChartPackage = manager.getBarChartByWeek();
         if(barChartPackage == null){
