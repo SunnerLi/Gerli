@@ -31,6 +31,7 @@
                 android:layout_width="0dp"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
+                android:visibility="gone"
                 >
 
                 <TextView
@@ -76,8 +77,15 @@
             android:layout_weight="6"
             >
             <Button
+                android:id="@+id/bkup_button"
+                android:text="備份帳本"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                />
+            <Button
                 android:id="@+id/list_button"
-                android:text="List"
+                android:text="重新整理"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_weight="1"

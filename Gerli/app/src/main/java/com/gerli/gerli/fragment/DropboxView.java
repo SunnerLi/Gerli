@@ -28,6 +28,7 @@ import com.dropbox.client2.session.AppKeyPair;
 
 import com.gerli.gerli.DropboxFunc.*;
 import com.gerli.gerli.R;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 import java.io.File;
 
@@ -36,7 +37,7 @@ import java.io.File;
 public class DropboxView extends Fragment {
 
     Context context;
-    private static final String TAG = "##DropboxView";
+    private static final String TAG = "## DropboxView";
 
     ///////////////////////////////////////////////////////////////////////////
     //                      Your app-specific settings.                      //
@@ -184,7 +185,7 @@ public class DropboxView extends Fragment {
             @Override
             public void onClick(View view) {
                 operations.ListRemoteFile(MyDropbox_DIR, dropboxList, fileExt);
-                operations.ListLocalFile(downloadDir.getAbsolutePath(), downloadList, fileExt);
+                //operations.ListLocalFile(downloadDir.getAbsolutePath(), downloadList, fileExt);
             }
         });
         dropboxList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -199,6 +200,14 @@ public class DropboxView extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String select=((TextView) view).getText().toString();
                 File file = new File(downloadDir, select);
+                operations.UploadFile(MyDropbox_DIR, file, dropboxList, fileExt);
+            }
+        });
+        Button mBackup = (Button) mContentView.findViewById(R.id.bkup_button);
+        mBackup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                File file = new File(downloadDir, GerliDatabaseManager.DatabaseName);
                 operations.UploadFile(MyDropbox_DIR, file, dropboxList, fileExt);
             }
         });
@@ -289,7 +298,7 @@ public class DropboxView extends Fragment {
             buttonText = "Unlink from Dropbox";
             mDisplay.setVisibility(View.VISIBLE);
             operations.ListRemoteFile(MyDropbox_DIR, dropboxList, fileExt);
-            operations.ListLocalFile(downloadDir.getPath(), downloadList, fileExt);
+            //operations.ListLocalFile(downloadDir.getPath(), downloadList, fileExt);
         } else {
             buttonText = "Link with Dropbox";
             mDisplay.setVisibility(View.GONE);
