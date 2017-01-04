@@ -94,6 +94,8 @@ public class GerliDatabaseManager {
                 j++;
             }
             expenseArr[j] = expense;
+            j++;
+            cursor.moveToNext();
         }
 
         return new UnitPackage().new BarChartPackage(weekList,expenseArr);
@@ -129,6 +131,8 @@ public class GerliDatabaseManager {
                 j++;
             }
             expenseArr[j] = expense;
+            j++;
+            cursor.moveToNext();
         }
         return new UnitPackage().new BarChartPackage(yearList,expenseArr);
     }

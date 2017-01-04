@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.gerli.gerli.R;
 import com.gerli.gerli.btnInput.BtnInputActivity;
+import com.gerli.handsomeboy.gerliUnit.Info_type;
 
 public class NumBtnActivity extends AppCompatActivity {
     final static int BUTTON_INPUT_REQUEST = 1;
@@ -313,6 +314,14 @@ public class NumBtnActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putDouble("DOLLAR",currentNT);
                 bundle.putBoolean("INOUT",inOut);
+
+                Bundle preBundle = getIntent().getExtras();
+                String yearStr = Info_type.getInfoTypeName(Info_type.YEAR);
+                String monthStr = Info_type.getInfoTypeName(Info_type.MONTH);
+                String dayStr = Info_type.getInfoTypeName(Info_type.DAY);
+                bundle.putInt(yearStr,preBundle.getInt(yearStr));
+                bundle.putInt(monthStr,preBundle.getInt(monthStr));
+                bundle.putInt(dayStr,preBundle.getInt(dayStr));
 
                 intent.putExtras(bundle);
                 startActivityForResult(intent,BUTTON_INPUT_REQUEST);

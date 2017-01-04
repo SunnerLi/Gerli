@@ -21,6 +21,7 @@ import com.gerli.gerli.R;
 import com.gerli.gerli.calculator.NumBtnActivity;
 import com.gerli.handsomeboy.gerliUnit.AccountType;
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerliUnit.Info_type;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 import java.util.ArrayList;
@@ -43,6 +44,8 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
     int type = -1;//-1沒有定義類別
     boolean isExpense = true;
 
+    int myYear,myMonth,myDay;
+
 
     int[] image = {
             R.drawable.gerli_type_breakfast,R.drawable.gerli_type_lunch,R.drawable.gerli_type_dinner,
@@ -54,14 +57,6 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
             R.drawable.gerli_type_entertainment,R.drawable.gerli_type_shopping,R.drawable.gerli_type_invest,
             R.drawable.gerli_type_gift,R.drawable.gerli_type_others
     };
-    /*
-    String[] imgText = {
-            "gerli","記帳","分析","設定","月計畫","年計畫",
-            "gerli","記帳","分析","設定","月計畫","年計畫",
-            "gerli","記帳","分析","設定","月計畫","年計畫",
-            "gerli","記帳","分析","設定","月計畫","年計畫"
-    };
-    */
     String[] imgText;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +65,9 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
 
         Intent intent = getIntent();
         Bundle bundle =  intent.getExtras();
+        myYear = bundle.getInt(Info_type.getInfoTypeName(Info_type.YEAR));
+        myMonth = bundle.getInt(Info_type.getInfoTypeName(Info_type.MONTH));
+        myDay = bundle.getInt(Info_type.getInfoTypeName(Info_type.DAY));
         dollar = bundle.getDouble("DOLLAR");
         isExpense = bundle.getBoolean("INOUT");
 
@@ -161,7 +159,8 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
             }
 
             GerliDatabaseManager db = new GerliDatabaseManager(BtnInputActivity.this);
-            boolean e = db.insertAccount(name,(int)dollar,AccountType.getType(type), CalendarManager.getTime(),"");
+            boolean e = db.insertAccount(name,
+                    (int)dollar,AccountType.getType(type), CalendarManager.getDay(myYear,myMonth,myDay),"");
             if(!e){
                 Toast.makeText(BtnInputActivity.this,"資料庫新增資料失敗!",Toast.LENGTH_SHORT).show();
                 return;

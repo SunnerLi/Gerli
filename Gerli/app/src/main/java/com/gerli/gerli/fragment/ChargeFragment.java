@@ -23,7 +23,10 @@ import com.gerli.gerli.calculator.NumBtnActivity;
 import com.gerli.gerli.chat.ChatInputActivity;
 import com.gerli.handsomeboy.gerliUnit.AccountType;
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
+import com.gerli.handsomeboy.gerliUnit.Info_type;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
+
+import java.util.Calendar;
 
 
 /**
@@ -35,6 +38,8 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     private View myView;
 
     ImageButton buttonInput, chatInput, voiceInput;
+    int myYear,myMonth,myDay;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +51,12 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_charge, container, false);
         setButton();
+
+        //設定初始日期
+        Calendar calendar = Calendar.getInstance();
+        myYear = calendar.get(Calendar.YEAR);
+        myMonth = calendar.get(Calendar.MONTH) + 1;
+        myDay = calendar.get(Calendar.DAY_OF_MONTH);
 
         TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
         choseDateText.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +80,9 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     }
 
     public void passOnDateSet(int year, int month, int day) {
+        myYear = year;
+        myMonth = month + 1;
+        myDay = day;
         TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
         choseDateText.setText(CalendarManager.getDay(year, month + 1, day));
         Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay(year, month + 1, day));
@@ -93,6 +107,11 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putInt(Info_type.getInfoTypeName(Info_type.YEAR),myYear);
+                bundle.putInt(Info_type.getInfoTypeName(Info_type.MONTH),myMonth);
+                bundle.putInt(Info_type.getInfoTypeName(Info_type.DAY),myDay);
+                intent.putExtras(bundle);
                 intent.setClass(getContext(), NumBtnActivity.class);
                 startActivity(intent);
             }
@@ -116,7 +135,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
     }
 
     public void updateListView(){
-        Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay());
+        Cursor mCursor = gerliDatabaseManager.getCursor_dayItem(CalendarManager.getDay(myYear,myMonth,myDay));
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(getContext(), R.layout.charge_list, mCursor,
                 new String[] {"Name", "Money"}, new int[]{R.id.item_name, R.id.item_cost}, 0);
         ListView listView = (ListView) myView.findViewById(R.id.charge_list_view);
