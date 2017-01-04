@@ -22,8 +22,6 @@ import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
 import com.gerli.gerli.fragment.DropboxView;
 import com.gerli.gerli.fragment.MonthPlanFragment;
-import com.gerli.gerli.fragment.SettingFragment;
-import com.gerli.gerli.fragment.YearPlanFragment;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 import java.io.File;
@@ -130,15 +128,6 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         } else if (id == R.id.nav_month_plan) {
             getSupportActionBar().setTitle(R.string.month_plan);
             MonthPlanFragment newFragment = new MonthPlanFragment();
-            mFragment = newFragment;
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-
-            transaction.replace(R.id.fragment_container, newFragment);
-
-            transaction.commit();
-        } else if (id == R.id.nav_year_plan) {
-            getSupportActionBar().setTitle(R.string.year_plan);
-            YearPlanFragment newFragment = new YearPlanFragment();
             mFragment = newFragment;
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
