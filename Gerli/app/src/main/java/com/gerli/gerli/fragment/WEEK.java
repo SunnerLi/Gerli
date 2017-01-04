@@ -70,7 +70,10 @@ public class WEEK extends Fragment {
     public void setpiechart(){
         GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
-        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByWeek(Calendar.YEAR,Calendar.MONTH,Calendar.DAY_OF_MONTH,5);
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByWeek(year,month,day,5);
         if(pieChartPackage == null){
             return;
         }
