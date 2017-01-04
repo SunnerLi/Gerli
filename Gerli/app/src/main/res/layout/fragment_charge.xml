@@ -51,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="show date"
+        android:textSize="20sp"
         android:id="@+id/choose_date_text"
         android:layout_marginTop="30dp"
         android:layout_alignParentTop="true"
