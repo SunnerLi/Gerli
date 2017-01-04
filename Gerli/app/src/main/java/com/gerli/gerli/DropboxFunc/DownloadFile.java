@@ -176,7 +176,7 @@ public class DownloadFile extends AsyncTask<Void, Long, Boolean> {
         if (result) {
             if(mDisplayList==null)
                 return;
-            new ListFile(mContext, null, mDir.getPath(), mDisplayList, mExt).execute();
+            //new ListFile(mContext, null, mDir.getPath(), mDisplayList, mExt).execute();
         } else {
             // Couldn't download it, so show an error
             showToast(mErrorMsg);
