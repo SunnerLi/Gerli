@@ -2,6 +2,7 @@ package com.gerli.gerli.fragment;
 
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -63,8 +64,6 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
 
         robotoCalendarView.updateView();
 
-
-
         return myView;
     }
 
@@ -92,7 +91,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
         year=daySelectedCalendar.get(Calendar.YEAR);
         month=daySelectedCalendar.get(Calendar.MONTH)+1;//月處理的方式
         date=daySelectedCalendar.get(Calendar.DAY_OF_MONTH);
-        robotoCalendarView.markCircleImage1(daySelectedCalendar);//產生點點的函式
+        //robotoCalendarView.markCircleImage1(daySelectedCalendar);//產生點點的函式
 
         list_update();
 
@@ -155,11 +154,38 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
                 return true;
             }
         });
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year,month-1,date);
+        Cursor cursor = manager.getMonthStarCursor(calendar);
+
+        cursor.moveToFirst();
+        for(int i= 0; i < cursor.getCount();i++){
+            String starDay = cursor.getString(0);
+            calendar.set(year,month - 1,Integer.valueOf(starDay));
+            //calendar.set(Calendar.DAY_OF_MONTH,Integer.valueOf(starDay));
+            robotoCalendarView.markCircleImage1(calendar);
+            cursor.moveToNext();
+        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
+
+
+
+        if(year == 0){
+            Calendar calendar = Calendar.getInstance();
+            onDayClick(calendar);
+        }else{
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR,year);
+            calendar.set(Calendar.MONTH,month - 1);
+            calendar.set(Calendar.DAY_OF_MONTH,date);
+            onDayClick(calendar);
+        }
+
         list_update();
     }
 }

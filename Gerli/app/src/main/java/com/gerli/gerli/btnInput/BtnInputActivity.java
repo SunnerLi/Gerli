@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.gerli.gerli.R;
 import com.gerli.gerli.calculator.NumBtnActivity;
+import com.gerli.gerli.typeImageRes;
 import com.gerli.handsomeboy.gerliUnit.AccountType;
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
 import com.gerli.handsomeboy.gerliUnit.Info_type;
@@ -46,17 +47,6 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
 
     int myYear,myMonth,myDay;
 
-
-    int[] image = {
-            R.drawable.gerli_type_breakfast,R.drawable.gerli_type_lunch,R.drawable.gerli_type_dinner,
-            R.drawable.gerli_type_supper,R.drawable.gerli_type_drink,R.drawable.gerli_type_snack,
-            R.drawable.gerli_type_clothes,R.drawable.gerli_type_accessory,R.drawable.gerli_type_shoes,
-            R.drawable.gerli_type_rent,R.drawable.gerli_type_dailysupply,R.drawable.gerli_type_payment,
-            R.drawable.gerli_type_transport,R.drawable.gerli_type_fuel,R.drawable.gerli_type_car,
-            R.drawable.gerli_type_book,R.drawable.gerli_type_stationery,R.drawable.gerli_type_art,
-            R.drawable.gerli_type_entertainment,R.drawable.gerli_type_shopping,R.drawable.gerli_type_invest,
-            R.drawable.gerli_type_gift,R.drawable.gerli_type_others
-    };
     String[] imgText;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,23 +75,15 @@ public class BtnInputActivity extends AppCompatActivity implements PopupMenu.OnM
         btn_enter = (Button)findViewById(R.id.btn_enter);
         btn_enter.setOnClickListener(listener);
 
-        setGridString();
         createGridType();
-    }
-
-    void setGridString(){
-        imgText = new String[image.length];
-        for(int i = 0;i<image.length;i++){
-            imgText[i] = AccountType.getString(i);
-        }
     }
 
     void createGridType(){
         List<Map<String,Object>> items = new ArrayList<>();
-        for(int i = 0; i < image.length;i++){
+        for(int i = 0; i < typeImageRes.image.length;i++){
             Map<String,Object> item = new HashMap<>();
-            item.put(gridCol[0],image[i]);
-            item.put(gridCol[1],imgText[i]);
+            item.put(gridCol[0],typeImageRes.image[i]);
+            item.put(gridCol[1],AccountType.getString(i));
             items.add(item);
         }
 

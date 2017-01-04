@@ -53,9 +53,9 @@
         android:text="show date"
         android:textSize="20sp"
         android:id="@+id/choose_date_text"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="26dp"
         android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/buttonInput"/>
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

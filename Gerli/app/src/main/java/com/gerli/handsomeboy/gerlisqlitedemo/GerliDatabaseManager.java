@@ -46,6 +46,23 @@ public class GerliDatabaseManager {
         calendarManager = new CalendarManager();
     }
 
+    public Cursor getMonthStarCursor(Calendar calendar){
+//        calendar.set(Calendar.DAY_OF_MONTH,1);
+//        String start = CalendarManager.getDay(calendar);
+//        calendar.add(Calendar.MONTH,1);
+//        calendar.add(Calendar.DAY_OF_MONTH,-1);
+//        String end = CalendarManager.getDay(calendar);
+//        String sqlStart = "'" + start + "'";
+//        String sqlEnd = "'" + end + "'";
+
+        return db.rawQuery("SELECT Day FROM " + sqLiteDB.monthTable +
+                " where planYear =" + calendar.get(Calendar.YEAR) +
+                " AND planMonth =" + (calendar.get(Calendar.MONTH) +1) +
+                " GROUP BY Day" +
+                " ORDER BY Day ASC",null);
+
+    }
+
     //region BarChart
 
     /**
