@@ -94,17 +94,16 @@ public class DAY extends Fragment  {
         TextView expense = (TextView) myView.findViewById(R.id.expense);
         TextView total = (TextView) myView.findViewById(R.id.total);
         GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
-//        UnitPackage.TotalPackage totalPackage = manager.getTodayTotal();
-//        if(totalPackage == null)
-//        {
-//            return;
-//        }
-//        int income1 = totalPackage.Income;
-//        int expense1 = totalPackage.Expense;
-//
-//        icome.setText(income1);
-//        expense.setText(expense1);
+        UnitPackage.TotalPackage totalPackage = manager.getTodayTotal();
+        if(totalPackage == null)
+        {
+            return;
+        }
+        int income1 = totalPackage.Income;
+        int expense1 = totalPackage.Expense;
 
+        icome.setText(String.valueOf(income1));
+        expense.setText(String.valueOf(expense1));
 
     }
     public void setpiechart(){
