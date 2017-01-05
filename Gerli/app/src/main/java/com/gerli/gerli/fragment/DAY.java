@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +44,9 @@ import java.util.Random;
  * A simple {@link Fragment} subclass.
  */
 public class DAY extends Fragment  {
+    private ProgressDialogFragment dlg;
+    private int p = 0;
+    private Handler pHandler;
 
     private static int year1;
     private static int month1;
@@ -65,6 +70,10 @@ public class DAY extends Fragment  {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_day, container, false);
+
+
+
+
         TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
         choseDateText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,26 +93,56 @@ public class DAY extends Fragment  {
 
         shareBtn.setOnClickListener(shareOnclick);
 
-        setpiechart();
-        sum();
+        setpiechart();//圖表呈現
+        sum();//總金額
         return  myView;
     }
+//    public  void setprosess()
+//    {
+//        pHandler = new Handler() {
+//            public void handleMessage(Message msg) {
+//                super.handleMessage(msg);
+//                if ( p >= 100 ) {
+//                    dlg.dismiss();
+////                    TextView output = (TextView) findViewById(R.id.lblOutput);
+////                    output.setText("下載已完成....");
+//                }
+//                else {
+//                    p++;
+//                    dlg.updateProgress();  //  更新進度
+//                    pHandler.sendEmptyMessageDelayed(0,50);
+//                }
+//            }
+//        };
+//
+//
+//        dlg = ProgressDialogFragment.newInstance("匯入檔案...");
+//        FragmentManager fm = getActivity().getSupportFragmentManager();
+//        dlg.show(fm, "progressdialog");
+//        p = 0;   // 重設
+//        pHandler.sendEmptyMessage(0);
+//    }
+
+
     public  void sum()
     {
         TextView icome = (TextView) myView.findViewById(R.id.income);
         TextView expense = (TextView) myView.findViewById(R.id.expense);
         TextView total = (TextView) myView.findViewById(R.id.total);
         GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
-        UnitPackage.TotalPackage totalPackage = manager.getTodayTotal();
+        UnitPackage.TotalPackage totalPackage = manager.getTodayTotal();//取當天時間
+        //UnitPackage.TotalPackage totalPackage = manager.getDayTotal(CalendarManager.getDay(year1,month1,day1));
         if(totalPackage == null)
         {
             return;
         }
         int income1 = totalPackage.Income;
         int expense1 = totalPackage.Expense;
+        int total1=income1-expense1;
 
         icome.setText(String.valueOf(income1));
         expense.setText(String.valueOf(expense1));
+        total.setText(String.valueOf(total1));
 
     }
     public void setpiechart(){
@@ -119,7 +158,7 @@ public class DAY extends Fragment  {
         ArrayList<String> dataList = pieChartPackage.typeList;
         float[] expenseArr = pieChartPackage.expenseArr;
 
-        list_update();
+        list_update();// listview
         PieChart pieChart = (PieChart) myView.findViewById(R.id.chart);
         random = new Random();//隨機數
 
@@ -178,7 +217,32 @@ public class DAY extends Fragment  {
             }
         }
         listView.setAdapter(adapter);
+        new Utility().setListViewHeightBasedOnChildren(listView);
+    }
 
+
+
+    public class Utility {
+        public  void setListViewHeightBasedOnChildren(ListView listView) {
+            //獲取ListView對應的Adapter
+            ListAdapter listAdapter = listView.getAdapter();
+            if (listAdapter == null) {
+                return;
+            }
+
+            int totalHeight = 30;
+            for (int i = 0, len = listAdapter.getCount(); i < len; i++) {   //listAdapter.getCount()返回數據項的數目
+                View listItem = listAdapter.getView(i, null, listView);
+                listItem.measure(0, 0);  //計算子項View 的寬高
+                totalHeight += listItem.getMeasuredHeight();  //統計所有子項的總高度
+            }
+
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+            //listView.getDividerHeight()獲取子項間分隔符占用的高度
+            //params.height最後得到整個ListView完整顯示需要的高度
+            listView.setLayoutParams(params);
+        }
     }
     public View.OnClickListener shareOnclick = new View.OnClickListener() {
 
@@ -239,13 +303,13 @@ public class DAY extends Fragment  {
                 Integer.toString(monthOfYear + 1) + "/ " +
                 Integer.toString(dayOfMonth));
         year1 = Integer.valueOf(year);
-        month1 =  Integer.valueOf(monthOfYear + 1);
+        month1 =  Integer.valueOf(monthOfYear+1);
         day1 = Integer.valueOf(dayOfMonth);
 
     }
     @Override
     public void onResume(){
         super.onResume();
-       setpiechart();
+       sum();
     }
 }

@@ -3,6 +3,8 @@ package com.gerli.gerli.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerTabStrip;
 import android.support.v4.view.ViewPager;
@@ -20,6 +22,10 @@ public class ChartAnalysisFragment extends Fragment {
     private View myView;
     ViewPager pager;
     PagerTabStrip tab_strp;
+
+    private ProgressDialogFragment dlg;
+    private int p = 0;
+    private Handler pHandler;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +36,7 @@ public class ChartAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chart_analysis, container, false);
+
         ma_pager_adapter mapager=new ma_pager_adapter(getFragmentManager());
         pager=(ViewPager)myView.findViewById(R.id.pager);
 
@@ -39,6 +46,24 @@ public class ChartAnalysisFragment extends Fragment {
 
         return myView;
     }
+    public  void setprosess()
+    {
+        pHandler = new Handler() {
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                if ( p >= 100 ) {
+                    dlg.dismiss();
+//                    TextView output = (TextView) findViewById(R.id.lblOutput);
+//                    output.setText("下載已完成....");
+                }
+                else {
+                    p++;
+                    dlg.updateProgress();  //  更新進度
+                    pHandler.sendEmptyMessageDelayed(0,50);
+                }
+            }
+        };
 
 
+    }
 }

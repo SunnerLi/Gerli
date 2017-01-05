@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -130,7 +131,10 @@ public class YEAR extends Fragment {
         calendar.set(2017,1,3);
 
         UnitPackage.BarChartPackage barChartPackage = manager.getBarChartByYear();
-
+        if(barChartPackage==null)
+        {
+            return;
+        }
         ArrayList<String> dataList = barChartPackage.dateList;
         float[] expenseArr = barChartPackage.expenseArr;
 
@@ -145,7 +149,7 @@ public class YEAR extends Fragment {
 
         }
 
-        BarDataSet dataset = new BarDataSet(entries, "# of Calls");
+        BarDataSet dataset = new BarDataSet(entries, "總金額");
 
         ArrayList<String> labels = new ArrayList<String>();
         for(int i=0;i<dataList.size();i++)
@@ -187,7 +191,30 @@ public class YEAR extends Fragment {
             }
         }
         listView.setAdapter(adapter);
+        new Utility().setListViewHeightBasedOnChildren(listView);
+    }
 
+    public class Utility {
+        public  void setListViewHeightBasedOnChildren(ListView listView) {
+            //獲取ListView對應的Adapter
+            ListAdapter listAdapter = listView.getAdapter();
+            if (listAdapter == null) {
+                return;
+            }
+
+            int totalHeight = 30;
+            for (int i = 0, len = listAdapter.getCount(); i < len; i++) {   //listAdapter.getCount()返回數據項的數目
+                View listItem = listAdapter.getView(i, null, listView);
+                listItem.measure(0, 0);  //計算子項View 的寬高
+                totalHeight += listItem.getMeasuredHeight();  //統計所有子項的總高度
+            }
+
+            ViewGroup.LayoutParams params = listView.getLayoutParams();
+            params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+            //listView.getDividerHeight()獲取子項間分隔符占用的高度
+            //params.height最後得到整個ListView完整顯示需要的高度
+            listView.setLayoutParams(params);
+        }
     }
 
     public View.OnClickListener shareOnclick = new View.OnClickListener() {
