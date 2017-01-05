@@ -27,17 +27,6 @@
             android:layout_centerHorizontal="true"
             android:layout_gravity="center"/>
 
-        <Button
-            android:text="@string/com_facebook_share_button_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/butShareYear"
-            android:layout_weight="1"
-            style="@style/com_facebook_button_share"
-            android:layout_below="@+id/chart"
-            android:layout_alignParentEnd="true"
-            android:layout_gravity="right"/>
-
         <ListView
             android:id="@+id/listView1"
             android:layout_width="match_parent"

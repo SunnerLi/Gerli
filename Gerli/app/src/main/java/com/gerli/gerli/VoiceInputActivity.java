@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -19,12 +18,11 @@ import java.util.Locale;
 
 public class VoiceInputActivity extends AppCompatActivity {
 
-    Button recordBtn;//語音輸入btn
+    ImageButton recordBtn;//語音輸入btn
     String resultStr;
     MoneyHandler moneyHandler; ;
     private static final int RQS_VOICE_RECOGNITION = 1;
-    Button btCheck;//檢查今日收入支出
-    Button backBtn;//回上一頁
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +30,8 @@ public class VoiceInputActivity extends AppCompatActivity {
         setContentView(R.layout.activity_voice_input);
         final GerliDatabaseManager manager = new GerliDatabaseManager(this);
         moneyHandler = new MoneyHandler(manager);
-        btCheck = (Button)findViewById(R.id.btnCheck);
-        recordBtn = (Button) findViewById(R.id.recordBtn);
-        backBtn = (Button)findViewById(R.id.backBtn);
-        backBtn.setOnClickListener(back);
+        recordBtn = (ImageButton) findViewById(R.id.recordBtn);
+
         recordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,16 +48,6 @@ public class VoiceInputActivity extends AppCompatActivity {
             }
         });
 
-        //檢查當入總支出收入，debug用可刪掉
-        btCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                UnitPackage.TotalPackage tmp = manager.getTodayTotal();
-                Log.d("check:","expense:"+tmp.Expense+" income:"+tmp.Income);
-                Toast toast = Toast.makeText(VoiceInputActivity.this,"expense:"+Integer.toString(tmp.Expense)+" income:"+Integer.toString(tmp.Income),Toast.LENGTH_LONG);
-                toast.show();
-            }
-        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -102,10 +88,4 @@ public class VoiceInputActivity extends AppCompatActivity {
         }
     }
 
-    private Button.OnClickListener back = new Button.OnClickListener(){
-        public void onClick(View v){
-            //回到上一頁畫面
-            VoiceInputActivity.this.finish();
-        }
-    };
 }

@@ -2,11 +2,14 @@ package com.gerli.gerli;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,9 +17,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.share.Sharer;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.facebook.share.widget.ShareDialog;
 import com.gerli.gerli.TimedRemind.SetAlarmService;
 import com.gerli.gerli.fragment.ChargeFragment;
 import com.gerli.gerli.fragment.ChartAnalysisFragment;
@@ -29,6 +42,7 @@ import java.io.File;
 public class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "## NavigationActivity";
     public Fragment mFragment;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +50,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,11 +98,11 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    /*
+
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
             // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.navigation, menu);
+            getMenuInflater().inflate(R.menu.activity_share_action_bar, menu);
             return true;
         }
 
@@ -99,13 +114,52 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
             int id = item.getItemId();
 
             //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
+            if (id == R.id.share) {
+                ShareDialog shareDialog = new ShareDialog(this);
+                callbackManager = CallbackManager.Factory.create();
+                shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+                    @Override
+                    public void onSuccess(Sharer.Result result) {
+
+                        Toast.makeText(mFragment.getActivity(),"share success",Toast.LENGTH_LONG).show();
+
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast toast = Toast.makeText(mFragment.getActivity(),"share cancel",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Toast toast = Toast.makeText(mFragment.getActivity(),"share onError",Toast.LENGTH_LONG);
+                        toast.show();
+                    }
+
+                });
+
+                //螢幕截圖
+                Bitmap myBitmap= getScreenShot();
+                Log.d("share","getScreen shot");
+
+                //建立分享內容
+                if (ShareDialog.canShow(SharePhotoContent.class)) {
+                    SharePhoto photo = new SharePhoto.Builder()
+                            .setBitmap(myBitmap)
+                            .build();
+                    SharePhotoContent content = new SharePhotoContent.Builder()
+                            .addPhoto(photo)
+                            .build();
+
+                    shareDialog.show(content);
+                }
                 return true;
             }
 
             return super.onOptionsItemSelected(item);
         }
-    */
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -191,5 +245,36 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         } else {
             stopService(intent);
         }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    public Bitmap getScreenShot()
+    {
+        FragmentActivity ac = mFragment.getActivity();
+        //藉由View來Cache全螢幕畫面後放入Bitmap
+        View mView = ac.getWindow().getDecorView();
+        mView.setDrawingCacheEnabled(true);
+        mView.buildDrawingCache();
+        Bitmap mFullBitmap = mView.getDrawingCache();
+
+        //取得系統狀態列高度
+        Rect mRect = new Rect();
+        ac.getWindow().getDecorView().getWindowVisibleDisplayFrame(mRect);
+        int mStatusBarHeight = mRect.top;
+
+        //取得手機螢幕長寬尺寸
+        int mPhoneWidth = ac.getWindowManager().getDefaultDisplay().getWidth();
+        int mPhoneHeight = ac.getWindowManager().getDefaultDisplay().getHeight();
+
+        //將狀態列的部分移除並建立新的Bitmap
+        Bitmap mBitmap = Bitmap.createBitmap(mFullBitmap, 0, mStatusBarHeight, mPhoneWidth, mPhoneHeight - mStatusBarHeight);
+        //將Cache的畫面清除
+        mView.destroyDrawingCache();
+
+        return mBitmap;
     }
 }
