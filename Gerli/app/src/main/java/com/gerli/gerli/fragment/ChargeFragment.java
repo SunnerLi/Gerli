@@ -156,6 +156,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
             items.add(item);
             myCursor.moveToNext();
         }
+        myCursor.close();
 
         SimpleAdapter adapter = new SimpleAdapter(getContext(),items, R.layout.charge_list,
                 new String[] {"Name", "Money", "Type", "INOUT"},

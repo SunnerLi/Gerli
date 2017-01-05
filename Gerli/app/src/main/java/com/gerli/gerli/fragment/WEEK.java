@@ -51,6 +51,8 @@ public class WEEK extends Fragment {
     private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private Bitmap myBitmap;
+    private GerliDatabaseManager manager;
+
     public WEEK() {
         // Required empty public constructor
     }
@@ -61,6 +63,8 @@ public class WEEK extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        myView= inflater.inflate(R.layout.fragment_week, container, false);
+        manager = new GerliDatabaseManager(getContext());
+
         setpiechart();
         setbarchart();
         shareBtn = (Button)myView.findViewById(R.id.butShareWeek);
@@ -72,7 +76,7 @@ public class WEEK extends Fragment {
         return  myView;
     }
     public void setpiechart(){
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -128,7 +132,7 @@ public class WEEK extends Fragment {
     }
     void list_update(){
         //資料庫
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -155,7 +159,7 @@ public class WEEK extends Fragment {
 
     }
     private void setbarchart() {
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         calendar.set(2017,1,29);
 

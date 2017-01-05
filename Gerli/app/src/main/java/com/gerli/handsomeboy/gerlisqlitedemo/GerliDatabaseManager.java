@@ -97,6 +97,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getBarChartByWeek : accountTable no data");
             return null;
         }
@@ -114,6 +115,7 @@ public class GerliDatabaseManager {
             j++;
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new BarChartPackage(weekList,expenseArr);
     }
@@ -134,6 +136,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getBarChartByYear : accountTable no data");
             return null;
         }
@@ -151,6 +154,7 @@ public class GerliDatabaseManager {
             j++;
             cursor.moveToNext();
         }
+        cursor.close();
         return new UnitPackage().new BarChartPackage(yearList,expenseArr);
     }
 
@@ -192,6 +196,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getPieChartByDay : accountTable no data");
             return null;
         }
@@ -205,6 +210,7 @@ public class GerliDatabaseManager {
             expenseRateArr[i] = expense;
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new PieChartPackage(typeList,expenseRateArr);
     }
@@ -224,6 +230,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getPieChartByWeek : accountTable no data");
             return null;
         }
@@ -237,6 +244,7 @@ public class GerliDatabaseManager {
             expenseRateArr[i] = expense;
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new PieChartPackage(typeList,expenseRateArr);
     }
@@ -256,6 +264,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getPieChartByMonth : accountTable no data");
             return null;
         }
@@ -269,6 +278,7 @@ public class GerliDatabaseManager {
             expenseRateArr[i] = expense;
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new PieChartPackage(typeList,expenseRateArr);
     }
@@ -288,6 +298,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getPieChartByYear : accountTable no data");
             return null;
         }
@@ -301,6 +312,7 @@ public class GerliDatabaseManager {
             expenseRateArr[i] = expense;
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new PieChartPackage(typeList,expenseRateArr);
     }
@@ -314,6 +326,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getYearPlan : accountTable no data");
             return null;
         }
@@ -327,6 +340,7 @@ public class GerliDatabaseManager {
             description[i] = cursor.getString(1);
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new PlanPackage(id,description);
     }
@@ -336,6 +350,7 @@ public class GerliDatabaseManager {
 
         int row_num = cursor.getCount();
         if(row_num < 1 ){
+            cursor.close();
             Log.d("DatabaseData","getYearPlan : accountTable no data");
             return null;
         }
@@ -349,6 +364,7 @@ public class GerliDatabaseManager {
             description[i] = cursor.getString(1);
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new PlanPackage(id,description);
     }
@@ -384,6 +400,7 @@ public class GerliDatabaseManager {
                 Log.d("DatabaseError","getLatestRecordTime : SimpleDateFormat parse error");
             }
         }
+        cursor.close();
 
         return data;
     }
@@ -424,6 +441,7 @@ public class GerliDatabaseManager {
 
         if(row_num==0){
             Log.d("DatabaseData","today no record");
+            cursor.close();
             return new UnitPackage().new TotalPackage(0,0);
         }
 
@@ -441,6 +459,7 @@ public class GerliDatabaseManager {
             }
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new TotalPackage(expense,-income);
     }
@@ -451,6 +470,7 @@ public class GerliDatabaseManager {
 
         if(row_num==0){
             Log.d("DatabaseData","today no record");
+            cursor.close();
             return new UnitPackage().new TotalPackage(0,0);
         }
 
@@ -468,6 +488,7 @@ public class GerliDatabaseManager {
             }
             cursor.moveToNext();
         }
+        cursor.close();
 
         return new UnitPackage().new TotalPackage(expense,income);
     }

@@ -59,6 +59,7 @@ public class DAY extends Fragment  {
     private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private Bitmap myBitmap;
+    private GerliDatabaseManager manager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -76,6 +77,8 @@ public class DAY extends Fragment  {
             }
         });
         choseDateText.setText(CalendarManager.getDay());
+
+        manager = new GerliDatabaseManager(getContext());
 
         //FB分享
         shareBtn = (Button)myView.findViewById(R.id.butShareDay);
@@ -107,7 +110,7 @@ public class DAY extends Fragment  {
 
     }
     public void setpiechart(){
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -154,7 +157,7 @@ public class DAY extends Fragment  {
 
     }
     void list_update(){
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);

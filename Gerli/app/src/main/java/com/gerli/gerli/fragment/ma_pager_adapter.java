@@ -1,8 +1,12 @@
 package com.gerli.gerli.fragment;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 import java.util.Locale;
 
@@ -10,10 +14,12 @@ import java.util.Locale;
  * Created by Dr.h3cker on 14/03/2015.
  */
 public class ma_pager_adapter extends FragmentPagerAdapter {
-    public ma_pager_adapter(FragmentManager fm) {
+    public ma_pager_adapter(FragmentManager fm,GerliDatabaseManager gerli) {
         super(fm);
+        manager = gerli;
     }
 
+    public GerliDatabaseManager manager;
 
     @Override
     public Fragment getItem(int i) {
@@ -31,6 +37,7 @@ public class ma_pager_adapter extends FragmentPagerAdapter {
 
             case 3:
                 YEAR t4 = new YEAR();
+                Bundle bundle = new Bundle();
                 return t4;
 
         }

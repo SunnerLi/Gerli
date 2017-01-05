@@ -47,6 +47,7 @@ public class MONTH extends Fragment {
     private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private Bitmap myBitmap;
+    private GerliDatabaseManager manager;
 
     public MONTH() {
         // Required empty public constructor
@@ -57,6 +58,9 @@ public class MONTH extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_month, container, false);
+
+        manager = new GerliDatabaseManager(getContext());
+
         shareBtn = (Button)myView.findViewById(R.id.butShare);
 
         shareDialog = new ShareDialog(this);
@@ -69,7 +73,7 @@ public class MONTH extends Fragment {
     }
 
     public void setpiechart(){
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -118,7 +122,7 @@ public class MONTH extends Fragment {
 
     void list_update(){
         //資料庫
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);

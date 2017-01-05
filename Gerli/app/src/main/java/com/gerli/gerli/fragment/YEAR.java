@@ -51,6 +51,8 @@ public class YEAR extends Fragment {
     private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private Bitmap myBitmap;
+    private GerliDatabaseManager manager;
+
     public YEAR() {
         // Required empty public constructor
     }
@@ -61,6 +63,7 @@ public class YEAR extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_year, container, false);
+        manager = new GerliDatabaseManager(getContext());
         setpiechart();
         setbarchart();
         shareBtn = (Button)myView.findViewById(R.id.butShareYear);
@@ -69,10 +72,12 @@ public class YEAR extends Fragment {
         callbackManager = CallbackManager.Factory.create();
 
         shareBtn.setOnClickListener(shareOnclick);
+
+
         return  myView;
     }
     public void setpiechart(){
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
@@ -125,11 +130,14 @@ public class YEAR extends Fragment {
 
     }
     private void setbarchart() {
-        GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
+        //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
         Calendar calendar = Calendar.getInstance();
         calendar.set(2017,1,3);
 
         UnitPackage.BarChartPackage barChartPackage = manager.getBarChartByYear();
+        if(barChartPackage == null){
+            return;
+        }
 
         ArrayList<String> dataList = barChartPackage.dateList;
         float[] expenseArr = barChartPackage.expenseArr;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.gerli.gerli.R;
+import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 
 /**
@@ -30,7 +31,7 @@ public class ChartAnalysisFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_chart_analysis, container, false);
-        ma_pager_adapter mapager=new ma_pager_adapter(getFragmentManager());
+        ma_pager_adapter mapager=new ma_pager_adapter(getFragmentManager(),new GerliDatabaseManager(getContext()));
         pager=(ViewPager)myView.findViewById(R.id.pager);
 
         pager.setAdapter(mapager);
