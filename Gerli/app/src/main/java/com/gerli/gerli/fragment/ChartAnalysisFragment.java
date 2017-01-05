@@ -1,4 +1,4 @@
-﻿package com.gerli.gerli.fragment;
+package com.gerli.gerli.fragment;
 
 
 import android.graphics.Color;
@@ -65,7 +65,5 @@ public class ChartAnalysisFragment extends Fragment {
                 }
             }
         };
-
-
     }
 }

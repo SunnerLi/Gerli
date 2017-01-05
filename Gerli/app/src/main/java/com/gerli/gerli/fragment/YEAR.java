@@ -1,4 +1,4 @@
-﻿package com.gerli.gerli.fragment;
+package com.gerli.gerli.fragment;
 
 
 import android.content.Intent;
