@@ -55,7 +55,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -80,7 +80,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
             mFragment = firstFragment;
             // Add the fragment to the 'fragment_container' FrameLayout
             getSupportFragmentManager().beginTransaction()
-                .add(R.id.fragment_container, firstFragment).commit();
+                    .add(R.id.fragment_container, firstFragment).commit();
 
         }
 
@@ -99,66 +99,66 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
     }
 
 
-        @Override
-        public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.activity_share_action_bar, menu);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_share_action_bar, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.share) {
+            ShareDialog shareDialog = new ShareDialog(this);
+            callbackManager = CallbackManager.Factory.create();
+            shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
+                @Override
+                public void onSuccess(Sharer.Result result) {
+
+                    Toast.makeText(mFragment.getActivity(), "share success", Toast.LENGTH_LONG).show();
+
+                }
+
+                @Override
+                public void onCancel() {
+                    Toast toast = Toast.makeText(mFragment.getActivity(), "share cancel", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+                @Override
+                public void onError(FacebookException error) {
+                    Toast toast = Toast.makeText(mFragment.getActivity(), "share onError", Toast.LENGTH_LONG);
+                    toast.show();
+                }
+
+            });
+
+            //螢幕截圖
+            Bitmap myBitmap = getScreenShot();
+            Log.d("share", "getScreen shot");
+
+            //建立分享內容
+            if (ShareDialog.canShow(SharePhotoContent.class)) {
+                SharePhoto photo = new SharePhoto.Builder()
+                        .setBitmap(myBitmap)
+                        .build();
+                SharePhotoContent content = new SharePhotoContent.Builder()
+                        .addPhoto(photo)
+                        .build();
+
+                shareDialog.show(content);
+            }
             return true;
         }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.share) {
-                ShareDialog shareDialog = new ShareDialog(this);
-                callbackManager = CallbackManager.Factory.create();
-                shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-                    @Override
-                    public void onSuccess(Sharer.Result result) {
-
-                        Toast.makeText(mFragment.getActivity(),"share success",Toast.LENGTH_LONG).show();
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Toast toast = Toast.makeText(mFragment.getActivity(),"share cancel",Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                        Toast toast = Toast.makeText(mFragment.getActivity(),"share onError",Toast.LENGTH_LONG);
-                        toast.show();
-                    }
-
-                });
-
-                //螢幕截圖
-                Bitmap myBitmap= getScreenShot();
-                Log.d("share","getScreen shot");
-
-                //建立分享內容
-                if (ShareDialog.canShow(SharePhotoContent.class)) {
-                    SharePhoto photo = new SharePhoto.Builder()
-                            .setBitmap(myBitmap)
-                            .build();
-                    SharePhotoContent content = new SharePhotoContent.Builder()
-                            .addPhoto(photo)
-                            .build();
-
-                    shareDialog.show(content);
-                }
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -249,8 +249,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
-    public Bitmap getScreenShot()
-    {
+    public Bitmap getScreenShot() {
         FragmentActivity ac = mFragment.getActivity();
         //藉由View來Cache全螢幕畫面後放入Bitmap
         View mView = ac.getWindow().getDecorView();

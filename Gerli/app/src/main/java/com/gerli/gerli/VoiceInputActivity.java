@@ -10,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.gerli.gerli.parser.MoneyHandler;
+import com.gerli.gerli.parser.Parser;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
@@ -20,7 +21,8 @@ public class VoiceInputActivity extends AppCompatActivity {
 
     ImageButton recordBtn;//語音輸入btn
     String resultStr;
-    MoneyHandler moneyHandler; ;
+    MoneyHandler moneyHandler;
+    ;
     private static final int RQS_VOICE_RECOGNITION = 1;
 
 
@@ -39,11 +41,11 @@ public class VoiceInputActivity extends AppCompatActivity {
                 //語音辨識
                 Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,
-                    RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                        RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                 //設定辨識的語言為英文
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH.toString());
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT,
-                    "Start Speech");
+                        "Start Speech");
                 startActivityForResult(intent, RQS_VOICE_RECOGNITION);
             }
         });
@@ -52,35 +54,45 @@ public class VoiceInputActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // TODO Auto-generated method stub
-        if(requestCode == RQS_VOICE_RECOGNITION){
-            if(resultCode == RESULT_OK){
+        if (requestCode == RQS_VOICE_RECOGNITION) {
+            if (resultCode == RESULT_OK) {
 
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                resultStr = (String)result.get(0);
+                resultStr = (String) result.get(0);
 
-                Log.d("recognition",resultStr);
+                Log.d("recognition", resultStr);
                 Toast.makeText(this, resultStr, Toast.LENGTH_SHORT).show();
                 String InStr = "(.*)income(.*)";
                 int index;
-                if(resultStr.matches(InStr)){
-                    Log.d("recognition","match");
+                if (resultStr.matches(InStr)) {
+                    Log.d("recognition", "match");
                     String tmp = "income";
                     index = resultStr.indexOf(tmp);
-                    Log.d("recognition","index:"+index);
-                    String tmp1 = resultStr.substring(0,index-1);
+                    Log.d("recognition", "index:" + index);
+                    String tmp1 = resultStr.substring(0, index - 1);
                     index = index + 7;
                     String tmp2 = resultStr.substring(index);
-                    resultStr = tmp1+" others -"+tmp2;
+                    resultStr = tmp1 + " others -" + tmp2;
                     //dinner income 100
-                }
-                else if(resultStr.contains(" ")){
+                } else if (resultStr.contains(" ")) {
                     index = resultStr.lastIndexOf(' ');
-                    String tmp1 = resultStr.substring(0,index);
-                    String tmp2 = resultStr.substring(index+1);
-                    resultStr = tmp1+" +"+tmp2;
+                    String tmp1 = resultStr.substring(0, index);
+                    String tmp2 = resultStr.substring(index + 1);
+                    resultStr = tmp1 + " +" + tmp2;
                 }
 
-                if(moneyHandler.work(resultStr)==false){
+                /*
+
+                // 判斷是否為有遵守規則的句子，有就走進if，沒有就走進else
+                if (new Parser().isStringCorrespondFormat(resultStr)) {
+                    // The string meet the rule
+                } else {
+                    // The string is the usual sentence
+                }
+
+                */
+
+                if (moneyHandler.work(resultStr) == false) {
                     Toast.makeText(this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                 }
 

@@ -60,22 +60,38 @@ public class Parser {
         String[] list = _string.split(" ");
 
         // Judge if the string is invalid
-        if (list.length != 3) {
-            Log.d(TAG, "Reason: the number of element < 3, which number is " + list.toString());
+        if (isStringCorrespondFormat(_string)) {
+            parseResult = _parse(list);
+            parseResult.dump();
+        } else {
             remoteParser.work(_string, stringType);
         }
-        else if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {
+    }
+
+    /**
+     * Judge if the string meet the format of local mode
+     *
+     * @param _string The string want to test
+     * @return if meet the rules
+     */
+    public boolean isStringCorrespondFormat(String _string) {
+        // Store the each conponent of the string
+        String[] list = _string.split(" ");
+
+        // Judge if the string is invalid
+        if (list.length != 3) {
+            Log.d(TAG, "Reason: the number of element < 3, which number is " + list.toString());
+            return false;
+        } else if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {
             Log.d(TAG, "Reason: lose the +- symbol");
-            remoteParser.work(_string, stringType);
+            return false;
         } else {
             String _num = list[2].substring(1, list[2].length());
             if (!isNumeric((_num))) {
                 Log.d(TAG, "Reason: the value is invalid");
-                remoteParser.work(_string, stringType);
+                return false;
             } else {
-                Log.d(TAG, "Start local parsing");
-                parseResult = _parse(list);
-                parseResult.dump();
+                return true;
             }
         }
     }
@@ -109,7 +125,7 @@ public class Parser {
         for (int i = 0; i < aString.length(); i++) {
             for (int j = 0; j < alphabet.length(); j++) {
                 if (aString.substring(i, i + 1).equals(alphabet.substring(j, j + 1))
-                    || aString.substring(i, i + 1).equals(alphabet.substring(j, j + 1).toLowerCase()))
+                        || aString.substring(i, i + 1).equals(alphabet.substring(j, j + 1).toLowerCase()))
                     charCount++;
             }
             if (charCount != (i + 1)) {
