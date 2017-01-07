@@ -8,7 +8,7 @@
     <com.marcohc.robotocalendar.RobotoCalendarView
         android:id="@+id/robotoCalendarPicker"
         android:layout_width="match_parent"
-        android:layout_height="330dp">
+        android:layout_height="300dp">
 
     </com.marcohc.robotocalendar.RobotoCalendarView>
 
@@ -16,10 +16,10 @@
         android:id="@+id/listView1"
         android:layout_width="match_parent"
         android:cacheColorHint="#00000000"
-        android:layout_height="123dp"
         android:layout_below="@+id/robotoCalendarPicker"
         android:layout_alignParentStart="true"
-        android:textColor="#F1BD9D">
+        android:textColor="#F1BD9D"
+        android:layout_height="150dp">
     </ListView>
 
     <Button
