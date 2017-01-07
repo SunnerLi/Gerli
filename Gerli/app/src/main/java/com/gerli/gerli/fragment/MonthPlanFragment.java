@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.gerli.gerli.R;
 import com.gerli.handsomeboy.gerliUnit.Table;
@@ -136,7 +135,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
             // 清單陣列
 
             for(int i=0;i<description.length;i++){
-                adapter.add(description[i]+id[i]);
+                adapter.add(id[i]+".  "+description[i]);
             }
         }
 
