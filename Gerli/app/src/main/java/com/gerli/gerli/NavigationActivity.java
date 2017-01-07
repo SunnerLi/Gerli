@@ -39,7 +39,7 @@ import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 import java.io.File;
 
-public class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    public class NavigationActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public final String TAG = "## NavigationActivity";
     public Fragment mFragment;
     private CallbackManager callbackManager;
@@ -246,6 +246,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(callbackManager == null)return;
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
