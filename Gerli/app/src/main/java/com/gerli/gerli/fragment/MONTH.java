@@ -2,30 +2,17 @@ package com.gerli.gerli.fragment;
 
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
-
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.share.Sharer;
-import com.facebook.share.model.SharePhoto;
-import com.facebook.share.model.SharePhotoContent;
-import com.facebook.share.widget.ShareDialog;
 import com.gerli.gerli.R;
-import com.gerli.gerli.ShareFunction;
 import com.gerli.handsomeboy.gerliUnit.UnitPackage;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 import com.github.mikephil.charting.charts.PieChart;
@@ -45,10 +32,6 @@ public class MONTH extends Fragment {
     private ArrayAdapter adapter;
     private Random random;//用於產生隨機數
     private View myView;
-    private Button shareBtn;
-    private ShareDialog shareDialog;
-    private CallbackManager callbackManager;
-    private Bitmap myBitmap;
     private GerliDatabaseManager manager;
 
     public MONTH() {
@@ -77,12 +60,6 @@ public class MONTH extends Fragment {
 
         manager = new GerliDatabaseManager(getContext());
 
-        shareBtn = (Button)myView.findViewById(R.id.butShare);
-
-        shareDialog = new ShareDialog(this);
-        callbackManager = CallbackManager.Factory.create();
-
-        shareBtn.setOnClickListener(shareOnclick);
         setpiechart();
 
         return  myView;
@@ -185,58 +162,6 @@ public class MONTH extends Fragment {
         //params.height最後得到整個ListView完整顯示需要的高度
         listView.setLayoutParams(params);
      }
-    }
-
-    public View.OnClickListener shareOnclick = new View.OnClickListener() {
-
-        @Override
-        public void onClick(View v) {
-
-            shareDialog.registerCallback(callbackManager, new FacebookCallback<Sharer.Result>() {
-                @Override
-                public void onSuccess(Sharer.Result result) {
-
-                    Toast.makeText(getActivity(),"share success",Toast.LENGTH_LONG).show();
-
-                }
-
-                @Override
-                public void onCancel() {
-                    Toast toast = Toast.makeText(getActivity(),"share cancel",Toast.LENGTH_LONG);
-                    toast.show();
-                }
-
-                @Override
-                public void onError(FacebookException error) {
-                    Toast toast = Toast.makeText(getActivity(),"share onError",Toast.LENGTH_LONG);
-                    toast.show();
-                }
-
-            });
-
-            //螢幕截圖
-            myBitmap= ShareFunction.getScreenShot(getActivity());
-            Log.d("share","getScreen shot");
-
-            //建立分享內容
-            if (ShareDialog.canShow(SharePhotoContent.class)) {
-                SharePhoto photo = new SharePhoto.Builder()
-                        .setBitmap(myBitmap)
-                        .build();
-                SharePhotoContent content = new SharePhotoContent.Builder()
-                        .addPhoto(photo)
-                        .build();
-
-                shareDialog.show(content);
-            }
-
-        }
-
-    };
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
 }
