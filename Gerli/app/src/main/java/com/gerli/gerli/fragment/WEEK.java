@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,12 +59,25 @@ public class WEEK extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        if(getArguments() != null){
+//            manager = (GerliDatabaseManager) getArguments().getSerializable("database");
+//        }
+    }
+
+    @Override
+    public void onDestroy() {
+        manager.close();
+        super.onDestroy();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       myView= inflater.inflate(R.layout.fragment_week, container, false);
+        myView= inflater.inflate(R.layout.fragment_week, container, false);
         manager = new GerliDatabaseManager(getContext());
 
         setpiechart();

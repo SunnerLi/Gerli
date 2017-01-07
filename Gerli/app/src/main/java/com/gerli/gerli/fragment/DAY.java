@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -36,6 +37,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
@@ -43,14 +45,14 @@ import java.util.Random;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DAY extends Fragment  {
+public class DAY extends Fragment implements Serializable {
     private ProgressDialogFragment dlg;
     private int p = 0;
     private Handler pHandler;
 
-    private static int year1;
-    private static int month1;
-    private static int day1;
+    private int year1;
+    private int month1;
+    private int day1;
 
     public DAY() {
         // Required empty public constructor
@@ -67,19 +69,38 @@ public class DAY extends Fragment  {
     private GerliDatabaseManager manager;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+//        if(getArguments() != null){
+//            manager = (GerliDatabaseManager) getArguments().getSerializable("database");
+//        }
+    }
+
+    @Override
+    public void onDestroy() {
+        manager.close();
+        super.onDestroy();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         myView = inflater.inflate(R.layout.fragment_day, container, false);
 
+        manager = new GerliDatabaseManager(getContext());
 
+        Calendar calendar = Calendar.getInstance();
+        year1 = calendar.get(Calendar.YEAR);
+        month1 = calendar.get(Calendar.MONTH);
+        day1 = calendar.get(Calendar.DAY_OF_MONTH);
 
 
         TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
         choseDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatePickerDialogFragment dlg = DatePickerDialogFragment.newInstance();
+                DatePickerDialogFragment dlg = DatePickerDialogFragment.newInstance(DAY.this);
                 FragmentManager fm = getActivity().getSupportFragmentManager();
                 dlg.show(fm, "datepickerdialog");
                 Toast.makeText(getActivity(), "onDayClick: " +year1 +month1 +day1 , Toast.LENGTH_SHORT).show();
@@ -87,7 +108,6 @@ public class DAY extends Fragment  {
         });
         choseDateText.setText(CalendarManager.getDay());
 
-        manager = new GerliDatabaseManager(getContext());
 
         //FB分享
         shareBtn = (Button)myView.findViewById(R.id.butShareDay);
@@ -133,7 +153,9 @@ public class DAY extends Fragment  {
         TextView expense = (TextView) myView.findViewById(R.id.expense);
         TextView total = (TextView) myView.findViewById(R.id.total);
         GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
-        UnitPackage.TotalPackage totalPackage = manager.getTodayTotal();//取當天時間
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year1,month1,day1);
+        UnitPackage.TotalPackage totalPackage = manager.getDayTotal(CalendarManager.getDay(calendar));//取當天時間
         //UnitPackage.TotalPackage totalPackage = manager.getDayTotal(CalendarManager.getDay(year1,month1,day1));
         if(totalPackage == null)
         {
@@ -150,21 +172,20 @@ public class DAY extends Fragment  {
     }
     public void setpiechart(){
         //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int date = calendar.get(Calendar.DAY_OF_MONTH);
-        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByDay(year,month,date,10);
-        if(pieChartPackage == null){
-            return;
-        }
-        ArrayList<String> dataList = pieChartPackage.typeList;
-        float[] expenseArr = pieChartPackage.expenseArr;
-
-        list_update();// listview
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByDay(year1,month1,day1,10);
+        ArrayList<String> dataList;
         PieChart pieChart = (PieChart) myView.findViewById(R.id.chart);
-        random = new Random();//隨機數
-
+        float[] expenseArr;
+        if(pieChartPackage == null){
+            dataList = new ArrayList<>();
+            dataList.add("無");
+            expenseArr = new float[1];
+            expenseArr[0] = 0;
+        }
+        else{
+            dataList = pieChartPackage.typeList;
+            expenseArr = pieChartPackage.expenseArr;
+        }
 
         ArrayList<Entry> entries = new ArrayList<>(); //數值填入
         for(int i=0;i<expenseArr.length;i++)
@@ -194,19 +215,23 @@ public class DAY extends Fragment  {
         pieChart.setData(data);
         pieChart.animateY(2500);
 
+        list_update();// listview
     }
     void list_update(){
         //GerliDatabaseManager manager = new GerliDatabaseManager(getContext());
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int date = calendar.get(Calendar.DAY_OF_MONTH);
-        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByDay(year,month,date,10);
+
+        UnitPackage.PieChartPackage pieChartPackage = manager.getPieChartByDay(year1,month1,day1,10);
+        ArrayList<String> dataList;
+        float[] expenseArr;
         if(pieChartPackage == null){
-            return;
+            dataList = new ArrayList<>();
+            expenseArr = null;
         }
-        ArrayList<String> dataList = pieChartPackage.typeList;
-        float[] expenseArr = pieChartPackage.expenseArr;
+        else{
+            dataList = pieChartPackage.typeList;
+            expenseArr = pieChartPackage.expenseArr;
+        }
+
 
         //listview
         listView = (ListView) myView.findViewById(R.id.listView1);
@@ -300,19 +325,21 @@ public class DAY extends Fragment  {
     }
 
 
-    public static void getDate(int year, int monthOfYear, int dayOfMonth) {
+    public void getDate(int year, int monthOfYear, int dayOfMonth) {
         TextView output = (TextView) myView.findViewById(R.id.choose_date_text);
         output.setText(Integer.toString(year) + "/ " +
                 Integer.toString(monthOfYear + 1) + "/ " +
                 Integer.toString(dayOfMonth));
-        year1 = Integer.valueOf(year);
-        month1 =  Integer.valueOf(monthOfYear+1);
-        day1 = Integer.valueOf(dayOfMonth);
-
+        year1 = year;
+        month1 =  monthOfYear;
+        day1 = dayOfMonth;
+        setpiechart();
+        sum();
     }
     @Override
     public void onResume(){
         super.onResume();
-       sum();
+        setpiechart();
+        sum();
     }
 }

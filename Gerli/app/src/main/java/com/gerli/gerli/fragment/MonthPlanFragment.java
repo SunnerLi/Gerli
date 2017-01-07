@@ -106,11 +106,19 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
     @Override
     public void onRightButtonClick() {
         // Toast.makeText(this, "onRightButtonClick!", Toast.LENGTH_SHORT).show();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year,month - 1,1);
+        calendar.add(Calendar.MONTH,1);
+        onDayClick(calendar);
     }
 
     @Override
     public void onLeftButtonClick() {
         //Toast.makeText(this, "onLeftButtonClick!", Toast.LENGTH_SHORT).show();
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year,month - 1,1);
+        calendar.add(Calendar.MONTH,-1);
+        onDayClick(calendar);
     }
 
     void list_update(){

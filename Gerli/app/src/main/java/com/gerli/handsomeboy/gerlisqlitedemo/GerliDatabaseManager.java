@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import com.gerli.handsomeboy.gerliUnit.UnitPackage.*;
 /**
  * Created by HandsomeBoy on 2016/10/27.
  */
-public class GerliDatabaseManager {
+public class GerliDatabaseManager{
     private static final int VERSION = 9;
     public static final String DatabaseName = "Gerli_DB.gerli.db";
 
@@ -841,7 +842,10 @@ public class GerliDatabaseManager {
 
     //endregion
 
-
+    public void close(){
+        sqLiteDB.close();
+        db.close();
+    }
 
 }
 
@@ -850,7 +854,7 @@ public class GerliDatabaseManager {
 
 
 
-class SQLiteDB extends SQLiteOpenHelper {
+class SQLiteDB extends SQLiteOpenHelper{
 
 
 

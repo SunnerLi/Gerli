@@ -170,6 +170,7 @@ public class NavigationActivity extends AppCompatActivity implements NavigationV
 
             transaction.commit();
             */
+
             startActivity(new Intent(NavigationActivity.this, SettingActivity.class));
         }
 

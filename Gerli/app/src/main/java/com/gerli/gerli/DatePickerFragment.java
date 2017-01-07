@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.icu.util.Calendar;
+//import android.icu.util.Calendar;
 import android.os.Bundle;
 import android.widget.DatePicker;
 
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
+
+import java.util.Calendar;
 
 /**
  * Created by user on 2016/12/8.

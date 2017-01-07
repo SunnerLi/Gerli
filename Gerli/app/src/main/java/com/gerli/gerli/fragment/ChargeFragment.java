@@ -80,7 +80,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         choseDateText.setText(CalendarManager.getDay());
         gerliDatabaseManager = new GerliDatabaseManager(getContext());
         //gerliDatabaseManager.insertAccount("嗨", 123, AccountType.BOOK, CalendarManager.getDay(), "jkl");
-        updateListView();
+        //updateListView();
 
         return myView;
     }

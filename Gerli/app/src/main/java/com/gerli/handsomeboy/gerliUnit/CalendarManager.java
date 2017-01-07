@@ -2,6 +2,7 @@ package com.gerli.handsomeboy.gerliUnit;
 
 import android.util.Log;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ import java.util.TimeZone;
 /*
  * Created by HandsomeBoy on 2016/12/4.
  */
-public class CalendarManager {
+public class CalendarManager{
     static SimpleDateFormat dayDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
     static SimpleDateFormat monthDateFormat = new SimpleDateFormat("yyyy-MM", Locale.getDefault());
     static SimpleDateFormat yearDateFormat = new SimpleDateFormat("yyyy", Locale.getDefault());
