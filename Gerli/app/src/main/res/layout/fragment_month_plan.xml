@@ -23,15 +23,16 @@
     </ListView>
 
     <Button
-        android:text="ADD"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:text="Add"
         android:id="@+id/add"
         android:onClick="buttom_Click2"
         android:textColor="#353E70"
         android:layout_weight="1"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="17dp" />
+        android:layout_marginEnd="17dp"
+        android:background="@drawable/add"
+        android:layout_height="60dp"
+        android:layout_width="65dp" />
 
 </RelativeLayout>
