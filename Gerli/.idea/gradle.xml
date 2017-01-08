@@ -19,6 +19,15 @@
             <option value="$PROJECT_DIR$/facebook-android-sdk-4.16.1" />
           </set>
         </option>
+<<<<<<< HEAD
+=======
+        <option name="myModules">
+          <set>
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/app" />
+          </set>
+        </option>
+>>>>>>> 287ae15b0f1c14c5ed63f2eed74f79c8c62191c9
       </GradleProjectSettings>
     </option>
   </component>
