@@ -1,0 +1,13 @@
+DEBUG:root:----- embedding -----
+DEBUG:root:(?, 82)
+DEBUG:root:(?, 82, 128)
+DEBUG:root: ----- proc-1 -----
+DEBUG:root:kernel: (2, 8, 1, 128)
+DEBUG:root:result: (?, 81, 16, 128)
+DEBUG:root:kernel: (2, 16, 128, 128)
+DEBUG:root:result: (?, 80, 1, 128)
+DEBUG:root: ----- proc-2 -----
+DEBUG:root:kernel: (3, 8, 1, 128)
+DEBUG:root:result: (?, 80, 16, 128)
+DEBUG:root:kernel: (3, 16, 128, 128)
+DEBUG:root:result: (?, 78, 1, 128)
