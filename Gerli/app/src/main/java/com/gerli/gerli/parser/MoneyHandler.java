@@ -46,7 +46,7 @@ public class MoneyHandler {
         Calendar calendar = Calendar.getInstance();
         return work(string,
                 calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
+                Math.max(1, calendar.get(Calendar.MONTH)),
                 calendar.get(Calendar.DATE));
     }
 
