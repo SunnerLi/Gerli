@@ -1,6 +1,8 @@
 package com.gerli.gerli.parser;
 
 
+import android.util.Log;
+
 import com.gerli.handsomeboy.gerliUnit.CalendarManager;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
@@ -32,6 +34,7 @@ public class MoneyHandler {
      */
     public boolean work(String string, int __year, int __month, int __day) {
         parser.parse(string, Parser.sentence);
+        Log.d("--> MoneyHandler", "1");
         Record record = parser.get();
         return work(record, __year, __month, __day);
     }
@@ -63,6 +66,7 @@ public class MoneyHandler {
     public boolean work(Record record, int __year, int __month, int __day) {
         // Check if parse fail
         if (record == null) {
+            Log.d("--> MoneyHandler", "2");
             return false;
         }
         record.dump();

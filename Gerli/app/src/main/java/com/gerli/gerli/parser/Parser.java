@@ -2,6 +2,8 @@ package com.gerli.gerli.parser;
 
 import android.util.Log;
 
+import org.json.JSONException;
+
 /**
  * The parser that would parse the string to the record object
  * <p/>
@@ -63,6 +65,7 @@ public class Parser {
         if (isStringCorrespondFormat(_string)) {
             _string = reverseSymbol(_string);
             parseResult = _parse(_string.split(" "));
+            Log.d(TAG, "1");
             parseResult.dump();
         } else {
             remoteParser.work(_string, stringType);
@@ -194,14 +197,31 @@ public class Parser {
      * @return The string which correspond to the sentiment value
      */
     public String getSentence() {
-        while (remoteParser.getSemaphore() == 0) ;
+        while (remoteParser.getSemaphore() == 0) {
+            Log.i("--> Parser ", "4");
+        }
         int choise = Math.random() > 0.5 ? 1 : 0;
         Log.i("--> Parser ", "choise = " + choise);
-        if (remoteParser.recordResult == null)
+        if (remoteParser.recordResult == null && remoteParser.json == null) {
+            Log.i("--> Parser ", "3");
             return getSentence(choise);
-        else {
+        } else {
             remoteParser.recordResult = null;
-            return getSentence(remoteParser.sentimentResult);
+            Log.i("--> Parser ", "sentimentResult = " + remoteParser.sentimentResult);
+            if (remoteParser.sentimentResult != -1) {
+                Log.i("--> Parser ", "1");
+                return getSentence(remoteParser.sentimentResult);
+            } else {
+                try {
+                    Log.i("--> Parser ", "2");
+                    return remoteParser.json.get("sentence").toString();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                }
+            }
+            remoteParser.json = null;
+            return "exception";
         }
     }
 

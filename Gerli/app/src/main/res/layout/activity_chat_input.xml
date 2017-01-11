@@ -30,7 +30,7 @@
             android:id="@+id/et_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="redBull drink -100"
+            android:text="redbull drink"
 
             android:layout_weight="1" />
 
