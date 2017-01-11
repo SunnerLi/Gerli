@@ -103,7 +103,7 @@ public class Parser {
         String[] list = _string.split(" ");
 
         // Judge if the string is invalid
-        if (list.length != 3) {
+        if (list.length < 3) {
             Log.d(TAG, "Reason: the number of element < 3, which number is " + list.toString());
             return false;
         } else if (list[2].charAt(0) != '+' && list[2].charAt(0) != '-') {

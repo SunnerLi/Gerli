@@ -29,7 +29,7 @@ import java.util.concurrent.Semaphore;
  */
 public class RemoteParser {
     // Connection information
-    String SERVER_IP = "192.168.0.100";
+    String SERVER_IP = "192.168.43.90";
     int SERVER_PORT = 2000;
 
     // Connection Variable
@@ -111,11 +111,13 @@ public class RemoteParser {
                 DatagramPacket datagramPacket = new DatagramPacket(_buf, _buf.length);
                 ds.receive(datagramPacket);
                 String string = new String(_buf);
+                Log.i("--> RemoteParser", string);
+
 
                 // Reformat the result to the record object
                 json = new JSONObject(string);
                 recordResult = new Record(new JSONObject(json.get("record").toString()));
-                sentimentResult = json.getInt("sentence");
+                sentimentResult = json.getInt("sentiment");
                 recordResult.dump();
                 Log.v("--> Parser Log", json.get("sentence").toString());
 
@@ -144,8 +146,8 @@ public class RemoteParser {
     public boolean work(String string, String type) {
         parseString = string;
         stringType = type;
-        new Thread(sendRunnable).run();
-        new Thread(recvRunnable).run();
+        new Thread(sendRunnable).start();
+        new Thread(recvRunnable).start();
         return true;
     }
 

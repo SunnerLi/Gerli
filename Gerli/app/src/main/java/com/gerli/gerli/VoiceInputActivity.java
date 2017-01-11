@@ -67,7 +67,7 @@ public class VoiceInputActivity extends AppCompatActivity {
                 String[] list = resultStr.split(" ");
 
                 // 判斷是否為有遵守規則的句子，有就走進if，沒有就走進else
-                if (list.length == 3) {
+                if (list.length == 3 && Parser.isNumeric(list[2])) {
                     // The string meet the rule
                     if (resultStr.matches(InStr)) {
                         Log.d("recognition", "match");
@@ -91,10 +91,15 @@ public class VoiceInputActivity extends AppCompatActivity {
                         Toast.makeText(this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                     }
                 }
+                else if(list.length > 3){
+                   if(moneyHandler.work(resultStr)) {
+                       Toast.makeText(this, Parser.sentence, Toast.LENGTH_SHORT).show();
+                   }
+                }
                 else{
                     Toast.makeText(this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                 }
-                
+
             }
         }
     }
