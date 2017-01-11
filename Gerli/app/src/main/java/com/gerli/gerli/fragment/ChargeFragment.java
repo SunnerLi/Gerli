@@ -69,7 +69,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         myMonth = calendar.get(Calendar.MONTH) + 1;
         myDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
+        Button choseDateText = (Button) myView.findViewById(R.id.choose_date_text);
         choseDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -89,7 +89,7 @@ public class ChargeFragment extends Fragment implements DatePickerFragment.PassO
         myYear = year;
         myMonth = month + 1;
         myDay = day;
-        TextView choseDateText = (TextView) myView.findViewById(R.id.choose_date_text);
+        Button choseDateText = (Button) myView.findViewById(R.id.choose_date_text);
         choseDateText.setText(CalendarManager.getDay(year, month + 1, day));
         updateListView();
     }

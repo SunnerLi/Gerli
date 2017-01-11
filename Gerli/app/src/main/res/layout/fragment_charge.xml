@@ -46,19 +46,19 @@
         android:layout_weight="0.67"
         android:layout_below="@+id/choose_date_text"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="16dp"
         android:layout_above="@+id/chatInput"/>
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:text="show date"
-        android:textSize="20sp"
         android:id="@+id/choose_date_text"
         android:layout_marginTop="26dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        style="@style/com_facebook_button" />
 
 
 </RelativeLayout>
