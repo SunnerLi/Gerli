@@ -92,6 +92,7 @@ public class ChatInputActivity extends AppCompatActivity {
             public void run() {
                 super.run();
                 moneyHandler.work(message);
+                Log.d("--> ChatInput", "1");
                 responseHandler.sendEmptyMessage(0);
             }
         }.start();

@@ -42,7 +42,7 @@ public class RemoteParser {
     public static final String control = "control";
     static String stringType = null;
 
-    JSONObject json;
+    public JSONObject json;
     byte[] buf = new byte[65536];
     String parseString;
 
@@ -116,23 +116,30 @@ public class RemoteParser {
 
                 // Reformat the result to the record object
                 json = new JSONObject(string);
+                sentimentResult = json.getInt("sentiment");
+                Log.v("--> Parser Log", json.get("sentence").toString());
                 recordResult = new Record(new JSONObject(json.get("record").toString()));
                 sentimentResult = json.getInt("sentiment");
-                recordResult.dump();
-                Log.v("--> Parser Log", json.get("sentence").toString());
 
-                // Set as end state
-                semaphore.release();
+                recordResult.dump();
+
+
             } catch (SocketException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d("--> RemoteParser", "1");
             } finally {
                 if (ds != null)
                     ds.close();
+
+                // Set as end state
+                Log.d("--> RemoteParser", "2");
+                semaphore.release();
             }
+            Log.d("--> RemoteParser", "3");
         }
     };
 
