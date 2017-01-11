@@ -64,35 +64,29 @@ public class VoiceInputActivity extends AppCompatActivity {
                 Toast.makeText(this, resultStr, Toast.LENGTH_SHORT).show();
                 String InStr = "(.*)income(.*)";
                 int index;
-                if (resultStr.matches(InStr)) {
-                    Log.d("recognition", "match");
-                    String tmp = "income";
-                    index = resultStr.indexOf(tmp);
-                    Log.d("recognition", "index:" + index);
-                    String tmp1 = resultStr.substring(0, index - 1);
-                    index = index + 7;
-                    String tmp2 = resultStr.substring(index);
-                    resultStr = tmp1 + " others -" + tmp2;
-                    //dinner income 100
-                } else if (resultStr.contains(" ")) {
-                    index = resultStr.lastIndexOf(' ');
-                    String tmp1 = resultStr.substring(0, index);
-                    String tmp2 = resultStr.substring(index + 1);
-                    resultStr = tmp1 + " +" + tmp2;
-                }
-
-                /*
 
                 // 判斷是否為有遵守規則的句子，有就走進if，沒有就走進else
                 if (new Parser().isStringCorrespondFormat(resultStr)) {
                     // The string meet the rule
-                } else {
-                    // The string is the usual sentence
+                    if (resultStr.matches(InStr)) {
+                        Log.d("recognition", "match");
+                        String tmp = "income";
+                        index = resultStr.indexOf(tmp);
+                        Log.d("recognition", "index:" + index);
+                        String tmp1 = resultStr.substring(0, index - 1);
+                        index = index + 7;
+                        String tmp2 = resultStr.substring(index);
+                        resultStr = tmp1 + " others -" + tmp2;
+                        //dinner income 100
+                    } else if (resultStr.contains(" ")) {
+                        index = resultStr.lastIndexOf(' ');
+                        String tmp1 = resultStr.substring(0, index);
+                        String tmp2 = resultStr.substring(index + 1);
+                        resultStr = tmp1 + " +" + tmp2;
+                    }
                 }
 
-                */
-
-                if (moneyHandler.work(resultStr) == false) {
+                if (!moneyHandler.work(resultStr)) {
                     Toast.makeText(this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                 }
 
