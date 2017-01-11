@@ -64,9 +64,10 @@ public class VoiceInputActivity extends AppCompatActivity {
                 Toast.makeText(this, resultStr, Toast.LENGTH_SHORT).show();
                 String InStr = "(.*)income(.*)";
                 int index;
+                String[] list = resultStr.split(" ");
 
                 // 判斷是否為有遵守規則的句子，有就走進if，沒有就走進else
-                if (new Parser().isStringCorrespondFormat(resultStr)) {
+                if (list.length == 3) {
                     // The string meet the rule
                     if (resultStr.matches(InStr)) {
                         Log.d("recognition", "match");
@@ -77,19 +78,23 @@ public class VoiceInputActivity extends AppCompatActivity {
                         index = index + 7;
                         String tmp2 = resultStr.substring(index);
                         resultStr = tmp1 + " others -" + tmp2;
+                        Log.d("recognition", "str:" + resultStr);
                         //dinner income 100
                     } else if (resultStr.contains(" ")) {
                         index = resultStr.lastIndexOf(' ');
                         String tmp1 = resultStr.substring(0, index);
                         String tmp2 = resultStr.substring(index + 1);
                         resultStr = tmp1 + " +" + tmp2;
+                        Log.d("recognition", "str:" + resultStr);
+                    }
+                    if (!moneyHandler.work(resultStr)) {
+                        Toast.makeText(this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                     }
                 }
-
-                if (!moneyHandler.work(resultStr)) {
+                else{
                     Toast.makeText(this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                 }
-
+                
             }
         }
     }
