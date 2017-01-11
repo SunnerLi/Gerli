@@ -61,11 +61,35 @@ public class Parser {
 
         // Judge if the string is invalid
         if (isStringCorrespondFormat(_string)) {
-            parseResult = _parse(list);
+            _string = reverseSymbol(_string);
+            parseResult = _parse(_string.split(" "));
             parseResult.dump();
         } else {
             remoteParser.work(_string, stringType);
         }
+    }
+
+    /**
+     * Substitude the symbol
+     *
+     * @param __sentence
+     * @return
+     */
+    public String reverseSymbol(String __sentence) {
+        String[] list = __sentence.split(" ");
+        Log.d("--> Parser", "" + list[2]);
+        if (list[2].charAt(0) == '+') {
+            list[2] = list[2].replace('+', '-');
+        } else {
+            list[2] = list[2].replace('-', '+');
+        }
+        Log.d("--> Parser", "" + list[2]);
+
+        // Merge result
+        String __result = "";
+        for (int i = 0; i < 3; i++)
+            __result = __result + list[i] + ' ';
+        return __result;
     }
 
     /**
