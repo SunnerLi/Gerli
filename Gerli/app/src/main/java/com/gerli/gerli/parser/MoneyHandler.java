@@ -34,7 +34,7 @@ public class MoneyHandler {
      */
     public boolean work(String string, int __year, int __month, int __day) {
         parser.parse(string, Parser.sentence);
-        Log.d("--> MoneyHandler", "1");
+        Log.d("--> MoneyHandler", "" + __year + __month + __day);
         Record record = parser.get();
         return work(record, __year, __month, __day);
     }
@@ -83,7 +83,7 @@ public class MoneyHandler {
     /**
      * Save the record object into SQLite
      *
-     * @param record The record object you want to store
+     * @param record  The record object you want to store
      * @param __year  the value of year
      * @param __month the value of month
      * @param __day   the value of day

@@ -115,8 +115,9 @@ public class RemoteParser {
                 // Reformat the result to the record object
                 json = new JSONObject(string);
                 sentimentResult = json.getInt("sentiment");
-                Log.v("--> Parser Log", json.get("sentence").toString());
                 recordResult = new Record(new JSONObject(json.get("record").toString()));
+                Log.v("--> Parser Log", json.get("sentence").toString());
+
                 sentimentResult = json.getInt("sentiment");
 
                 recordResult.dump();
