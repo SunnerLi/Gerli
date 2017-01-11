@@ -1,5 +1,6 @@
 from SentimentThread import *
 from blur import *
+from Record import *
 
 import ServerPrint as sp
 import dependencyParser
@@ -79,10 +80,11 @@ while True:
         #    Thus it would tell the user to speak again.
         # 3. else case, the server would parse the sentence
         resJson = dict()
-        if len(data[sentenceKey]) == 1:
+        print data[sentenceKey].split()
+        if len(data[sentenceKey].split()) == 1:
             resJson["sentence"] = data[sentenceKey]
-            resJson["record"] = None
-        elif len(data[sentenceKey]) == 2:
+            resJson["record"] = Record()
+        elif len(data[sentenceKey].split()) == 2:
             resJson["sentence"] = "Can you say more clearly?"
             resJson["record"] = None
         else:
@@ -99,7 +101,7 @@ while True:
             while config.sentiment_condition:
                 i = 0
             sp.show("Sentiment Result: ", str(config.sentiment_predictResult))
-            resJson["sentence"] = str(config.sentiment_predictResult[0])
+            resJson["sentiment"] = str(config.sentiment_predictResult[0])
 
         # Send the result back to the phone
         sockBack = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
