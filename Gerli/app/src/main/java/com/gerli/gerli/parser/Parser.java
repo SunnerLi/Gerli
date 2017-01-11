@@ -198,7 +198,7 @@ public class Parser {
      */
     public String getSentence() {
         while (remoteParser.getSemaphore() == 0) {
-            Log.i("--> Parser ", "4");
+            //Log.i("--> Parser ", "4");
         }
         int choise = Math.random() > 0.5 ? 1 : 0;
         Log.i("--> Parser ", "choise = " + choise);

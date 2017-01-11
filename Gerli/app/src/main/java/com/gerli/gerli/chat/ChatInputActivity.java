@@ -67,6 +67,8 @@ public class ChatInputActivity extends AppCompatActivity {
                 String[] list = message.split(" ");
                 if(list.length == 3 && Parser.isNumeric(list[2])){
                     sendMessage(message);
+                }else if(list.length>3){
+                    sendMessage(message);
                 }
                 else{
                     Toast.makeText(ChatInputActivity.this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
