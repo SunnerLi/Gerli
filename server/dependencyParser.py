@@ -182,6 +182,7 @@ def parse(record, string):
 
         # Maximum likelihood estimation
         simString = str(sim)
+        sp.show("Verb: " + verb, Type=sp.war)
         sp.show("Word vector compute, result: [is, spend] = " + simString, Type=sp.war)
         if np.max(sim) < similarThreshold:
             return None
