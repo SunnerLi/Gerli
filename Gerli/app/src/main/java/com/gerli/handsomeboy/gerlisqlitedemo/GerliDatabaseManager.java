@@ -849,11 +849,6 @@ public class GerliDatabaseManager{
 
 }
 
-
-
-
-
-
 class SQLiteDB extends SQLiteOpenHelper{
 
 
