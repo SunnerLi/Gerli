@@ -135,7 +135,7 @@ public class MonthPlanFragment extends Fragment implements RobotoCalendarView.Ro
             // 清單陣列
 
             for(int i=0;i<description.length;i++){
-                adapter.add(id[i]+".  "+description[i]);
+                adapter.add((i+1)+".  "+description[i]);
             }
         }
 

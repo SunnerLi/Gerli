@@ -11,27 +11,6 @@
     tools:context="com.gerli.gerli.fragment.MPinputActivity"
     android:background="#EBECF6">
 
-    <Button
-        android:text="確認"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:id="@+id/btnOK"
-        android:onClick="button2_Click"
-        android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
-
-    <Button
-        android:text="返回"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="21dp"
-        android:id="@+id/button2"
-        android:onClick="button2_Click"
-        android:layout_alignBaseline="@+id/btnOK"
-        android:layout_alignBottom="@+id/btnOK"
-        android:layout_alignParentEnd="true" />
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_marginTop="30dp"
@@ -48,7 +27,30 @@
             android:id="@+id/editText1"
             android:textColor="#353E70"
             android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            android:hint="輸入..."
+            android:textSize="16dp"/>
     </FrameLayout>
+
+    <Button
+        android:id="@+id/button2"
+        android:onClick="button2_Click (MPinputActivity)"
+        android:background="@drawable/return01"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignBaseline="@+id/btnOK"
+        android:layout_alignBottom="@+id/btnOK"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="45dp" />
+
+    <Button
+        android:id="@+id/btnOK"
+        android:onClick="button2_Click"
+        android:background="@drawable/checked01"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="48dp"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

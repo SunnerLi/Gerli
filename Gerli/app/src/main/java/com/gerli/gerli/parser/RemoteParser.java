@@ -29,7 +29,7 @@ import java.util.concurrent.Semaphore;
  */
 public class RemoteParser {
     // Connection information
-    String SERVER_IP = "192.168.0.101";
+    String SERVER_IP = "192.168.0.100";
     int SERVER_PORT = 2000;
 
     // Connection Variable

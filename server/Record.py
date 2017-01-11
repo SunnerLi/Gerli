@@ -1,3 +1,4 @@
+from numberConvert import *
 import ServerPrint as sp
 
 class ValueSubjectError():
@@ -40,6 +41,8 @@ class Record(object):
             for word in money.split():
                 if word.isdigit():
                     self.__money = int(word)
+            if self.__money == -1:
+                self.__money = text2Num(money)
 
     def setType(self, _type):
         self.__type = int(_type)
