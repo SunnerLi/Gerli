@@ -111,6 +111,8 @@ public class RemoteParser {
                 DatagramPacket datagramPacket = new DatagramPacket(_buf, _buf.length);
                 ds.receive(datagramPacket);
                 String string = new String(_buf);
+                Log.i("--> RemoteParser", string);
+
 
                 // Reformat the result to the record object
                 json = new JSONObject(string);
@@ -152,8 +154,8 @@ public class RemoteParser {
     public boolean work(String string, String type) {
         parseString = string;
         stringType = type;
-        new Thread(sendRunnable).run();
-        new Thread(recvRunnable).run();
+        new Thread(sendRunnable).start();
+        new Thread(recvRunnable).start();
         return true;
     }
 

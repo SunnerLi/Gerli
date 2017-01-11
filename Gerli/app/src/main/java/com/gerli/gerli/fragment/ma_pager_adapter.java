@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.util.Log;
 import android.view.ViewGroup;
 
@@ -15,7 +16,7 @@ import java.util.Locale;
 /**
  * Created by Dr.h3cker on 14/03/2015.
  */
-public class ma_pager_adapter extends FragmentPagerAdapter {
+public class ma_pager_adapter extends FragmentStatePagerAdapter {
     public ma_pager_adapter(FragmentManager fm,GerliDatabaseManager gerli) {
         super(fm);
         manager = gerli;

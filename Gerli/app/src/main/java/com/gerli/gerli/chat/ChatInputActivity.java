@@ -10,11 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.gerli.gerli.R;
 
 import java.util.ArrayList;
 import com.gerli.gerli.parser.MoneyHandler;
+import com.gerli.gerli.parser.Parser;
 import com.gerli.handsomeboy.gerlisqlitedemo.GerliDatabaseManager;
 
 public class ChatInputActivity extends AppCompatActivity {
@@ -62,7 +64,14 @@ public class ChatInputActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(message)) {
                     return;
                 }
-                sendMessage(message);
+                String[] list = message.split(" ");
+                if(list.length == 3 && Parser.isNumeric(list[2])){
+                    sendMessage(message);
+                }
+                else{
+                    Toast.makeText(ChatInputActivity.this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
+                }
+
                 // mEditTextMessage.setText("");
             }
         });
