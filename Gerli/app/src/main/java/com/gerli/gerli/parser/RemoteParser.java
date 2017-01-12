@@ -29,7 +29,7 @@ import java.util.concurrent.Semaphore;
  */
 public class RemoteParser {
     // Connection information
-    String SERVER_IP = "192.168.43.90";
+    String SERVER_IP = "192.168.0.100";
     int SERVER_PORT = 2000;
 
     // Connection Variable
@@ -50,7 +50,7 @@ public class RemoteParser {
     public Record recordResult = null;
     public int sentimentResult = -1;
 
-    public RemoteParser(){
+    public RemoteParser() {
         // SERVER_IP = MainActivity.addr.getText().toString();
         // SERVER_IP = "192.168.0.102";
     }
@@ -65,6 +65,7 @@ public class RemoteParser {
             // Set as begin state
             try {
                 semaphore.acquire();
+                sentimentResult = -1;
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -112,17 +113,7 @@ public class RemoteParser {
                 ds.receive(datagramPacket);
                 String string = new String(_buf);
                 Log.i("--> RemoteParser", string);
-
-
-                // Reformat the result to the record object
                 json = new JSONObject(string);
-                sentimentResult = json.getInt("sentiment");
-                recordResult = new Record(new JSONObject(json.get("record").toString()));
-                Log.v("--> Parser Log", json.get("sentence").toString());
-
-                sentimentResult = json.getInt("sentiment");
-
-                recordResult.dump();
 
 
             } catch (SocketException e) {
@@ -131,6 +122,25 @@ public class RemoteParser {
                 e.printStackTrace();
             } catch (JSONException e) {
                 e.printStackTrace();
+                Log.d("--> RemoteParser", "1");
+            }
+
+
+            // Reformat the result to the record object
+            try {
+                sentimentResult = json.getInt("sentiment");
+                recordResult = new Record(new JSONObject(json.get("record").toString()));
+                Log.v("--> Parser Log", json.get("sentence").toString());
+                recordResult.dump();
+            } catch (JSONException e) {
+                e.printStackTrace();
+                // Try to get the rest information
+                try {
+                    recordResult = new Record(new JSONObject(json.get("record").toString()));
+                    sentimentResult = json.getInt("sentiment");
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
                 Log.d("--> RemoteParser", "1");
             } finally {
                 if (ds != null)
@@ -148,7 +158,7 @@ public class RemoteParser {
      * The function wrapper of remote parser
      *
      * @param string the string want to parse
-     * @param type the type of the string (command or sentence)
+     * @param type   the type of the string (command or sentence)
      * @return if parse success, always true default
      */
     public boolean work(String string, String type) {
@@ -195,7 +205,7 @@ public class RemoteParser {
      *
      * @return the value of the semaphore
      */
-    public int getSemaphore(){
+    public int getSemaphore() {
         return semaphore.availablePermits();
     }
 }

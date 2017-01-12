@@ -105,26 +105,32 @@ def parseSpend(parseTree):
     parseObject(verbPhrase)
 
     # Get origin words
-    subjectSentence = nounPhrase.leaves()
-    valueSentence = valuePhrase.leaves()
-    itemSentence = itemPhrase.leaves()
-    sp.show("active parsing - subject: ", str(subjectSentence))
-    sp.show("active parsing - value  : ", str(valueSentence))
-    sp.show("active parsing - item   : ", str(itemSentence))
+    try:
+        subjectSentence = nounPhrase.leaves()
+        valueSentence = valuePhrase.leaves()
+        itemSentence = itemPhrase.leaves()
+        sp.show("active parsing - subject: ", str(subjectSentence))
+        sp.show("active parsing - value  : ", str(valueSentence))
+        sp.show("active parsing - item   : ", str(itemSentence))
 
-    # Restore to the sentence
-    nounPhrase = subjectSentence
-    subjectSentence = ""
-    for word in nounPhrase:
-        subjectSentence = subjectSentence + str(word) + ' '
-    valuePhrase = valueSentence
-    valueSentence = ""
-    for word in valuePhrase:
-        valueSentence = valueSentence + str(word) + ' '
-    itemPhrase = itemSentence
-    itemSentence = ""
-    for word in itemPhrase:
-        itemSentence = itemSentence + str(word) + ' '
+        # Restore to the sentence
+        nounPhrase = subjectSentence
+        subjectSentence = ""
+        for word in nounPhrase:
+            subjectSentence = subjectSentence + str(word) + ' '
+        valuePhrase = valueSentence
+        valueSentence = ""
+        for word in valuePhrase:
+            valueSentence = valueSentence + str(word) + ' '
+        itemPhrase = itemSentence
+        itemSentence = ""
+        for word in itemPhrase:
+            itemSentence = itemSentence + str(word) + ' '
+    except AttributeError:
+        sp.show("specific phrase is null: ", Type=sp.err)
+        subjectSentence = "null"
+        itemSentence = "null"
+        valueSentence = "-1"
 
 def parseIs(parseTree):
     """
@@ -146,22 +152,28 @@ def parseIs(parseTree):
     verbPhrase = sentenceNode[1]
 
     # Get origin words
-    valuePhrase = verbPhrase[1]
-    itemPhrase = nounPhrase
-    valueSentence = valuePhrase.leaves()
-    itemSentence = itemPhrase.leaves()
-    sp.show("assign parsing - value  : ", str(valueSentence))
-    sp.show("assign parsing - item   : ", str(itemSentence))
+    try:
+        valuePhrase = verbPhrase[1]
+        itemPhrase = nounPhrase
+        valueSentence = valuePhrase.leaves()
+        itemSentence = itemPhrase.leaves()
+        sp.show("assign parsing - value  : ", str(valueSentence))
+        sp.show("assign parsing - item   : ", str(itemSentence))
 
-    # Restore the sentence
-    itemPhrase = itemSentence
-    itemSentence = ""
-    for word in itemPhrase:
-        itemSentence = itemSentence + str(word) + ' '
-    valuePhrase = valueSentence
-    valueSentence = ""
-    for word in valuePhrase:
-        valueSentence = valueSentence + str(word) + ' '
+        # Restore the sentence
+        itemPhrase = itemSentence
+        itemSentence = ""
+        for word in itemPhrase:
+            itemSentence = itemSentence + str(word) + ' '
+        valuePhrase = valueSentence
+        valueSentence = ""
+        for word in valuePhrase:
+            valueSentence = valueSentence + str(word) + ' '
+    except AttributeError:
+        sp.show("specific phrase is null: ", Type=sp.err)
+        subjectSentence = "null"
+        itemSentence = "null"
+        valueSentence = "-1"
 
 def parse(record, string):
     """
@@ -185,7 +197,11 @@ def parse(record, string):
         sp.show("Verb: " + verb, Type=sp.war)
         sp.show("Word vector compute, result: [is, spend] = " + simString, Type=sp.war)
         if np.max(sim) < similarThreshold:
-            return None
+            sp.show("The sentence might not the accountint string", Type=sp.err)
+            subjectSentence = "null"
+            itemSentence = "null"
+            valueSentence = "-1"
+            return Record(itemSentence, valueSentence)
         if sim[0] == np.max(sim):
             parseIs(sentences)
             record = Record(itemSentence, valueSentence)
@@ -195,6 +211,7 @@ def parse(record, string):
                 record = Record(itemSentence, valueSentence)
             except ValueSubjectError:
                 record = Record(subjectSentence, itemSentence)
+        record.dump()
     return record
 
 def getVerb(parseTree):

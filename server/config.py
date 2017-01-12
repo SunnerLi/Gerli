@@ -5,7 +5,7 @@
 # Constants
 assignKeyword = "is"
 activeKeyword = "spend"
-similarThreshold = 0.3
+similarThreshold = 0.35
 embeddedSize = 100
 
 # Variables

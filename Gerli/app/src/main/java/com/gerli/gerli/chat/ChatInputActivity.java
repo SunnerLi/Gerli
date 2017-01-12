@@ -65,6 +65,7 @@ public class ChatInputActivity extends AppCompatActivity {
                     return;
                 }
                 String[] list = message.split(" ");
+                /*
                 if(list.length == 3 && Parser.isNumeric(list[2])){
                     sendMessage(message);
                 }else if(list.length>3){
@@ -73,6 +74,8 @@ public class ChatInputActivity extends AppCompatActivity {
                 else{
                     Toast.makeText(ChatInputActivity.this, "Format wrong.Check your format.", Toast.LENGTH_LONG).show();
                 }
+                */
+                sendMessage(message);
 
                 // mEditTextMessage.setText("");
             }

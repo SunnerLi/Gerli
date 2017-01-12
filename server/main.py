@@ -83,7 +83,7 @@ while True:
         print data[sentenceKey].split()
         if len(data[sentenceKey].split()) == 1:
             resJson["sentence"] = data[sentenceKey]
-            resJson["record"] = Record()
+            resJson["record"] = None
         elif len(data[sentenceKey].split()) == 2:
             resJson["sentence"] = "Can you say more clearly?"
             resJson["record"] = None
@@ -93,15 +93,17 @@ while True:
             record = POSTagger.tag(record, string=data[sentenceKey])
             record = dependencyParser.parse(record, string=data[sentenceKey])
             resJson["record"] = record.serialize()
-
-            # Sentiment analysis
-            data[sentenceKey] = blur(data[sentenceKey])
-            config.sentiment_testString = data[sentenceKey]
-            config.sentiment_condition = True
-            while config.sentiment_condition:
-                i = 0
-            sp.show("Sentiment Result: ", str(config.sentiment_predictResult))
-            resJson["sentiment"] = str(config.sentiment_predictResult[0])
+            if record.getValue() == -1:
+                resJson["sentence"] = "XD"
+            else:
+                # Sentiment analysis
+                data[sentenceKey] = blur(data[sentenceKey])
+                config.sentiment_testString = data[sentenceKey]
+                config.sentiment_condition = True
+                while config.sentiment_condition:
+                    i = 0
+                sp.show("Sentiment Result: ", str(config.sentiment_predictResult))
+                resJson["sentiment"] = str(config.sentiment_predictResult[0])
 
         # Send the result back to the phone
         sockBack = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)

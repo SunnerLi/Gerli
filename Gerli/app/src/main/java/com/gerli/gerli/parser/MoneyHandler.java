@@ -48,9 +48,9 @@ public class MoneyHandler {
     public boolean work(String string) {
         Calendar calendar = Calendar.getInstance();
         return work(string,
-                calendar.get(Calendar.YEAR),
-                Math.max(1, calendar.get(Calendar.MONTH)),
-                calendar.get(Calendar.DATE));
+            calendar.get(Calendar.YEAR),
+            Math.max(1, calendar.get(Calendar.MONTH)),
+            calendar.get(Calendar.DATE));
     }
 
     /**
@@ -90,10 +90,14 @@ public class MoneyHandler {
      */
     public void save2SQL(Record record, int __year, int __month, int __day) {
         record.dump();
-        manager.insertAccount(record.getName(),
+
+        // Store the information if the record object is just a default instance
+        if (record.getName() != null && record.getMoney() != -1) {
+            manager.insertAccount(record.getName(),
                 record.getMoney(),
                 record.getType(),
                 CalendarManager.getDay(__year, __month, __day), null);
+        }
     }
 
     public void save2Cloud() {
