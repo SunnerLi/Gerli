@@ -183,6 +183,10 @@ def parse(record, string):
                 string - The string want to parse
         Ret:    The result record object or None
     """
+    global itemSentence
+    global valueSentence
+    global subjectSentence
+    
     if record == None:
         sentences = list(dep_parser.raw_parse(string))
         verb = getVerb(sentences)
