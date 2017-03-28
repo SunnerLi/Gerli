@@ -9,6 +9,7 @@ Abstract
 ------------------------
 Nowadays, a good accounting software should have ability to reduce the users’ spending for the more consumption. In addition, the software should also provide the better user experience. This program provide an integrated accounting system that would provide different ways of accounting entry. In the process, the computer will use accounting string analysis algorithm to realize the accounting meaning that the user want to express. Most important, The task of semantic analysis will be done by sentiment neural network.    
 <br/>
+
 Participation    
 -------------------------    
 [SunnerLi](https://github.com/SunnerLi)    
